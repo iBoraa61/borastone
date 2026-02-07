@@ -1,0 +1,15 @@
+/* fliesen_style.css */
+
+.page--fliesen{
+  min-height: 100vh;
+  background-color: #070707;
+
+  background-image:
+    radial-gradient(1200px 700px at 30% 0%, rgba(0,0,0,.35), rgba(0,0,0,.72)),
+    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.82)),
+    url("assets/images/bg/onyx_background4.png");
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}

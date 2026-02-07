@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BoraStone – Badewannen</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <!-- Global + Page CSS -->
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="bad_style.css" />
+</head>
+
+<body class="page page--bad" data-page="bad">
+
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="BoraStone Startseite">
+        <span class="brand__wordmark">BORASTONE</span>
+        <span class="brand__tagline">LUXURY STONE ATELIER</span>
+      </a>
+
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a class="nav__link" href="index.html">STARTSEITE</a>
+        <a class="nav__link" href="waschbecken.html">WASCHBECKEN</a>
+        <a class="nav__link is-active" href="bad.html">BADEWANNEN</a>
+        <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
+        <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="bt" role="main" aria-label="Badewannen">
+
+    <div class="container bt__head">
+      <h1 class="bt__title">BADEWANNEN</h1>
+      <p class="bt__lead">
+        Freistehende Badewannen aus Marmor &amp; Sinterstein – für moderne Spa-Bäder.
+      </p>
+    </div>
+
+    <!-- GRID VIEW (mit Pfeilen + 4er-Seiten wie Waschbecken) -->
+    <section class="bt-gridView" aria-label="Badewannen Übersicht">
+      <div class="container cardsWrap" data-carousel="bad">
+        <button class="cardsArrow cardsArrow--prev" type="button" aria-label="Zurück">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <button class="cardsArrow cardsArrow--next" type="button" aria-label="Weiter">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div class="cardsTrack">
+          <!-- PAGE 1 (1–4) -->
+          <div class="cardsPage">
+
+            <!-- CARD 01 -->
+            <article class="card"
+              data-kicker="SINTERSTEIN"
+              data-title="Calacatta Marble Bathtub 1700 "
+              data-price="8.500,00 €"
+              data-material="Naturmarmor"
+              data-size="1700 × 750 × 460 mm"
+              data-weight="ca. 160 kg"
+              data-desc="Freistehende Badewanne aus massivem Naturmarmor. Jedes Stück ist ein Unikat mit individueller Maserung."
+              data-main="assets/images/products/tub-01-main.png"
+              data-thumb1="assets/images/products/tub-01-01.png"
+              data-thumb2="assets/images/products/tub-01-02.png"
+            >
+              <div class="card__media">
+                <img src="assets/images/products/tub-01-main.png" alt="Calacatta Marble Bathtub 1700">
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Calacatta Marble Bathtub 1700</h3>
+                <div class="card__price">8.500,00 €</div>
+                <div class="card__hint">Details ansehen</div>
+              </div>
+            </article>
+
+            <!-- CARD 02 -->
+            <article class="card"
+              data-kicker="MARMOROPTIK"
+              data-title="Panda Sinterstone Bathtub 1780"
+              data-price="5.950,00 €"
+              data-material="Sinterstein"
+              data-size="1780 × 540 × 780 mm"
+              data-weight="ca. 320–420 kg"
+              data-desc="Freistehende Badewanne aus hochwertigem Sinterstein in Panda-Marmoroptik. Porenarm, pflegeleicht und sehr robust."
+              data-main="assets/images/products/tub-02-main.png"
+              data-thumb1="assets/images/products/tub-02-01.png"
+              data-thumb2="assets/images/products/tub-02-02.png"
+            >
+              <div class="card__media">
+                <img src="assets/images/products/tub-02-main.png" alt="Panda Sinterstone Bathtub 1780">
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Panda Sinterstone Bathtub 1780</h3>
+                <div class="card__price">5.950,00 €</div>
+                <div class="card__hint">Details ansehen</div>
+              </div>
+            </article>
+
+            <!-- CARD 03 -->
+            <article class="card"
+              data-kicker="MARMOR"
+              data-title="NOCTURNE Marble Bathtub 1800"
+              data-price="8.500,00 €"
+              data-material="Naturmarmor"
+              data-size="1800 × 800 × 550 mm"
+              data-weight="ca. 150–180 kg"
+              data-desc="Elegante, ruhige Linienführung mit luxuriöser Präsenz. Zeitloses Statement für moderne Spa-Bäder."
+              data-main="assets/images/products/tub-03-main.png"
+              data-thumb1="assets/images/products/tub-03-01.png"
+              data-thumb2="assets/images/products/tub-03-02.jpg"
+            >
+              <div class="card__media">
+                <img src="assets/images/products/tub-03-main.png" alt="NOCTURNE Marble Bathtub 1800">
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">NOCTURNE Marble Bathtub 1800</h3>
+                <div class="card__price">8.500,00 €</div>
+                <div class="card__hint">Details ansehen</div>
+              </div>
+            </article>
+
+            <!-- CARD 04 -->
+            <article class="card"
+              data-kicker="MARMOR"
+              data-title="Pietra Grey Marble Bathtub 1700"
+              data-price="8.500,00 €"
+              data-material="Naturmarmor"
+              data-size="1700 × 700 × 460 mm"
+              data-weight="ca. 300–400 kg"
+              data-desc="Dunkler Naturmarmor mit ruhiger Maserung. Architektonische Form – starkes Statement im Raum."
+              data-main="assets/images/products/tub-04-main.jpg"
+              data-thumb1="assets/images/products/tub-04-01.jpg"
+              data-thumb2="assets/images/products/tub-04-02.jpg"
+            >
+              <div class="card__media">
+                <img src="assets/images/products/tub-04-main.jpg" alt="Pietra Grey Marble Bathtub 1700">
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Pietra Grey Marble Bathtub 1700</h3>
+                <div class="card__price">8.500,00 €</div>
+                <div class="card__hint">Details ansehen</div>
+              </div>
+            </article>
+
+          </div><!-- /cardsPage -->
+
+          <!-- PAGE 2 (5–8) -->
+          <div class="cardsPage">
+
+            <!-- CARD 05 -->
+            <article class="card"
+              data-kicker="Marbe"
+              data-title="Calacatta Marble Bathtub 1700"
+              data-price="8.500,00 €"
+              data-material="Naturmarmor"
+              data-size="1700 × 750 × 460 mm"
+              data-weight="ca. 160 kg"
+              data-desc="Freistehende Badewanne aus massivem Naturmarmor. Jedes Stück ist ein Unikat mit individueller Maserung."
+              data-main="assets/images/products/tub-05-main.jpg"
+              data-thumb1="assets/images/products/tub-05-01.jpg"
+              data-thumb2="assets/images/products/tub-05-02.jpg"
+            >
+              <div class="card__media">
+                <img src="assets/images/products/tub-05-main.jpg" alt="Calacatta Marble Bathtub 1700">
+              </div>
+              <div class="card__body">
+                <h3 class="card__title">Calacatta Marble Bathtub 1700</h3>
+                <div class="card__price">8.500,00 €</div>
+                <div class="card__hint">Details ansehen</div>
+              </div>
+            </article>
+
+          </div><!-- /cardsPage -->
+
+        </div><!-- /cardsTrack -->
+      </div><!-- /cardsWrap -->
+    </section>
+
+    <!-- DETAIL VIEW -->
+    <section class="bt-detail" aria-label="Badewanne Details" hidden>
+      <div class="container bt-detail__inner">
+        <button class="bt-back" type="button" aria-label="Zurück zur Übersicht">
+          ← Zur Übersicht
+        </button>
+
+        <div id="bKicker">BADEWANNE</div>
+        <h2 id="bTitle">Titel</h2>
+
+        <div class="bt-product">
+          <!-- Left: main image + zoom -->
+          <div class="bt-product__left">
+            <div class="bt-mainImage">
+              <img id="bMain" src="" alt="">
+              <button class="bt-zoom" type="button" aria-label="Bild vergrößern">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="1.6"/>
+                  <path d="M16.6 16.6 21 21" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Zoom overlay -->
+            <div class="bt-zoomOverlay" id="zoomOverlay" hidden>
+              <button class="bt-zoomOverlay__close" type="button" aria-label="Schließen">✕</button>
+              <img class="bt-zoomOverlay__img" id="zoomImg" src="" alt="">
+            </div>
+          </div>
+
+          <!-- Right: thumbs + buy -->
+          <div class="bt-product__right">
+            <div id="bGallery"></div>
+
+            <div class="bt-buy">
+              <div class="bt-price">
+                <span class="bt-price__label">Preis</span>
+                <span class="bt-price__value" id="bPrice">0,00 €</span>
+              </div>
+
+              <div class="bt-desc">
+                <div class="bt-desc__title">Beschreibung</div>
+                <p id="bDesc"></p>
+
+                <ul class="bt-specs">
+                  <li><span>Material</span><span id="bMaterial">—</span></li>
+                  <li><span>Maße</span><span id="bSize">—</span></li>
+                  <li><span>Gewicht</span><span id="bWeight">—</span></li>
+                </ul>
+              </div>
+
+              <form class="bt-inquiry" id="inquiryForm">
+                <label class="bt-inquiry__label" for="message">Nachricht</label>
+                <textarea class="bt-field" id="message" rows="5"
+                  placeholder="Schreiben Sie uns kurz Ihr Projekt, Lieferort und Wunsch-Termin…"></textarea>
+
+                <div class="bt-inquiry__row">
+                  <input class="bt-field" type="email" id="email" placeholder="Ihre E-Mail" required>
+                  <button class="bt-btn bt-btn--gold" type="submit">ANFRAGE SENDEN</button>
+                </div>
+
+                <p class="bt-note">Lieferung &amp; Versicherung werden projektbezogen angeboten.</p>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <script src="bad.js"></script>
+</body>
+</html>

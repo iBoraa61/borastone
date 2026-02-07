@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>BoraStone – Luxury Stone Atelier</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="container header__inner">
+      <!-- Brand -->
+      <a class="brand" href="index.html" aria-label="BoraStone Startseite">
+        <span class="brand__wordmark">BORASTONE</span>
+        <span class="brand__tagline">LUXURY STONE ATELIER</span>
+      </a>
+
+      <!-- Navigation: nur Hauptkategorien -->
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a class="nav__link is-active" href="index.html">STARTSEITE</a>
+        <a class="nav__link" href="waschbecken.html">WASCHBECKEN</a>
+        <a class="nav__link" href="bad.html">BADEWANNEN</a>
+        <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
+        <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- SECTION 1: HERO -->
+  <main class="hero" role="main" aria-label="Hero" id="top">
+    <!-- Left vertical contact -->
+    <aside class="side side--left" aria-label="Kontakt">
+      <div class="side__phone">
+        <a class="phone" href="tel:+4917672655926">
+          <span class="phone__icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+              <path d="M20 16.7v2a2 2 0 0 1-2.2 2c-9.1-.8-13.7-5.4-14.5-14.5A2 2 0 0 1 5.3 4h2a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1l-1 1c1.3 2.4 3.2 4.3 5.6 5.6l1-1a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7A2 2 0 0 1 20 16.7Z"
+                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span class="phone__number">+49 176 72655926</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- Right progress indicator -->
+    <aside class="side side--right" aria-label="Seitenindikator">
+      <div class="pager" id="pager">
+        <span class="pager__line"></span>
+        <div class="pager__nums">
+          <span class="pager__num is-active" data-step="1">1</span>
+          <span class="pager__num" data-step="2">2</span>
+        </div>
+        <span class="pager__line pager__line--short"></span>
+      </div>
+    </aside>
+
+    <section class="hero__content container">
+      <h1 class="hero__title">
+        MACHEN SIE EINE<br />
+        EXKLUSIVE ERFAHRUNG
+      </h1>
+
+      <p class="hero__subtitle">
+        mit BoraStone, Ihrem Partner in Sachen luxuriöser<br />
+        Bäder und mehr.
+      </p>
+    </section>
+  </main>
+
+  <!-- SECTION 2: ÜBER + KONTAKT -->
+  <section class="home2" id="atelier" aria-label="Über BoraStone & Kontakt">
+    <!-- Right progress indicator (Section 2) -->
+    <aside class="side side--right" aria-label="Seitenindikator">
+      <div class="pager pager--sec2">
+        <span class="pager__line"></span>
+        <div class="pager__nums">
+          <span class="pager__num" data-step="1">1</span>
+          <span class="pager__num is-active" data-step="2">2</span>
+        </div>
+        <span class="pager__line pager__line--short"></span>
+      </div>
+    </aside>
+    <div class="container home2__inner">
+
+      <!-- Left: About -->
+      <div class="home2__left">
+        <div class="home2__kicker">ÜBER BORASTONE</div>
+        <h2 class="home2__title">Luxury Stone Atelier</h2>
+
+        <p class="home2__text">
+          BoraStone ist ein kuratiertes Atelier für luxuriöse Badobjekte und Naturstein-Design.
+          Wir spezialisieren uns auf ausgewählte Stücke mit außergewöhnlicher Formensprache,
+          hochwertiger Materialität und einer Ästhetik, die moderne Spa-Architektur definiert.
+        </p>
+
+        <p class="home2__text">
+          Jedes Produkt wird nach Design, Verarbeitung und Wirkung im Raum geprüft – mit dem Anspruch,
+          nur die besten Stücke anzubieten: kompromisslos, elegant und zeitlos.
+        </p>
+
+        <ul class="home2__bullets">
+          <li>Kuratiertes Sortiment statt Massenware</li>
+          <li>Extravagantes Design, klare Linien</li>
+          <li>Projektberatung für Privat &amp; Objekt</li>
+          <li>Lieferung &amp; Versicherung auf Anfrage</li>
+        </ul>
+      </div>
+
+      <!-- Right: Contact -->
+      <div class="home2__right">
+        <div class="home2__card">
+          <div class="home2__kicker">KONTAKT</div>
+          <h3 class="home2__formTitle">Projektanfrage senden</h3>
+
+          <form class="home2__form" id="homeContact">
+            <label class="home2__label" for="name">Name</label>
+            <input class="home2__field" id="name" type="text" placeholder="Ihr Name" required>
+
+            <label class="home2__label" for="email2">E-Mail</label>
+            <input class="home2__field" id="email2" type="email" placeholder="Ihre E-Mail" required>
+
+            <label class="home2__label" for="msg">Nachricht</label>
+            <textarea class="home2__field" id="msg" rows="6"
+              placeholder="Kurze Infos zu Ihrem Projekt (Ort, Zeitraum, Produkt)…" required></textarea>
+
+            <button class="btn btn--gold home2__btn" type="submit">ANFRAGE SENDEN</button>
+
+            <p class="home2__note">
+              Wir melden uns zeitnah mit Verfügbarkeit, Lieferzeit und den passenden Optionen.
+            </p>
+          </form>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  
+
+  <footer class="footer">
+  <div class="container footer__inner">
+    <a class="footer__link" href="impressum.html">IMPRESSUM</a>
+    <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
+  </div>
+  </footer>
+
+  <!-- Mini JS: Pager 1/2 automatisch je nach Scroll -->
+  <script>
+    const step1 = document.querySelector('.pager__num[data-step="1"]');
+    const step2 = document.querySelector('.pager__num[data-step="2"]');
+    const sec2 = document.querySelector('#atelier');
+
+    function setStep(n){
+      step1.classList.toggle('is-active', n === 1);
+      step2.classList.toggle('is-active', n === 2);
+    }
+
+    // IntersectionObserver: wenn Section 2 sichtbar -> Step 2
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.target !== sec2) return;
+        setStep(e.isIntersecting ? 2 : 1);
+      });
+    }, { threshold: 0.45 });
+
+    if (sec2) io.observe(sec2);
+
+    // (Optional) Formular ohne Backend: nur Demo
+    const form = document.getElementById('homeContact');
+    if (form) {
+      form.addEventListener('submit', (ev) => {
+        ev.preventDefault();
+        alert('Danke! Ihre Anfrage wurde vorbereitet. (Backend-Anbindung folgt)');
+        form.reset();
+      });
+    }
+    // Hero Text Animation erst nach Load starten
+    window.addEventListener('load', () => {
+      const hero = document.querySelector('.hero__content');
+      if (hero) hero.classList.add('is-animate');
+    }); 
+  </script>
+
+  <script>
+  (() => {
+    const hero = document.querySelector('.hero');
+    const section2 = document.querySelector('#atelier');
+
+    if (!hero || !section2) return;
+
+    let isScrolling = false;
+
+    function snapTo(el){
+      isScrolling = true;
+      el.scrollIntoView({ behavior: 'smooth' });
+      setTimeout(() => isScrolling = false, 900);
+    }
+
+    window.addEventListener('wheel', (e) => {
+      if (isScrolling) return;
+
+      const dir = Math.sign(e.deltaY);
+      const heroVisible = hero.getBoundingClientRect().top >= -10;
+
+      if (dir > 0 && heroVisible) {
+        e.preventDefault();
+        snapTo(section2);
+      }
+
+      if (dir < 0 && !heroVisible) {
+        e.preventDefault();
+        snapTo(hero);
+      }
+    }, { passive: false });
+  })();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,572 @@
+/* bad_style.css 
+   Badewannen-Seite (Cards + Detailansicht) – gleicher Look wie Waschbecken,
+   aber eigene Datei + eigener Background.
+*/
+
+/* =========================
+   Page background
+========================= */
+.page--bad{
+  height: 100%;
+  overflow: hidden;
+  background-color: #070707;
+
+  background-image:
+    radial-gradient(1200px 700px at 30% 0%, rgba(0,0,0,.35), rgba(0,0,0,.72)),
+    linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.82)),
+    url("assets/images/bg/onyx_background2.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  /* Tokens */
+  --bt-stroke: rgba(200,176,138,.22);
+  --bt-gold: rgba(200,176,138,.85);
+
+  /* Card Farben – unverändert */
+  --card-bg-1: rgba(0,0,0,.18);
+  --card-bg-2: rgba(0,0,0,.34);
+}
+
+/* Wrapper */
+.bt{
+  height: 100vh;
+  padding-top: 120px; /* Platz für fixed header */
+}
+
+/* =========================
+   Head
+========================= */
+.bt__head{
+  padding-top: 8px;
+  padding-bottom: 10px;
+}
+
+.bt__title{
+  margin: 0 0 6px;
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  font-size: clamp(18px, 1.9vw, 30px);
+  color: rgba(255,255,255,.92);
+}
+
+.bt__lead{
+  margin: 0 0 12px;
+  color: rgba(255,255,255,.62);
+  font-size: 16px;
+  line-height: 1.55;
+  max-width: 72ch;
+}
+
+/* =========================
+   Grid view (Paging mit Pfeilen)
+========================= */
+.bt-gridView{
+  height: calc(100vh - 120px - 98px);
+  overflow: hidden;
+}
+
+/* --- Carousel wrapper --- */
+.bt-gridView .cardsWrap{
+  position: relative;
+  height: 100%;
+  overflow: hidden; /* kein freies Scrollen */
+}
+
+/* Track */
+.bt-gridView .cardsTrack{
+  height: 100%;
+  display: flex;
+  gap: 18px;
+  padding: 10px 0 60px;
+  transition: transform .35s ease;
+  will-change: transform;
+}
+
+/* Page: immer 4 Cards nebeneinander */
+.bt-gridView .cardsPage{
+  flex: 0 0 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+/* Pfeile */
+.bt-gridView .cardsArrow{
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,176,138,.22);
+  background: rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  color: rgba(255,255,255,.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease, opacity .18s ease;
+  z-index: 3;
+}
+
+.bt-gridView .cardsArrow:hover{
+  transform: translateY(-50%) translateY(-1px);
+  border-color: rgba(200,176,138,.42);
+  background: rgba(0,0,0,.34);
+}
+
+.bt-gridView .cardsArrow:disabled{
+  opacity: .35;
+  cursor: default;
+}
+
+.bt-gridView .cardsArrow--prev{ left: -12px; }
+.bt-gridView .cardsArrow--next{ right: -12px; }
+
+/* =========================
+   Card (unveränderter Look)
+========================= */
+.bt-gridView .card{
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid var(--bt-stroke);
+
+  background:
+    radial-gradient(900px 260px at 18% 0%,
+      rgba(200,176,138,.10),
+      rgba(200,176,138,0) 58%),
+    linear-gradient(180deg,
+      var(--card-bg-1),
+      var(--card-bg-2));
+
+  box-shadow: 0 26px 70px rgba(0,0,0,.45);
+  cursor: pointer;
+
+  transform: translateZ(0);
+  transition: transform .18s ease, border-color .18s ease, opacity .18s ease, filter .18s ease;
+}
+
+.bt-gridView .card__media{
+  height: 300px;
+  background: rgba(0,0,0,.16);
+}
+
+.bt-gridView .card__media img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* default */
+  display: block;
+  filter: contrast(1.02) saturate(1.02);
+}
+
+
+
+.bt-gridView .card__body{
+  padding: 14px 14px 16px;
+}
+
+.bt-gridView .card__title{
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: .06em;
+  font-size: 14px;
+  line-height: 1.35;
+  color: rgba(255,255,255,.92);
+  overflow: hidden;
+
+  /* Standard + Webkit */
+  line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.bt-gridView .card__price{
+  font-family: var(--serif);
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.90);
+  font-size: 15px;
+}
+
+.bt-gridView .card__hint{
+  margin-top: 10px;
+  color: rgba(255,255,255,.55);
+  font-size: 13px;
+}
+
+/* Hover stacking (angepasst für Paging: pro cardsPage) */
+.bt-gridView .cardsPage.is-dim .card{
+  opacity: .55;
+  filter: blur(.1px);
+}
+
+.bt-gridView .cardsPage.is-dim .card.is-hover{
+  opacity: 1;
+  filter: none;
+  z-index: 2;
+  transform: translateY(-6px) scale(1.02);
+  border-color: rgba(200,176,138,.40);
+}
+
+/* =========================
+   Detail overlay
+========================= */
+.bt-detail{
+  position: absolute;
+  inset: 120px 0 0 0;
+  background:
+    radial-gradient(900px 500px at 50% 0%, rgba(200,176,138,.06), rgba(0,0,0,0)),
+    rgba(0,0,0,.82);
+  backdrop-filter: blur(10px);
+  overflow: auto;
+}
+
+.bt-detail[hidden]{ display: none; }
+
+.bt-detail__inner{
+  padding: 26px 0 70px;
+}
+
+.bt-back{
+  appearance: none;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.22);
+  color: rgba(255,255,255,.85);
+  border-radius: 999px;
+  padding: 10px 14px;
+  cursor: pointer;
+  font-family: var(--serif);
+  letter-spacing: .10em;
+  transition: transform .18s ease, border-color .18s ease;
+}
+
+.bt-back:hover{
+  transform: translateY(-1px);
+  border-color: rgba(200,176,138,.30);
+}
+
+#bKicker{
+  margin-top: 16px;
+  font-family: var(--serif);
+  letter-spacing: .22em;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.90);
+}
+
+#bTitle{
+  margin: 10px 0 18px;
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: .06em;
+  font-size: clamp(18px, 1.6vw, 27px);
+  color: rgba(255,255,255,.92);
+}
+
+/* =========================
+   Product detail layout
+========================= */
+.bt-product{
+  display: grid;
+  grid-template-columns: 1.25fr 1fr;
+  gap: 26px;
+  padding: 26px;
+  border-radius: 22px;
+  border: 1px solid rgba(200,176,138,.16);
+  background: rgba(0,0,0,.25);
+  box-shadow: 0 30px 90px rgba(0,0,0,.55);
+}
+
+.bt-mainImage{
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.22);
+}
+
+.bt-mainImage img{
+  width: 100%;
+  height: 460px;
+  object-fit: contain;
+  display: block;
+  padding: 14px;
+}
+
+/* Zoom button */
+.bt-zoom{
+  position: absolute;
+  right: 14px;
+  bottom: 14px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,176,138,.38);
+  background: rgba(0,0,0,.28);
+  color: rgba(255,255,255,.92);
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+
+.bt-zoom:hover{
+  transform: translateY(-1px);
+  border-color: rgba(200,176,138,.65);
+  background: rgba(0,0,0,.34);
+}
+
+/* Thumbs */
+#bGallery{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.bt-thumb{
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(0,0,0,.18);
+  padding: 0;
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease;
+}
+
+.bt-thumb:hover{
+  transform: translateY(-2px);
+  border-color: rgba(200,176,138,.28);
+}
+
+.bt-thumb.is-active{
+  border-color: rgba(200,176,138,.55);
+}
+
+.bt-thumb img{
+  width: 100%;
+  height: 92px;
+  object-fit: cover;
+  display: block;
+}
+
+/* Buy box */
+.bt-buy{
+  border-radius: 18px;
+  border: 1px solid rgba(200,176,138,.16);
+  background: rgba(0,0,0,.20);
+  padding: 18px;
+}
+
+.bt-price{
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+}
+
+.bt-price__label{
+  font-family: var(--serif);
+  letter-spacing: .22em;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.62);
+}
+
+.bt-price__value{
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: .06em;
+  font-size: 22px;
+  color: rgba(255,255,255,.92);
+}
+
+.bt-desc__title{
+  font-family: var(--serif);
+  letter-spacing: .22em;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.92);
+  margin-bottom: 10px;
+}
+
+.bt-desc p{
+  margin: 0 0 14px;
+  color: rgba(255,255,255,.72);
+  line-height: 1.65;
+  font-size: 16px;
+}
+
+/* Specs */
+.bt-specs{
+  list-style: none;
+  margin: 0 0 18px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.bt-specs li{
+  display: flex;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.16);
+}
+
+.bt-specs li span:first-child{ color: rgba(255,255,255,.62); }
+
+.bt-specs li span:last-child{
+  color: rgba(255,255,255,.86);
+  font-family: var(--serif);
+  letter-spacing: .04em;
+}
+
+/* Inquiry */
+.bt-inquiry__label{
+  display: block;
+  font-family: var(--serif);
+  letter-spacing: .22em;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.70);
+  margin-bottom: 8px;
+}
+
+.bt-field{
+  width: 100%;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.90);
+  padding: 12px 14px;
+  outline: none;
+  font-family: var(--serif-soft);
+  font-size: 16px;
+}
+
+.bt-field::placeholder{ color: rgba(255,255,255,.45); }
+
+.bt-field:focus{
+  border-color: rgba(200,176,138,.40);
+  box-shadow: 0 0 0 3px rgba(200,176,138,.10);
+}
+
+.bt-inquiry__row{
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 12px;
+  margin-top: 12px;
+  align-items: center;
+}
+
+.bt-btn{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 12px 18px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.90);
+  font-family: var(--serif);
+  letter-spacing: .18em;
+  font-size: 12px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform .18s ease, background .18s ease, border-color .18s ease;
+}
+
+.bt-btn:hover{ transform: translateY(-1px); }
+
+.bt-btn--gold{
+  border-color: rgba(200,176,138,.45);
+  background: rgba(200,176,138,.12);
+}
+
+.bt-btn--gold:hover{
+  border-color: rgba(200,176,138,.70);
+  background: rgba(200,176,138,.18);
+}
+
+.bt-note{
+  margin: 10px 0 0;
+  color: rgba(255,255,255,.55);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* =========================
+   Zoom overlay
+========================= */
+.bt-zoomOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.86);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+
+.bt-zoomOverlay[hidden]{ display: none; }
+
+.bt-zoomOverlay__img{
+  max-width: min(1200px, 92vw);
+  max-height: 86vh;
+  object-fit: contain;
+  border-radius: 18px;
+  border: 1px solid rgba(200,176,138,.18);
+  background: rgba(0,0,0,.25);
+}
+
+.bt-zoomOverlay__close{
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.35);
+  color: rgba(255,255,255,.92);
+  cursor: pointer;
+}
+
+/* =========================
+   Responsive
+========================= */
+@media (max-width: 1100px){
+  .bt-gridView .cardsPage{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 900px){
+  .bt-product{ grid-template-columns: 1fr; }
+  .bt-mainImage img{ height: 460px; }
+}
+
+@media (max-width: 640px){
+  .bt{ padding-top: 106px; }
+  .bt-gridView{ height: calc(100vh - 106px - 118px); }
+
+  .bt-gridView .cardsPage{ grid-template-columns: 1fr; }
+
+  .bt-gridView .cardsArrow--prev{ left: -6px; }
+  .bt-gridView .cardsArrow--next{ right: -6px; }
+
+  .bt-inquiry__row{ grid-template-columns: 1fr; }
+  .bt-btn{ width: 100%; padding: 14px 18px; }
+
+  #bGallery{ grid-template-columns: repeat(2, 1fr); }
+  .bt-thumb img{ height: 110px; }
+}
