@@ -13,6 +13,43 @@
   <!-- Global + Page CSS -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="bad_style.css" />
+
+  <!-- Popup CSS (klein & elegant) -->
+  <style>
+    .bs-popup{
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: none;
+      place-items: center;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+    .bs-popup.is-visible{ display: grid; }
+    .bs-popup__inner{
+      width: min(520px, 92vw);
+      border-radius: 18px;
+      border: 1px solid rgba(200,176,138,.25);
+      background: rgba(0,0,0,.70);
+      box-shadow: 0 28px 90px rgba(0,0,0,.55);
+      padding: 18px 18px 16px;
+      text-align: center;
+    }
+    .bs-popup__title{
+      font-family: var(--serif);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 16px;
+      color: rgba(255,255,255,.92);
+      margin-bottom: 10px;
+    }
+    .bs-popup__text{
+      color: rgba(255,255,255,.75);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+  </style>
 </head>
 
 <body class="page page--bad" data-page="bad">
@@ -239,13 +276,23 @@
                 </ul>
               </div>
 
-              <form class="bt-inquiry" id="inquiryForm">
+              <!-- FORM (Formspree) -->
+              <form class="bt-inquiry"
+                    id="inquiryForm"
+                    action="https://formspree.io/f/xbdajpba"
+                    method="POST">
+
+                <!-- Betreff / Produktname -->
+                <input type="hidden" name="subject" id="btSubject" value="BoraStone Anfrage (Badewannen)">
+                <input type="hidden" name="product" id="btProduct" value="">
+
                 <label class="bt-inquiry__label" for="message">Nachricht</label>
-                <textarea class="bt-field" id="message" rows="5"
-                  placeholder="Schreiben Sie uns kurz Ihr Projekt, Lieferort und Wunsch-Termin…"></textarea>
+                <textarea class="bt-field" id="message" name="message" rows="5"
+                  placeholder="Schreiben Sie uns kurz Ihr Projekt, Lieferort und Wunsch-Termin…"
+                  required></textarea>
 
                 <div class="bt-inquiry__row">
-                  <input class="bt-field" type="email" id="email" placeholder="Ihre E-Mail" required>
+                  <input class="bt-field" type="email" id="email" name="email" placeholder="Ihre E-Mail" required>
                   <button class="bt-btn bt-btn--gold" type="submit">ANFRAGE SENDEN</button>
                 </div>
 
@@ -261,6 +308,71 @@
 
   </main>
 
+  <!-- Popup -->
+  <div class="bs-popup" id="bsPopup" aria-hidden="true">
+    <div class="bs-popup__inner" role="status" aria-live="polite">
+      <div class="bs-popup__title">Vielen Dank</div>
+      <div class="bs-popup__text">
+        Wir haben Ihre Anfrage erhalten und melden uns bald bei Ihnen.
+      </div>
+    </div>
+  </div>
+
   <script src="bad.js"></script>
+
+  <!-- Formspree submit + Subject(Product) + Popup -->
+  <script>
+  (() => {
+    const form = document.getElementById('inquiryForm');
+    if (!form) return;
+
+    const popup = document.getElementById('bsPopup');
+    const subjectInput = document.getElementById('btSubject');
+    const productInput = document.getElementById('btProduct');
+
+    function showPopup(){
+      if (!popup) return;
+      popup.classList.add('is-visible');
+      popup.setAttribute('aria-hidden', 'false');
+      setTimeout(() => {
+        popup.classList.remove('is-visible');
+        popup.setAttribute('aria-hidden', 'true');
+      }, 5600);
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Produktname aus Detailtitel
+      const title = (document.getElementById('bTitle')?.textContent || '').trim();
+
+      if (title) {
+        if (subjectInput) subjectInput.value = `BoraStone Anfrage – ${title}`;
+        if (productInput) productInput.value = title;
+      } else {
+        if (subjectInput) subjectInput.value = 'BoraStone Anfrage (Badewannen)';
+        if (productInput) productInput.value = '';
+      }
+
+      try{
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (res.ok) {
+          form.reset();
+          showPopup();
+        } else {
+          showPopup();
+        }
+      } catch (err) {
+        showPopup();
+      }
+    });
+  })();
+  </script>
+
 </body>
 </html>
