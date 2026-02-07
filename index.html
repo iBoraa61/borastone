@@ -89,6 +89,7 @@
         <span class="pager__line pager__line--short"></span>
       </div>
     </aside>
+
     <div class="container home2__inner">
 
       <!-- Left: About -->
@@ -121,15 +122,24 @@
           <div class="home2__kicker">KONTAKT</div>
           <h3 class="home2__formTitle">Projektanfrage senden</h3>
 
-          <form class="home2__form" id="homeContact">
+          <!-- Formspree: sendet an info@borastone.de -->
+          <form class="home2__form" id="homeContact"
+                action="https://formspree.io/f/xbdajpba"
+                method="POST">
+
+            <!-- Betreff (allgemein) -->
+            <input type="hidden" name="_subject" value="Allgemeine Anfrage – BoraStone">
+            <!-- Kunde bekommt Bestätigungs-Mail -->
+            <input type="hidden" name="_autoresponse" value="Vielen Dank! Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen. Ihr BoraStone Team.">
+
             <label class="home2__label" for="name">Name</label>
-            <input class="home2__field" id="name" type="text" placeholder="Ihr Name" required>
+            <input class="home2__field" id="name" name="name" type="text" placeholder="Ihr Name" required>
 
             <label class="home2__label" for="email2">E-Mail</label>
-            <input class="home2__field" id="email2" type="email" placeholder="Ihre E-Mail" required>
+            <input class="home2__field" id="email2" name="email" type="email" placeholder="Ihre E-Mail" required>
 
             <label class="home2__label" for="msg">Nachricht</label>
-            <textarea class="home2__field" id="msg" rows="6"
+            <textarea class="home2__field" id="msg" name="message" rows="6"
               placeholder="Kurze Infos zu Ihrem Projekt (Ort, Zeitraum, Produkt)…" required></textarea>
 
             <button class="btn btn--gold home2__btn" type="submit">ANFRAGE SENDEN</button>
@@ -137,28 +147,32 @@
             <p class="home2__note">
               Wir melden uns zeitnah mit Verfügbarkeit, Lieferzeit und den passenden Optionen.
             </p>
+
+            <!-- Status-Text statt Alert -->
+            <p class="home2__note" id="homeContactStatus" style="display:none;"></p>
           </form>
         </div>
       </div>
 
     </div>
   </section>
-  
 
   <footer class="footer">
-  <div class="container footer__inner">
-    <a class="footer__link" href="impressum.html">IMPRESSUM</a>
-    <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
-  </div>
+    <div class="container footer__inner">
+      <a class="footer__link" href="impressum.html">IMPRESSUM</a>
+      <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
+    </div>
   </footer>
 
-  <!-- Mini JS: Pager 1/2 automatisch je nach Scroll -->
+  <!-- JS: Pager 1/2 + Snap Scroll + Hero Animation + Formspree Submit -->
   <script>
-    const step1 = document.querySelector('.pager__num[data-step="1"]');
-    const step2 = document.querySelector('.pager__num[data-step="2"]');
+    // Pager oben (Section 1)
+    const step1 = document.querySelector('.pager#pager .pager__num[data-step="1"]');
+    const step2 = document.querySelector('.pager#pager .pager__num[data-step="2"]');
     const sec2 = document.querySelector('#atelier');
 
     function setStep(n){
+      if (!step1 || !step2) return;
       step1.classList.toggle('is-active', n === 1);
       step2.classList.toggle('is-active', n === 2);
     }
@@ -173,55 +187,85 @@
 
     if (sec2) io.observe(sec2);
 
-    // (Optional) Formular ohne Backend: nur Demo
-    const form = document.getElementById('homeContact');
-    if (form) {
-      form.addEventListener('submit', (ev) => {
-        ev.preventDefault();
-        alert('Danke! Ihre Anfrage wurde vorbereitet. (Backend-Anbindung folgt)');
-        form.reset();
-      });
-    }
     // Hero Text Animation erst nach Load starten
     window.addEventListener('load', () => {
       const hero = document.querySelector('.hero__content');
       if (hero) hero.classList.add('is-animate');
-    }); 
-  </script>
+    });
 
-  <script>
-  (() => {
-    const hero = document.querySelector('.hero');
-    const section2 = document.querySelector('#atelier');
+    // Scroll-Snap: ein Scroll = direkt Seite 2
+    (() => {
+      const hero = document.querySelector('.hero');
+      const section2 = document.querySelector('#atelier');
+      if (!hero || !section2) return;
 
-    if (!hero || !section2) return;
+      let isScrolling = false;
 
-    let isScrolling = false;
-
-    function snapTo(el){
-      isScrolling = true;
-      el.scrollIntoView({ behavior: 'smooth' });
-      setTimeout(() => isScrolling = false, 900);
-    }
-
-    window.addEventListener('wheel', (e) => {
-      if (isScrolling) return;
-
-      const dir = Math.sign(e.deltaY);
-      const heroVisible = hero.getBoundingClientRect().top >= -10;
-
-      if (dir > 0 && heroVisible) {
-        e.preventDefault();
-        snapTo(section2);
+      function snapTo(el){
+        isScrolling = true;
+        el.scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => isScrolling = false, 900);
       }
 
-      if (dir < 0 && !heroVisible) {
+      window.addEventListener('wheel', (e) => {
+        if (isScrolling) return;
+
+        const dir = Math.sign(e.deltaY);
+        const heroVisible = hero.getBoundingClientRect().top >= -10;
+
+        if (dir > 0 && heroVisible) {
+          e.preventDefault();
+          snapTo(section2);
+        }
+
+        if (dir < 0 && !heroVisible) {
+          e.preventDefault();
+          snapTo(hero);
+        }
+      }, { passive: false });
+    })();
+
+    //  Formspree submit (ohne Alert, mit Status-Text)
+    (() => {
+      const form = document.getElementById('homeContact');
+      const status = document.getElementById('homeContactStatus');
+      if (!form) return;
+
+      form.addEventListener('submit', async (e) => {
         e.preventDefault();
-        snapTo(hero);
-      }
-    }, { passive: false });
-  })();
+
+        if (status) {
+          status.style.display = 'block';
+          status.textContent = 'Senden…';
+        }
+
+        try {
+          const data = new FormData(form);
+          const res = await fetch(form.action, {
+            method: 'POST',
+            body: data,
+            headers: { 'Accept': 'application/json' }
+          });
+
+          if (res.ok) {
+            if (status) {
+              status.textContent = 'Danke! Ihre Anfrage wurde gesendet. Wir melden uns in Kürze.';
+            }
+            form.reset();
+          } else {
+            if (status) {
+              status.textContent = 'Leider gab es ein Problem beim Senden. Bitte versuchen Sie es erneut.';
+            }
+          }
+        } catch (err) {
+          if (status) {
+            status.textContent = 'Netzwerkfehler. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.';
+          }
+        }
+      });
+    })();
   </script>
 
 </body>
 </html>
+
