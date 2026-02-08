@@ -201,8 +201,8 @@
   width: 100%;
   height: 100%;
 
-  /* ✅ Damit das Hauptbild vollständig sichtbar ist */
-  object-fit: contain;
+  /* Damit das Hauptbild vollständig sichtbar ist */
+  /* object-fit: contain;
 
   padding: 10px;
   background: rgba(0,0,0,.12);
@@ -256,7 +256,7 @@
   font-size: 13px;
 }
 
-/* ✅ Hover funktioniert IMMER – auch ohne JS-Klasse */
+/* Hover funktioniert IMMER – auch ohne JS-Klasse */
 .card:hover{
   transform: translateY(-6px) scale(1.02);
   border-color: rgba(232, 218, 198, .40);
@@ -608,3 +608,4 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
+
