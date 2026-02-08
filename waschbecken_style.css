@@ -193,18 +193,20 @@
 }
 
 .card__media{
-  height: 280px;
-  background: rgba(0,0,0,.16);
+  background: transparent !important;  /* kein sichtbarer “Rand” */
+  padding: 0 !important;
 }
 
 .card__media img{
+  display: block;
   width: 100%;
   height: 100%;
-
-  /* Damit das Hauptbild vollständig sichtbar ist */
   object-fit: cover;
-
-  padding: 0;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
   
 
   display: block;
@@ -608,6 +610,7 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
+
 
 
 
