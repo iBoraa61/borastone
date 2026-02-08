@@ -202,7 +202,7 @@
   height: 100%;
 
   /* Damit das Hauptbild vollständig sichtbar ist */
-  /* object-fit: contain;
+  /* object-fit: contain; */
 
   padding: 10px;
   background: rgba(0,0,0,.12);
@@ -608,4 +608,5 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
+
 
