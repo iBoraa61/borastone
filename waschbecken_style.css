@@ -218,7 +218,7 @@
 }
 
 .card__body{
-  padding: 14px 14px 16px;
+  padding: 20px 14px 16px;
 }
 
 .card__kicker{
@@ -614,6 +614,7 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
+
 
 
 
