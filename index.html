@@ -11,6 +11,43 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
+
+  <!-- Popup CSS -->
+  <style>
+    .bs-popup{
+      position: fixed;
+      inset: 0;
+      z-index: 3000;
+      display: none;
+      place-items: center;
+      background: rgba(0,0,0,.55);
+      backdrop-filter: blur(8px);
+      padding: 20px;
+    }
+    .bs-popup.is-visible{ display: grid; }
+    .bs-popup__inner{
+      width: min(520px, 92vw);
+      border-radius: 18px;
+      border: 1px solid rgba(200,176,138,.25);
+      background: rgba(0,0,0,.70);
+      box-shadow: 0 28px 90px rgba(0,0,0,.55);
+      padding: 18px 18px 16px;
+      text-align: center;
+    }
+    .bs-popup__title{
+      font-family: var(--serif);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-size: 16px;
+      color: rgba(255,255,255,.92);
+      margin-bottom: 10px;
+    }
+    .bs-popup__text{
+      color: rgba(255,255,255,.75);
+      font-size: 15px;
+      line-height: 1.55;
+    }
+  </style>
 </head>
 
 <body>
@@ -122,15 +159,13 @@
           <div class="home2__kicker">KONTAKT</div>
           <h3 class="home2__formTitle">Projektanfrage senden</h3>
 
-          <!-- Formspree: sendet an info@borastone.de -->
+          <!-- Formspree -->
           <form class="home2__form" id="homeContact"
                 action="https://formspree.io/f/xbdajpba"
                 method="POST">
 
             <!-- Betreff (allgemein) -->
-            <input type="hidden" name="_subject" value="Allgemeine Anfrage – BoraStone">
-            <!-- Kunde bekommt Bestätigungs-Mail -->
-            <input type="hidden" name="_autoresponse" value="Vielen Dank! Wir haben Ihre Anfrage erhalten und melden uns in Kürze bei Ihnen. Ihr BoraStone Team.">
+            <input type="hidden" name="subject" value="Allgemeine Anfrage – BoraStone">
 
             <label class="home2__label" for="name">Name</label>
             <input class="home2__field" id="name" name="name" type="text" placeholder="Ihr Name" required>
@@ -147,9 +182,6 @@
             <p class="home2__note">
               Wir melden uns zeitnah mit Verfügbarkeit, Lieferzeit und den passenden Optionen.
             </p>
-
-            <!-- Status-Text statt Alert -->
-            <p class="home2__note" id="homeContactStatus" style="display:none;"></p>
           </form>
         </div>
       </div>
@@ -164,7 +196,17 @@
     </div>
   </footer>
 
-  <!-- JS: Pager 1/2 + Snap Scroll + Hero Animation + Formspree Submit -->
+  <!-- Popup -->
+  <div class="bs-popup" id="bsPopup" aria-hidden="true">
+    <div class="bs-popup__inner" role="status" aria-live="polite">
+      <div class="bs-popup__title">Vielen Dank</div>
+      <div class="bs-popup__text">
+        Wir haben Ihre Anfrage erhalten und melden uns bald bei Ihnen.
+      </div>
+    </div>
+  </div>
+
+  <!-- JS: Pager 1/2 + Snap Scroll + Hero Animation + Formspree Submit (Popup) -->
   <script>
     // Pager oben (Section 1)
     const step1 = document.querySelector('.pager#pager .pager__num[data-step="1"]');
@@ -225,19 +267,25 @@
       }, { passive: false });
     })();
 
-    //  Formspree submit (ohne Alert, mit Status-Text)
+    // Popup helper
+    function showPopup(){
+      const popup = document.getElementById('bsPopup');
+      if (!popup) return;
+      popup.classList.add('is-visible');
+      popup.setAttribute('aria-hidden', 'false');
+      setTimeout(() => {
+        popup.classList.remove('is-visible');
+        popup.setAttribute('aria-hidden', 'true');
+      }, 5600);
+    }
+
+    // Formspree submit (Popup statt Status-Text, ohne Autoresponse)
     (() => {
       const form = document.getElementById('homeContact');
-      const status = document.getElementById('homeContactStatus');
       if (!form) return;
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        if (status) {
-          status.style.display = 'block';
-          status.textContent = 'Senden…';
-        }
 
         try {
           const data = new FormData(form);
@@ -248,19 +296,13 @@
           });
 
           if (res.ok) {
-            if (status) {
-              status.textContent = 'Danke! Ihre Anfrage wurde gesendet. Wir melden uns in Kürze.';
-            }
             form.reset();
+            showPopup();
           } else {
-            if (status) {
-              status.textContent = 'Leider gab es ein Problem beim Senden. Bitte versuchen Sie es erneut.';
-            }
+            showPopup();
           }
         } catch (err) {
-          if (status) {
-            status.textContent = 'Netzwerkfehler. Bitte prüfen Sie Ihre Verbindung und versuchen Sie es erneut.';
-          }
+          showPopup();
         }
       });
     })();
@@ -268,4 +310,3 @@
 
 </body>
 </html>
-
