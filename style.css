@@ -940,3 +940,24 @@ img{ max-width: 100%; display: block; }
   pointer-events: none;
 }
 
+/* =======================================
+   Header background NUR für Legal + Startseite 2
+   (Startseite 1 + Produktseiten bleiben transparent)
+======================================= */
+
+/* Impressum + Datenschutz */
+.page--legal .header{
+  background: rgba(7,7,7,.92);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(200,176,138,.14);
+}
+
+/* Startseite 2 Bereich (scroll section) */
+.page--home2 .header{
+  background: rgba(7,7,7,.60);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(200,176,138,.12);
+}
+
