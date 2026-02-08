@@ -950,7 +950,7 @@ img{ max-width: 100%; display: block; }
   background: rgba(7,7,7,.92);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(200,176,138,.14);
+  border-bottom: none;
 }
 
 /* Startseite: Section 2 aktiv */
@@ -960,5 +960,6 @@ img{ max-width: 100%; display: block; }
   -webkit-backdrop-filter: blur(10px);
   border-bottom: 1px solid rgba(200,176,138,.12);
 }
+
 
 
