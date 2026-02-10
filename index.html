@@ -14,6 +14,22 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .footer__inner--split{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      flex-wrap:wrap;
+    }
+    .footer__left,
+    .footer__right{
+      display:flex;
+      gap:18px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+  </style>
 
   <!-- Popup CSS -->
   <style>
@@ -193,9 +209,16 @@
   </section>
 
   <footer class="footer">
-    <div class="container footer__inner">
-      <a class="footer__link" href="impressum.html">IMPRESSUM</a>
-      <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
+    <div class="container footer__inner footer__inner--split">
+      <div class="footer__left">
+        <a class="footer__link" href="mailto:info@borastone.de">MAIL: INFO@BORASTONE.DE</a>
+        <a class="footer__link" href="tel:+491743418313">TELEFON: 0174 3418313</a>
+      </div>
+  
+      <div class="footer__right">
+        <a class="footer__link" href="impressum.html">IMPRESSUM</a>
+        <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
+      </div>
     </div>
   </footer>
 
@@ -319,6 +342,7 @@
 
 </body>
 </html>
+
 
 
 
