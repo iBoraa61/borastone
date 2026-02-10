@@ -1,16 +1,62 @@
 /* waschbecken.js
    - Tabs (Stand/Wand)
-   - 4er Paging Carousel (prev/next)
-   - Hover stacking
-   - Detail View + dynamische Gallery (zeigt nur vorhandene Bilder)
+   - Paging Carousel (prev/next)
+   - Hover stacking (nur Desktop)
+   - Detail View + dynamische Gallery
    - Zoom Overlay
-   - (Wheel-Blocker wie vorher)
+   - Mobile Burger Menu
 */
 
 (() => {
   // Helpers
   const qs = (s, el = document) => el.querySelector(s);
   const qsa = (s, el = document) => [...el.querySelectorAll(s)];
+
+  const isTouch = matchMedia('(hover: none)').matches; // Handy/Tablet meistens true
+  const isMobileNav = matchMedia('(max-width: 980px)').matches;
+
+  // -------------------------
+  // Mobile Burger Menu
+  // (funktioniert nur wenn du Header-HTML ergänzt hast)
+  // -------------------------
+  (() => {
+    const btn = qs('.navToggle');
+    const nav = qs('#mobileNav');
+    const closeBtn = qs('.mobileNav__close', nav || document);
+
+    if (!btn || !nav) return;
+
+    const openNav = () => {
+      nav.hidden = false;
+      document.body.classList.add('is-navOpen');
+      btn.setAttribute('aria-expanded', 'true');
+    };
+    const closeNav = () => {
+      nav.hidden = true;
+      document.body.classList.remove('is-navOpen');
+      btn.setAttribute('aria-expanded', 'false');
+    };
+
+    btn.addEventListener('click', () => {
+      if (nav.hidden) openNav();
+      else closeNav();
+    });
+
+    closeBtn?.addEventListener('click', closeNav);
+
+    // click outside panel
+    nav.addEventListener('click', (e) => {
+      if (e.target === nav) closeNav();
+    });
+
+    // close when clicking a link
+    qsa('a', nav).forEach((a) => a.addEventListener('click', closeNav));
+
+    // ESC closes
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && nav && !nav.hidden) closeNav();
+    });
+  })();
 
   // -------------------------
   // Tabs
@@ -27,24 +73,23 @@
     panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === name));
   }
 
-  // Default: stand
   setTab('stand');
 
-  // Tab click
   tabs.forEach((btn) => {
     btn.addEventListener('click', () => setTab(btn.dataset.tab));
   });
 
   // -------------------------
   // Hover stacking effect
-  // (re-bind after DOM changes)
+  //  auf Touch-Geräten deaktivieren (bringt dort nix und nervt)
   // -------------------------
   function bindHoverStacking(root = document) {
+    if (isTouch) return;
+
     root.querySelectorAll('.cardsPage').forEach((page) => {
       const cards = [...page.querySelectorAll('.card')];
 
       cards.forEach((card) => {
-        // avoid double-binding
         if (card.__hoverBound) return;
         card.__hoverBound = true;
 
@@ -85,7 +130,6 @@
     return (v && String(v).trim()) ? String(v).trim() : '';
   }
 
-  // liest thumb1..thumb6 aus data-attrs (erweitere gern auf 10 wenn du willst)
   function getThumbs(card, max = 6) {
     const ds = card.dataset;
     const out = [];
@@ -103,7 +147,6 @@
     const mainSrc = safeStr(card.dataset.main);
     const thumbs = getThumbs(card, 6);
 
-    // unique list: main zuerst, dann thumbs
     const uniq = [];
     const pushUniq = (src) => {
       const s = safeStr(src);
@@ -114,8 +157,6 @@
     pushUniq(mainSrc);
     thumbs.forEach(pushUniq);
 
-    // Wenn nur 1 Bild existiert: keine Thumbnail-Leiste anzeigen (optional)
-    // -> wenn du IMMER 1 Thumb willst, kommentiere die nächste Zeile aus
     if (uniq.length <= 1) return;
 
     uniq.forEach((src, idx) => {
@@ -131,6 +172,11 @@
       btn.appendChild(img);
       gallery.appendChild(btn);
     });
+  }
+
+  function lockBody(lock) {
+    document.documentElement.style.overflow = lock ? 'hidden' : '';
+    document.body.style.overflow = lock ? 'hidden' : '';
   }
 
   function openDetail(card) {
@@ -149,37 +195,32 @@
     const mainSrc = safeStr(card.dataset.main);
     dMain.src = mainSrc;
 
-    // ✅ dynamisch: zeigt nur die vorhandenen Bilder
     buildGallery(card);
 
     detail.hidden = false;
     detail.scrollTop = 0;
 
-    // lock background interactions
+    lockBody(true);
     qsa('.wb-gridView').forEach((v) => (v.style.pointerEvents = 'none'));
   }
 
   function closeDetail() {
     if (!detail) return;
     detail.hidden = true;
+
+    lockBody(false);
     qsa('.wb-gridView').forEach((v) => (v.style.pointerEvents = ''));
   }
 
-  // Delegate click for cards (works even after moving cards into pages)
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.card');
     if (!card) return;
-
-    // Don't open detail when clicking arrows etc.
-    const inArrow = e.target.closest('.cardsArrow');
-    if (inArrow) return;
-
+    if (e.target.closest('.cardsArrow')) return;
     openDetail(card);
   });
 
   backBtn?.addEventListener('click', closeDetail);
 
-  // Thumb click => swap main (delegation, weil thumbs dynamisch sind)
   gallery?.addEventListener('click', (e) => {
     const btn = e.target.closest('.wb-thumb');
     if (!btn) return;
@@ -191,37 +232,54 @@
     if (src) dMain.src = src;
   });
 
+  // ESC: Zoom zuerst, sonst Detail schließen
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+
+    if (zoomOverlay && !zoomOverlay.hidden) {
+      closeZoom();
+      return;
+    }
+    if (detail && !detail.hidden) closeDetail();
+  });
+
   // -------------------------
-  // Wheel-scroll handling
-  // Allow scroll in cardsWrap + detail only
+  // Wheel-blocker NUR Desktop
+  // (auf Mobile blockiert es sonst “normales” Scroll/Trackpad-Verhalten)
   // -------------------------
-  window.addEventListener(
-    'wheel',
-    (e) => {
-      const inCards = e.target.closest('.cardsWrap'); // ✅ wichtig (statt .cards)
-      const inDetail = e.target.closest('.wb-detail');
-      if (!inCards && !inDetail) e.preventDefault();
-    },
-    { passive: false }
-  );
+  if (!isTouch) {
+    window.addEventListener(
+      'wheel',
+      (e) => {
+        const inCards = e.target.closest('.cardsWrap');
+        const inDetail = e.target.closest('.wb-detail');
+        if (!inCards && !inDetail) e.preventDefault();
+      },
+      { passive: false }
+    );
+  }
 
   // -------------------------
   // Zoom overlay
   // -------------------------
-  const zoomOverlay = document.getElementById('zoomOverlay');
-  const zoomImg = document.getElementById('zoomImg');
-  const zoomBtn = document.querySelector('.wb-zoom');
-  const zoomClose = document.querySelector('.wb-zoomOverlay__close');
+  const zoomOverlay = qs('#zoomOverlay');
+  const zoomImg = qs('#zoomImg');
+  const zoomBtn = qs('.wb-zoom');
+  const zoomClose = qs('.wb-zoomOverlay__close');
 
   function openZoom() {
     if (!zoomOverlay || !zoomImg) return;
     zoomImg.src = dMain?.src || '';
     zoomOverlay.hidden = false;
+    lockBody(true);
   }
+
   function closeZoom() {
     if (!zoomOverlay || !zoomImg) return;
     zoomOverlay.hidden = true;
     zoomImg.src = '';
+    // wenn Detail offen ist, body bleibt gelockt, sonst unlock
+    if (!(detail && !detail.hidden)) lockBody(false);
   }
 
   zoomBtn?.addEventListener('click', openZoom);
@@ -229,22 +287,23 @@
   zoomOverlay?.addEventListener('click', (e) => {
     if (e.target === zoomOverlay) closeZoom();
   });
-  window.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && zoomOverlay && !zoomOverlay.hidden) closeZoom();
-  });
 
   // -------------------------
-  // Auto: split cards into pages of 4 (for each carousel)
-  // Works even if you put all cards in one cardsPage
+  //  Pagination: perPage dynamisch
+  // Desktop = 4, Tablet = 2, Mobile = 1
   // -------------------------
-  function paginateCarousel(wrap, perPage = 4) {
+  function getPerPage() {
+    const w = window.innerWidth;
+    if (w <= 640) return 1;
+    if (w <= 900) return 2;
+    return 4;
+  }
+
+  function paginateCarousel(wrap, perPage) {
     const track = wrap.querySelector('.cardsTrack');
     if (!track) return;
 
-    // Collect all cards inside track (no matter how currently grouped)
     const allCards = [...track.querySelectorAll('.card')];
-
-    // If already perfectly paginated, keep as is
     const existingPages = [...track.querySelectorAll('.cardsPage')];
     const existingCount = existingPages.reduce(
       (sum, p) => sum + p.querySelectorAll('.card').length,
@@ -258,10 +317,8 @@
 
     if (!needsRebuild) return;
 
-    // Remove old pages
     existingPages.forEach((p) => p.remove());
 
-    // Build new pages
     for (let i = 0; i < allCards.length; i += perPage) {
       const page = document.createElement('div');
       page.className = 'cardsPage';
@@ -270,18 +327,13 @@
     }
   }
 
-  // -------------------------
-  // 4-up carousel paging (prev/next)
-  // -------------------------
   function initCarousel(wrap) {
     const track = wrap.querySelector('.cardsTrack');
     const prev = wrap.querySelector('.cardsArrow--prev');
     const next = wrap.querySelector('.cardsArrow--next');
-
     if (!track || !prev || !next) return;
 
     let index = 0;
-
     const getPages = () => [...wrap.querySelectorAll('.cardsPage')];
 
     function update() {
@@ -306,7 +358,7 @@
 
     // Reset carousel when switching tabs
     const tabName = wrap.getAttribute('data-carousel');
-    const tabBtn = document.querySelector(`.wb-tabs__btn[data-tab="${tabName}"]`);
+    const tabBtn = qs(`.wb-tabs__btn[data-tab="${tabName}"]`);
     tabBtn?.addEventListener('click', () => {
       index = 0;
       update();
@@ -319,14 +371,26 @@
     };
 
     update();
+
+    // rebuild pagination on resize (mobile <-> desktop)
+    let lastPerPage = getPerPage();
+    window.addEventListener('resize', () => {
+      const now = getPerPage();
+      if (now === lastPerPage) return;
+      lastPerPage = now;
+
+      paginateCarousel(wrap, now);
+      index = 0;
+      update();
+      bindHoverStacking(document);
+    });
   }
 
   // Init all carousels
   document.querySelectorAll('.cardsWrap').forEach((wrap) => {
-    paginateCarousel(wrap, 4);
+    paginateCarousel(wrap, getPerPage());
     initCarousel(wrap);
   });
 
-  // Bind hover AFTER paginate (important)
   bindHoverStacking(document);
 })();
