@@ -5,25 +5,21 @@
    - Detail View + dynamische Gallery
    - Zoom Overlay
    - Mobile Burger Menu (navToggle + navOverlay + navDrawer)
-*/
-
-(() => {
-  // Helpers
-  const qs = (s, el = document) => el.querySelector(s);
-  const qsa = (s, el = document) => [...el.querySelectorAll(s)];
-
-  const isTouch = matchMedia('(hover: none)').matches;
-
-  // -------------------------
+// -------------------------
   // Mobile Burger Menu (navOverlay/navDrawer)
-  // Benötigt HTML: .navToggle + .navOverlay + .navDrawer + .navClose
+  // Benötigt HTML:
+  //  - button.navToggle
+  //  - div#navOverlay.navOverlay
+  //  - .navDrawer
+  //  - button.navClose
   // -------------------------
   (() => {
     const btn = qs('.navToggle');
-    const overlay = qs('.navOverlay');
-    const closeBtn = qs('.navClose', overlay || document);
+    const overlay = qs('#navOverlay');      // <-- WICHTIG: per ID
+    const drawer = overlay ? qs('.navDrawer', overlay) : null;
+    const closeBtn = overlay ? qs('.navClose', overlay) : null;
 
-    if (!btn || !overlay) return;
+    if (!btn || !overlay || !drawer) return;
 
     const openNav = () => {
       overlay.classList.add('is-open');
@@ -37,25 +33,28 @@
       btn.setAttribute('aria-expanded', 'false');
     };
 
-    btn.addEventListener('click', () => {
-      const isOpen = overlay.classList.contains('is-open');
-      if (isOpen) closeNav();
-      else openNav();
+    // Toggle
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      overlay.classList.contains('is-open') ? closeNav() : openNav();
     });
 
-    closeBtn?.addEventListener('click', closeNav);
+    // Close button
+    closeBtn?.addEventListener('click', (e) => {
+      e.preventDefault();
+      closeNav();
+    });
 
-    // click outside drawer closes
+    // Click outside drawer closes
     overlay.addEventListener('click', (e) => {
-      const drawer = qs('.navDrawer', overlay);
-      if (!drawer) return;
       if (e.target === overlay) closeNav();
     });
 
-    // close when clicking a link in mobile nav
+    // Links schließen Menü
     qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
 
-    // ESC closes
+    // ESC
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
     });
@@ -370,10 +369,11 @@
   }
 
   // Init
-  document.querySelectorAll('.cardsWrap').forEach((wrap) => {
+  mobile burgerAll('.cardsWrap').forEach((wrap) => {
     paginateCarousel(wrap, getPerPage());
     initCarousel(wrap);
   });
 
   bindHoverStacking(document);
 })();
+
