@@ -961,124 +961,150 @@ img{ max-width: 100%; display: block; }
   border-bottom: 1px solid rgba(200,176,138,.12);
 }
 
-/* =========================
-   Mobile Navigation (Burger)
-   Desktop bleibt unverändert
-========================= */
 
-.navToggle{ display: none; }
+/* =========================================================
+   MOBILE NAV (Burger + Overlay)
+   -> Desktop bleibt unverändert
+   -> Aktiv nur <= 980px
+========================================================= */
 
-@media (max-width: 980px){
-  .navToggle{
-    display: inline-grid;
-    place-items: center;
-    width: 46px;
-    height: 46px;
-    border-radius: 999px;
-    border: 1px solid rgba(200,176,138,.28);
-    background: rgba(0,0,0,.25);
-    backdrop-filter: blur(10px);
-    color: rgba(255,255,255,.92);
-    cursor: pointer;
-    margin-left: auto;
-  }
-
-  .navToggle__lines{
-    width: 18px;
-    height: 12px;
-    position: relative;
-    display: block;
-  }
-  .navToggle__lines::before,
-  .navToggle__lines::after{
-    content:"";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: rgba(255,255,255,.85);
-  }
-  .navToggle__lines::before{ top: 2px; }
-  .navToggle__lines::after{ bottom: 2px; }
-
-  .mobileNav{
-    position: fixed;
-    inset: 0;
-    z-index: 1200;
-    background: rgba(0,0,0,.55);
-    backdrop-filter: blur(10px);
-    display: grid;
-    place-items: start end;
-    padding: 16px;
-  }
-  .mobileNav[hidden]{ display: none; }
-
-  .mobileNav__panel{
-    width: min(360px, 92vw);
-    border-radius: 18px;
-    border: 1px solid rgba(200,176,138,.22);
-    background: rgba(0,0,0,.78);
-    box-shadow: 0 28px 90px rgba(0,0,0,.55);
-    overflow: hidden;
-  }
-
-  .mobileNav__head{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 14px 12px;
-    border-bottom: 1px solid rgba(200,176,138,.14);
-  }
-
-  .mobileNav__title{
-    font-family: var(--serif);
-    letter-spacing: .22em;
-    font-size: 11px;
-    text-transform: uppercase;
-    color: rgba(200,176,138,.92);
-  }
-
-  .mobileNav__close{
-    width: 40px;
-    height: 40px;
-    border-radius: 999px;
-    border: 1px solid rgba(255,255,255,.14);
-    background: rgba(0,0,0,.25);
-    color: rgba(255,255,255,.92);
-    cursor: pointer;
-  }
-
-  .mobileNav__links{
-    display: grid;
-    padding: 12px;
-    gap: 8px;
-  }
-
-  .mobileNav__link{
-    display: block;
-    padding: 12px 12px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,.10);
-    background: rgba(255,255,255,.04);
-    font-family: var(--serif);
-    letter-spacing: .18em;
-    font-size: 12px;
-    text-transform: uppercase;
-    color: rgba(255,255,255,.88);
-  }
-
-  .mobileNav__link.is-active{
-    border-color: rgba(200,176,138,.35);
-    background: rgba(200,176,138,.10);
-  }
-
-  body.is-navOpen{
-    overflow: hidden;
-    touch-action: none;
-  }
+.navToggle{
+  display: none;            /* Desktop: aus */
+  margin-left: auto;
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.90);
+  cursor: pointer;
+  pointer-events: auto;
+  align-items: center;
+  justify-content: center;
+  transition: transform .18s ease,
+              border-color .18s ease,
+              background .18s ease;
 }
 
+.navToggle:hover{
+  transform: translateY(-1px);
+  border-color: rgba(200,176,138,.35);
+  background: rgba(0,0,0,.24);
+}
 
+/* Overlay Hintergrund */
+.navOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;
+  pointer-events: auto;
+}
+
+.navOverlay.is-open{
+  display: block;
+}
+
+/* Drawer */
+.navDrawer{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(360px, 86vw);
+  background: rgba(7,7,7,.92);
+  border-left: 1px solid rgba(200,176,138,.14);
+  padding: 18px 18px 22px;
+  transform: translateX(102%);
+  transition: transform .22s ease;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+}
+
+.navOverlay.is-open .navDrawer{
+  transform: translateX(0);
+}
+
+/* Drawer header */
+.navDrawer__top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.navDrawer__title{
+  font-family: var(--serif);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255,255,255,.80);
+}
+
+.navClose{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.92);
+  cursor: pointer;
+}
+
+/* Drawer links */
+.navMobile{
+  display: grid;
+  gap: 10px;
+  padding-top: 6px;
+}
+
+.navMobile a{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.20);
+  font-family: var(--serif);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255,255,255,.86);
+}
+
+.navMobile a.is-active{
+  border-color: rgba(200,176,138,.35);
+  background: rgba(200,176,138,.10);
+}
+
+/* Aktiv nur auf Mobile/Tablet */
+@media (max-width: 980px){
+  .nav{ display: none; }
+  .navToggle{ display: inline-flex; }
+
+  .side{ width: 64px; }
+  .pager__line{ height: 90px; }
+}
+
+/* Sehr klein */
+@media (max-width: 640px){
+  .side--left,
+  .side--right{
+    display: none;
+  }
+
+  .header{
+    padding: 14px 0;
+  }
+
+  .brand__wordmark{ font-size: 28px; }
+  .brand__tagline{ font-size: 10px; }
+}
 
 
 
