@@ -83,9 +83,7 @@
   transition: background .18s ease, border-color .18s ease, color .18s ease;
 }
 
-.wb-tabs__btn:hover{
-  color: rgba(255,255,255,.90);
-}
+.wb-tabs__btn:hover{ color: rgba(255,255,255,.90); }
 
 .wb-tabs__btn.is-active{
   color: rgba(255,255,255,.92);
@@ -106,12 +104,10 @@
   display: none;
 }
 
-.wb-panel.is-active{
-  display: block;
-}
+.wb-panel.is-active{ display: block; }
 
 /* =========================
-   4-up pager carousel for cards
+   4-up pager carousel for cards (DESKTOP/TABLET)
 ========================= */
 .cardsWrap{
   position: relative;
@@ -169,7 +165,7 @@
 .cardsArrow--next{ right: -12px; }
 
 /* -------------------------
-   Card (dein Look, nur stabiler)
+   Card
 -------------------------- */
 .card{
   position: relative;
@@ -192,34 +188,28 @@
   transition: transform .18s ease, border-color .18s ease, opacity .18s ease, filter .18s ease;
 }
 
-/* Card media: fixierte Höhe wie bad_style.css */
+/* Card media */
 .card__media{
-  height: 280px;              /* oder 300px wie Badewannen */
-  background: transparent;    /* kein sichtbarer “Rand” */
+  height: 280px;
+  background: transparent;
   padding: 0;
-  overflow: hidden;           /* wichtig: crop sauber */
+  overflow: hidden;
 }
 
-/* Bild füllt den Bereich immer komplett */
 .card__media img{
   width: 100%;
   height: 100%;
   display: block;
-  object-fit: cover;          /* vollflächig, ggf. Beschnitt */
-  object-position: center;    /* nice default */
+  object-fit: cover;
+  object-position: center;
   padding: 0;
   margin: 0;
   border: 0;
   background: transparent;
   filter: contrast(1.02) saturate(1.02);
 }
-  display: block;
-  filter: contrast(1.02) saturate(1.02);
-}
 
-.card__body{
-  padding: 20px 14px 16px;
-}
+.card__body{ padding: 20px 14px 16px; }
 
 .card__kicker{
   font-family: var(--serif);
@@ -240,10 +230,8 @@
   color: rgba(255,255,255,.92);
   overflow: hidden;
 
-  /* Standard (vom Linter gefordert) */
   line-clamp: 2;
 
-  /* Fallback (funktioniert in Chrome/Safari/Edge) */
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -262,13 +250,12 @@
   font-size: 13px;
 }
 
-/* Hover funktioniert IMMER – auch ohne JS-Klasse */
 .card:hover{
   transform: translateY(-6px) scale(1.02);
   border-color: rgba(232, 218, 198, .40);
 }
 
-/* Optional: Dimmen der anderen Cards (nur wenn JS es setzt) */
+/* Dim other cards (optional via JS) */
 .cardsPage.is-dim .card{
   opacity: .55;
   filter: blur(.1px);
@@ -331,7 +318,6 @@
   line-height: 1.25;
 }
 
-/* Detail layout */
 .wb-product{
   display: grid;
   grid-template-columns: 1.25fr 1fr;
@@ -358,7 +344,6 @@
   padding: 14px;
 }
 
-/* thumbs */
 .wb-gallery{
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -379,9 +364,7 @@
   transform: translateY(-2px);
   border-color: rgba(200,176,138,.28);
 }
-.wb-thumb.is-active{
-  border-color: rgba(200,176,138,.55);
-}
+.wb-thumb.is-active{ border-color: rgba(200,176,138,.55); }
 .wb-thumb img{
   width: 100%;
   height: 92px;
@@ -389,7 +372,6 @@
   display: block;
 }
 
-/* buy box */
 .wb-buy{
   border-radius: 18px;
   border: 1px solid rgba(200,176,138,.16);
@@ -397,7 +379,6 @@
   padding: 18px;
 }
 
-/* price */
 .wb-price{
   display: flex;
   align-items: baseline;
@@ -422,7 +403,6 @@
   color: rgba(255,255,255,.92);
 }
 
-/* desc + specs + form */
 .wb-desc__title{
   font-family: var(--serif);
   letter-spacing: .22em;
@@ -530,7 +510,6 @@
   line-height: 1.5;
 }
 
-/* Zoom button (loupe) */
 .wb-zoom{
   position: absolute;
   right: 14px;
@@ -552,7 +531,6 @@
   background: rgba(0,0,0,.34);
 }
 
-/* Zoom overlay */
 .wb-zoomOverlay{
   position: fixed;
   inset: 0;
@@ -599,24 +577,48 @@
   .wb-mainImage img{ height: 460px; }
 }
 
+/* ✅ MOBILE: statt Carousel => vertikale Liste + große Karten
+   (Desktop bleibt exakt wie vorher)
+*/
 @media (max-width: 640px){
-  .wb{ padding-top: 106px; }
-  .wb-gridView{ height: calc(100vh - 106px - 118px); }
+  /* Seite nicht "einsperren" (sonst fühlt sich Navigation tot an) */
+  .page--washbecken{ overflow: auto; }
 
-  .cardsPage{ grid-template-columns: 1fr; }
+  .wb{ height: auto; min-height: 100vh; padding-top: 106px; }
 
-  .cardsArrow--prev{ left: -6px; }
-  .cardsArrow--next{ right: -6px; }
+  /* Grid darf scrollen */
+  .wb-gridView{
+    height: auto;
+    overflow: auto;
+    padding-bottom: 24px;
+  }
 
+  /* Pfeile weg (Mobile scrollt) */
+  .cardsArrow{ display: none; }
+
+  /* Track/Paging deaktivieren => untereinander */
+  .cardsWrap{ overflow: visible; height: auto; }
+  .cardsTrack{
+    display: block;
+    height: auto;
+    transform: none !important;
+    padding: 10px 0 24px;
+  }
+  .cardsPage{
+    display: grid;
+    grid-template-columns: 1fr;   /* ✅ 1 Karte pro Zeile */
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* Kartenbild größer */
+  .card__media{ height: 340px; }
+
+  /* Detail */
+  .wb-detail{ inset: 106px 0 0 0; }
   .wb-inquiry__row{ grid-template-columns: 1fr; }
   .wb-btn{ width: 100%; padding: 14px 18px; }
 
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
-
-
-
-
-
-
