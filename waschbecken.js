@@ -1,10 +1,10 @@
 /* waschbecken.js
    - Tabs (Stand/Wand)
-   - Paging Carousel (prev/next)
+   - Paging Carousel (prev/next) + responsive (4/2/1)
    - Hover stacking (nur Desktop)
    - Detail View + dynamische Gallery
    - Zoom Overlay
-   - Mobile Burger Menu
+   - Mobile Burger Menu (navToggle + navOverlay + navDrawer)
 */
 
 (() => {
@@ -12,49 +12,52 @@
   const qs = (s, el = document) => el.querySelector(s);
   const qsa = (s, el = document) => [...el.querySelectorAll(s)];
 
-  const isTouch = matchMedia('(hover: none)').matches; // Handy/Tablet meistens true
-  const isMobileNav = matchMedia('(max-width: 980px)').matches;
+  const isTouch = matchMedia('(hover: none)').matches;
 
   // -------------------------
-  // Mobile Burger Menu
-  // (funktioniert nur wenn du Header-HTML ergänzt hast)
+  // Mobile Burger Menu (navOverlay/navDrawer)
+  // Benötigt HTML: .navToggle + .navOverlay + .navDrawer + .navClose
   // -------------------------
   (() => {
     const btn = qs('.navToggle');
-    const nav = qs('#mobileNav');
-    const closeBtn = qs('.mobileNav__close', nav || document);
+    const overlay = qs('.navOverlay');
+    const closeBtn = qs('.navClose', overlay || document);
 
-    if (!btn || !nav) return;
+    if (!btn || !overlay) return;
 
     const openNav = () => {
-      nav.hidden = false;
+      overlay.classList.add('is-open');
       document.body.classList.add('is-navOpen');
       btn.setAttribute('aria-expanded', 'true');
     };
+
     const closeNav = () => {
-      nav.hidden = true;
+      overlay.classList.remove('is-open');
       document.body.classList.remove('is-navOpen');
       btn.setAttribute('aria-expanded', 'false');
     };
 
     btn.addEventListener('click', () => {
-      if (nav.hidden) openNav();
-      else closeNav();
+      const isOpen = overlay.classList.contains('is-open');
+      if (isOpen) closeNav();
+      else openNav();
     });
 
     closeBtn?.addEventListener('click', closeNav);
 
-    // click outside panel
-    nav.addEventListener('click', (e) => {
-      if (e.target === nav) closeNav();
+    // click outside drawer closes
+    overlay.addEventListener('click', (e) => {
+      const drawer = qs('.navDrawer', overlay);
+      if (!drawer) return;
+      if (e.target === overlay) closeNav();
     });
 
-    // close when clicking a link
-    qsa('a', nav).forEach((a) => a.addEventListener('click', closeNav));
+    // close when clicking a link in mobile nav
+    qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
 
     // ESC closes
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && nav && !nav.hidden) closeNav();
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
     });
   })();
 
@@ -74,14 +77,10 @@
   }
 
   setTab('stand');
-
-  tabs.forEach((btn) => {
-    btn.addEventListener('click', () => setTab(btn.dataset.tab));
-  });
+  tabs.forEach((btn) => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
 
   // -------------------------
-  // Hover stacking effect
-  //  auf Touch-Geräten deaktivieren (bringt dort nix und nervt)
+  // Hover stacking (nur Desktop / non-touch)
   // -------------------------
   function bindHoverStacking(root = document) {
     if (isTouch) return;
@@ -108,7 +107,7 @@
   }
 
   // -------------------------
-  // Detail view logic
+  // Detail view
   // -------------------------
   const detail = qs('.wb-detail');
   const backBtn = qs('.wb-back');
@@ -128,6 +127,11 @@
 
   function safeStr(v) {
     return (v && String(v).trim()) ? String(v).trim() : '';
+  }
+
+  function lockBody(lock) {
+    document.documentElement.style.overflow = lock ? 'hidden' : '';
+    document.body.style.overflow = lock ? 'hidden' : '';
   }
 
   function getThumbs(card, max = 6) {
@@ -174,11 +178,6 @@
     });
   }
 
-  function lockBody(lock) {
-    document.documentElement.style.overflow = lock ? 'hidden' : '';
-    document.body.style.overflow = lock ? 'hidden' : '';
-  }
-
   function openDetail(card) {
     if (!detail) return;
 
@@ -208,12 +207,16 @@
     if (!detail) return;
     detail.hidden = true;
 
+    // falls Zoom offen war
+    if (zoomOverlay && !zoomOverlay.hidden) closeZoom();
+
     lockBody(false);
     qsa('.wb-gridView').forEach((v) => (v.style.pointerEvents = ''));
   }
 
+  // Card click (nur innerhalb gridView öffnen)
   document.addEventListener('click', (e) => {
-    const card = e.target.closest('.card');
+    const card = e.target.closest('.wb-gridView .card');
     if (!card) return;
     if (e.target.closest('.cardsArrow')) return;
     openDetail(card);
@@ -221,6 +224,7 @@
 
   backBtn?.addEventListener('click', closeDetail);
 
+  // Thumb click
   gallery?.addEventListener('click', (e) => {
     const btn = e.target.closest('.wb-thumb');
     if (!btn) return;
@@ -231,33 +235,6 @@
     const src = safeStr(btn.dataset.src);
     if (src) dMain.src = src;
   });
-
-  // ESC: Zoom zuerst, sonst Detail schließen
-  document.addEventListener('keydown', (e) => {
-    if (e.key !== 'Escape') return;
-
-    if (zoomOverlay && !zoomOverlay.hidden) {
-      closeZoom();
-      return;
-    }
-    if (detail && !detail.hidden) closeDetail();
-  });
-
-  // -------------------------
-  // Wheel-blocker NUR Desktop
-  // (auf Mobile blockiert es sonst “normales” Scroll/Trackpad-Verhalten)
-  // -------------------------
-  if (!isTouch) {
-    window.addEventListener(
-      'wheel',
-      (e) => {
-        const inCards = e.target.closest('.cardsWrap');
-        const inDetail = e.target.closest('.wb-detail');
-        if (!inCards && !inDetail) e.preventDefault();
-      },
-      { passive: false }
-    );
-  }
 
   // -------------------------
   // Zoom overlay
@@ -278,7 +255,7 @@
     if (!zoomOverlay || !zoomImg) return;
     zoomOverlay.hidden = true;
     zoomImg.src = '';
-    // wenn Detail offen ist, body bleibt gelockt, sonst unlock
+    // Body bleibt gelockt, wenn Detail offen ist
     if (!(detail && !detail.hidden)) lockBody(false);
   }
 
@@ -288,9 +265,31 @@
     if (e.target === zoomOverlay) closeZoom();
   });
 
+  // ESC: Zoom zuerst, sonst Detail schließen
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    if (zoomOverlay && !zoomOverlay.hidden) return closeZoom();
+    if (detail && !detail.hidden) return closeDetail();
+  });
+
   // -------------------------
-  //  Pagination: perPage dynamisch
-  // Desktop = 4, Tablet = 2, Mobile = 1
+  // Wheel-blocker NUR Desktop
+  // -------------------------
+  if (!isTouch) {
+    window.addEventListener(
+      'wheel',
+      (e) => {
+        const inCards = e.target.closest('.cardsWrap');
+        const inDetail = e.target.closest('.wb-detail');
+        if (!inCards && !inDetail) e.preventDefault();
+      },
+      { passive: false }
+    );
+  }
+
+  // -------------------------
+  // Carousel pagination: 4 / 2 / 1
+  // WICHTIG: Cards nur aus dem jeweiligen wrap sammeln
   // -------------------------
   function getPerPage() {
     const w = window.innerWidth;
@@ -300,24 +299,14 @@
   }
 
   function paginateCarousel(wrap, perPage) {
-    const track = wrap.querySelector('.cardsTrack');
+    const track = qs('.cardsTrack', wrap);
     if (!track) return;
 
+    // NUR cards aus diesem track (nicht aus Detail!)
     const allCards = [...track.querySelectorAll('.card')];
-    const existingPages = [...track.querySelectorAll('.cardsPage')];
-    const existingCount = existingPages.reduce(
-      (sum, p) => sum + p.querySelectorAll('.card').length,
-      0
-    );
 
-    const needsRebuild =
-      existingPages.length === 0 ||
-      existingCount !== allCards.length ||
-      existingPages.some((p) => p.querySelectorAll('.card').length > perPage);
-
-    if (!needsRebuild) return;
-
-    existingPages.forEach((p) => p.remove());
+    // pages platt machen und neu bauen (sicher & einfach)
+    [...track.querySelectorAll('.cardsPage')].forEach((p) => p.remove());
 
     for (let i = 0; i < allCards.length; i += perPage) {
       const page = document.createElement('div');
@@ -328,31 +317,31 @@
   }
 
   function initCarousel(wrap) {
-    const track = wrap.querySelector('.cardsTrack');
-    const prev = wrap.querySelector('.cardsArrow--prev');
-    const next = wrap.querySelector('.cardsArrow--next');
+    const track = qs('.cardsTrack', wrap);
+    const prev = qs('.cardsArrow--prev', wrap);
+    const next = qs('.cardsArrow--next', wrap);
     if (!track || !prev || !next) return;
 
     let index = 0;
+
     const getPages = () => [...wrap.querySelectorAll('.cardsPage')];
 
     function update() {
       const pages = getPages();
+      if (index > pages.length - 1) index = Math.max(0, pages.length - 1);
+
       track.style.transform = `translateX(${-index * 100}%)`;
       prev.disabled = index === 0 || pages.length <= 1;
       next.disabled = index === pages.length - 1 || pages.length <= 1;
     }
 
     prev.addEventListener('click', () => {
-      const pages = getPages();
       index = Math.max(0, index - 1);
-      if (index > pages.length - 1) index = pages.length - 1;
       update();
     });
 
     next.addEventListener('click', () => {
-      const pages = getPages();
-      index = Math.min(pages.length - 1, index + 1);
+      index = Math.min(getPages().length - 1, index + 1);
       update();
     });
 
@@ -364,15 +353,7 @@
       update();
     });
 
-    // expose refresh
-    wrap.__refreshCarousel = () => {
-      index = 0;
-      update();
-    };
-
-    update();
-
-    // rebuild pagination on resize (mobile <-> desktop)
+    // responsive rebuild on resize
     let lastPerPage = getPerPage();
     window.addEventListener('resize', () => {
       const now = getPerPage();
@@ -381,12 +362,14 @@
 
       paginateCarousel(wrap, now);
       index = 0;
-      update();
       bindHoverStacking(document);
+      update();
     });
+
+    update();
   }
 
-  // Init all carousels
+  // Init
   document.querySelectorAll('.cardsWrap').forEach((wrap) => {
     paginateCarousel(wrap, getPerPage());
     initCarousel(wrap);
