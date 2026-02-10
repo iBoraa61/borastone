@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>BoraStone – Waschbecken</title>
 
-  <!-- Fonts -->
   <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
 
@@ -16,113 +15,57 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="waschbecken_style.css" />
 
-  <!-- Mini styles for popup (self-contained, no CSS file change needed) -->
   <style>
-    .bs-popup{
-      position: fixed;
-      inset: 0;
-      z-index: 5000;
-      display: grid;
-      place-items: center;
-      padding: 24px;
-      background: rgba(0,0,0,.62);
-      backdrop-filter: blur(10px);
-    }
+    /* dein popup css bleibt hier drin */
+    .bs-popup{ position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.62); backdrop-filter: blur(10px); }
     .bs-popup[hidden]{ display: none; }
-
-    .bs-popup__card{
-      width: min(560px, 92vw);
-      border-radius: 22px;
-      border: 1px solid rgba(200,176,138,.22);
-      background: rgba(0,0,0,.55);
-      box-shadow: 0 30px 90px rgba(0,0,0,.55);
-      padding: 22px 20px;
-      text-align: center;
-    }
-
-    .bs-popup__kicker{
-      font-family: var(--serif);
-      letter-spacing: .22em;
-      font-size: 11px;
-      text-transform: uppercase;
-      color: rgba(200,176,138,.92);
-      margin-bottom: 10px;
-    }
-
-    .bs-popup__title{
-      margin: 0 0 10px;
-      font-family: var(--serif);
-      font-weight: 500;
-      letter-spacing: .08em;
-      text-transform: uppercase;
-      font-size: 18px;
-      color: rgba(255,255,255,.92);
-    }
-
-    .bs-popup__text{
-      margin: 0;
-      color: rgba(255,255,255,.78);
-      line-height: 1.65;
-      font-size: 16px;
-    }
-
-    .bs-popup__close{
-      margin-top: 16px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 999px;
-      padding: 10px 16px;
-      border: 1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.18);
-      color: rgba(255,255,255,.90);
-      font-family: var(--serif);
-      letter-spacing: .18em;
-      font-size: 11px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: transform .18s ease, border-color .18s ease;
-    }
+    .bs-popup__card{ width: min(560px, 92vw); border-radius: 22px; border: 1px solid rgba(200,176,138,.22); background: rgba(0,0,0,.55); box-shadow: 0 30px 90px rgba(0,0,0,.55); padding: 22px 20px; text-align: center; }
+    .bs-popup__kicker{ font-family: var(--serif); letter-spacing: .22em; font-size: 11px; text-transform: uppercase; color: rgba(200,176,138,.92); margin-bottom: 10px; }
+    .bs-popup__title{ margin: 0 0 10px; font-family: var(--serif); font-weight: 500; letter-spacing: .08em; text-transform: uppercase; font-size: 18px; color: rgba(255,255,255,.92); }
+    .bs-popup__text{ margin: 0; color: rgba(255,255,255,.78); line-height: 1.65; font-size: 16px; }
+    .bs-popup__close{ margin-top: 16px; display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 10px 16px; border: 1px solid rgba(255,255,255,.14); background: rgba(0,0,0,.18); color: rgba(255,255,255,.90); font-family: var(--serif); letter-spacing: .18em; font-size: 11px; text-transform: uppercase; cursor: pointer; transition: transform .18s ease, border-color .18s ease; }
     .bs-popup__close:hover{ transform: translateY(-1px); border-color: rgba(200,176,138,.35); }
   </style>
-<header class="header">
-  <div class="container header__inner">
-    <a class="brand" href="index.html" aria-label="BoraStone Startseite">
-      <span class="brand__wordmark">BORASTONE</span>
-      <span class="brand__tagline">LUXURY STONE ATELIER</span>
-    </a>
+</head>
 
-    <!-- Desktop Nav (bleibt wie gehabt) -->
-    <nav class="nav" aria-label="Hauptnavigation">
-      <a class="nav__link" href="index.html">STARTSEITE</a>
-      <a class="nav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
-      <a class="nav__link" href="bad.html">BADEWANNEN</a>
-      <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
-      <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
-    </nav>
+<body class="page page--washbecken" data-page="waschbecken">
+  <header class="header">
+    <div class="container header__inner">
+      <a class="brand" href="index.html" aria-label="BoraStone Startseite">
+        <span class="brand__wordmark">BORASTONE</span>
+        <span class="brand__tagline">LUXURY STONE ATELIER</span>
+      </a>
 
-    <!--  Burger: nur Mobile sichtbar -->
-    <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
-      <span class="navToggle__lines" aria-hidden="true"></span>
-    </button>
-    
-    <div class="mobileNav" id="mobileNav" hidden>
-      <div class="mobileNav__panel" role="dialog" aria-modal="true" aria-label="Navigation">
-        <div class="mobileNav__head">
-          <div class="mobileNav__title">Menü</div>
-          <button class="mobileNav__close" type="button" aria-label="Menü schließen">✕</button>
+      <nav class="nav" aria-label="Hauptnavigation">
+        <a class="nav__link" href="index.html">STARTSEITE</a>
+        <a class="nav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
+        <a class="nav__link" href="bad.html">BADEWANNEN</a>
+        <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
+        <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
+      </nav>
+
+      <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
+        <span class="navToggle__lines" aria-hidden="true"></span>
+      </button>
+
+      <div class="mobileNav" id="mobileNav" hidden>
+        <div class="mobileNav__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+          <div class="mobileNav__head">
+            <div class="mobileNav__title">Menü</div>
+            <button class="mobileNav__close" type="button" aria-label="Menü schließen">✕</button>
+          </div>
+
+          <nav class="mobileNav__links" aria-label="Mobile Navigation">
+            <a class="mobileNav__link" href="index.html">STARTSEITE</a>
+            <a class="mobileNav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
+            <a class="mobileNav__link" href="bad.html">BADEWANNEN</a>
+            <a class="mobileNav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
+            <a class="mobileNav__link" href="index.html#atelier">ÜBER BORASTONE</a>
+          </nav>
         </div>
-    
-        <nav class="mobileNav__links" aria-label="Mobile Navigation">
-          <a class="mobileNav__link" href="index.html">STARTSEITE</a>
-          <a class="mobileNav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
-          <a class="mobileNav__link" href="bad.html">BADEWANNEN</a>
-          <a class="mobileNav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
-          <a class="mobileNav__link" href="index.html#atelier">ÜBER BORASTONE</a>
-        </nav>
       </div>
     </div>
-</header>
+  </header>
 
   <main class="wb" role="main" aria-label="Waschbecken">
 
@@ -1303,6 +1246,7 @@
 
 </body>
 </html>
+
 
 
 
