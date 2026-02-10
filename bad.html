@@ -17,7 +17,7 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="bad_style.css" />
 
-  <!-- Popup CSS (wie waschbecken.html) -->
+  <!-- Popup CSS (wie Waschbecken: self-contained) -->
   <style>
     .bs-popup{
       position: fixed;
@@ -84,7 +84,10 @@
       cursor: pointer;
       transition: transform .18s ease, border-color .18s ease;
     }
-    .bs-popup__close:hover{ transform: translateY(-1px); border-color: rgba(200,176,138,.35); }
+    .bs-popup__close:hover{
+      transform: translateY(-1px);
+      border-color: rgba(200,176,138,.35);
+    }
   </style>
 </head>
 
@@ -116,7 +119,7 @@
       </p>
     </div>
 
-    <!-- GRID VIEW (mit Pfeilen + 4er-Seiten wie Waschbecken) -->
+    <!-- GRID VIEW -->
     <section class="bt-gridView" aria-label="Badewannen Übersicht">
       <div class="container cardsWrap" data-carousel="bad">
         <button class="cardsArrow cardsArrow--prev" type="button" aria-label="Zurück">
@@ -138,7 +141,7 @@
             <!-- CARD 01 -->
             <article class="card"
               data-kicker="SINTERSTEIN"
-              data-title="Calacatta Marble Bathtub 1700 "
+              data-title="Calacatta Marble Bathtub 1700"
               data-price="8.500,00 €"
               data-material="Naturmarmor"
               data-size="1700 × 750 × 460 mm"
@@ -234,8 +237,8 @@
 
             <!-- CARD 05 -->
             <article class="card"
-              data-kicker="Marbe"
-              data-title="Calacatta Marble Bathtub 1700"
+              data-kicker="MARMOR"
+              data-title="Calacatta Marble Bathtub 1700 (Variante)"
               data-price="8.500,00 €"
               data-material="Naturmarmor"
               data-size="1700 × 750 × 460 mm"
@@ -246,10 +249,10 @@
               data-thumb2="assets/images/products/tub-05-02.jpg"
             >
               <div class="card__media">
-                <img src="assets/images/products/tub-05-main.jpg" alt="Calacatta Marble Bathtub 1700">
+                <img src="assets/images/products/tub-05-main.jpg" alt="Calacatta Marble Bathtub 1700 (Variante)">
               </div>
               <div class="card__body">
-                <h3 class="card__title">Calacatta Marble Bathtub 1700</h3>
+                <h3 class="card__title">Calacatta Marble Bathtub 1700 (Variante)</h3>
                 <div class="card__price">8.500,00 €</div>
                 <div class="card__hint">Details ansehen</div>
               </div>
@@ -264,15 +267,13 @@
     <!-- DETAIL VIEW -->
     <section class="bt-detail" aria-label="Badewanne Details" hidden>
       <div class="container bt-detail__inner">
-        <button class="bt-back" type="button" aria-label="Zurück zur Übersicht">
-          ← Zur Übersicht
-        </button>
+        <button class="bt-back" type="button" aria-label="Zurück zur Übersicht">← Zur Übersicht</button>
 
-        <div id="bKicker">BADEWANNE</div>
-        <h2 id="bTitle">Titel</h2>
+        <div id="bKicker" class="bt-detail__kicker">BADEWANNE</div>
+        <h2 id="bTitle" class="bt-detail__title">Titel</h2>
 
         <div class="bt-product">
-          <!-- Left: main image + zoom -->
+          <!-- Left -->
           <div class="bt-product__left">
             <div class="bt-mainImage">
               <img id="bMain" src="" alt="">
@@ -291,9 +292,9 @@
             </div>
           </div>
 
-          <!-- Right: thumbs + buy -->
+          <!-- Right -->
           <div class="bt-product__right">
-            <div id="bGallery"></div>
+            <div id="bGallery" class="bt-gallery"></div>
 
             <div class="bt-buy">
               <div class="bt-price">
@@ -312,12 +313,12 @@
                 </ul>
               </div>
 
-              <!-- Formspree: wie Waschbecken -->
+              <!-- Formspree (wie Waschbecken: nur Email + Nachricht) -->
               <form class="bt-inquiry" id="inquiryForm"
                     action="https://formspree.io/f/xbdajpba"
                     method="POST">
 
-                <!-- Formspree Betreff -->
+                <!-- Subject (Formspree akzeptiert _subject) -->
                 <input type="hidden" name="_subject" id="subjectField" value="Anfrage – BoraStone">
                 <input type="hidden" name="source" value="Badewannen (Produktdetail)">
 
@@ -344,7 +345,7 @@
 
   <script src="bad.js"></script>
 
-  <!-- Popup (wie Waschbecken) -->
+  <!-- Popup -->
   <div class="bs-popup" id="bsPopup" hidden aria-live="polite" aria-label="Hinweis">
     <div class="bs-popup__card" role="dialog" aria-modal="true">
       <div class="bs-popup__kicker">BORASTONE</div>
@@ -354,7 +355,7 @@
     </div>
   </div>
 
-  <!-- Formspree Submit + Subject automatisch aus Produkt (wie Waschbecken) -->
+  <!-- Formspree Submit + Popup + Subject automatisch -->
   <script>
     (() => {
       const form = document.getElementById('inquiryForm');
@@ -362,18 +363,14 @@
 
       const popup = document.getElementById('bsPopup');
       const popupClose = document.getElementById('bsPopupClose');
-
       let popupTimer = null;
 
       function openPopup(){
         if (!popup) return;
         popup.hidden = false;
         clearTimeout(popupTimer);
-        popupTimer = setTimeout(() => {
-          popup.hidden = true;
-        }, 5600);
+        popupTimer = setTimeout(() => popup.hidden = true, 5600);
       }
-
       function closePopup(){
         if (!popup) return;
         popup.hidden = true;
@@ -381,9 +378,7 @@
       }
 
       popupClose?.addEventListener('click', closePopup);
-      popup?.addEventListener('click', (e) => {
-        if (e.target === popup) closePopup();
-      });
+      popup?.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && popup && !popup.hidden) closePopup();
       });
@@ -392,9 +387,6 @@
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
-        // verhindert leere submits zuverlässig
-        if (!form.reportValidity()) return;
 
         // Produktname aus Detail-Title ziehen
         const productTitle = (document.getElementById('bTitle')?.textContent || '').trim();
