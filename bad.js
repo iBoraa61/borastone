@@ -1,5 +1,8 @@
 /* bad.js
    Badewannen: Cards (4er-Paging mit Pfeilen) + Detail-Overlay + Zoom
+   - Gallery wird dynamisch gebaut (nur vorhandene Bilder)
+   - Keine Duplikate
+   - Gallery verschwindet, wenn nur 1 Bild vorhanden
 */
 
 (() => {
@@ -42,7 +45,8 @@
   }
 
   function safeSrc(url) {
-    return (url && String(url).trim()) ? url : '';
+    const s = (url && String(url).trim()) ? String(url).trim() : '';
+    return s;
   }
 
   function getKicker(card) {
@@ -52,20 +56,36 @@
     return 'BADEWANNE';
   }
 
+  function getMainFromCard(card) {
+    const ds = card.dataset;
+
+    // 1) data-main
+    if (safeSrc(ds.main)) return safeSrc(ds.main);
+
+    // 2) img aus der Card
+    const img = $('img', $('.card__media', card) || card);
+    const src = img?.getAttribute('src') || '';
+    return safeSrc(src);
+  }
+
   function readThumbsFromCard(card) {
     const ds = card.dataset;
     const thumbs = [];
     for (let i = 1; i <= 6; i++) {
       const key = `thumb${i}`;
-      if (ds[key]) thumbs.push(ds[key]);
+      const val = safeSrc(ds[key]);
+      if (val) thumbs.push(val);
     }
     return thumbs;
   }
 
-  function buildGallery(thumbUrls, mainUrl) {
+  function buildGallery(card) {
     if (!gallery) return;
-    gallery.innerHTML = '';
 
+    const mainUrl = getMainFromCard(card);
+    const thumbUrls = readThumbsFromCard(card);
+
+    // Uniq list (main zuerst)
     const uniq = [];
     const pushUniq = (u) => {
       const s = safeSrc(u);
@@ -76,8 +96,20 @@
     pushUniq(mainUrl);
     thumbUrls.forEach(pushUniq);
 
-    if (!uniq.length) return;
+    // Main Image setzen
+    if (fMainImg && uniq[0]) fMainImg.src = uniq[0];
 
+    // Gallery reset
+    gallery.innerHTML = '';
+
+    // Wenn es nur 1 Bild gibt: Gallery ausblenden
+    if (uniq.length <= 1) {
+      gallery.style.display = 'none';
+      return;
+    }
+    gallery.style.display = '';
+
+    // Buttons bauen (max 6)
     uniq.slice(0, 6).forEach((src, idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -93,11 +125,6 @@
     });
   }
 
-  function setMainImage(src) {
-    const s = safeSrc(src);
-    if (fMainImg && s) fMainImg.src = s;
-  }
-
   function openDetail() {
     detail.hidden = false;
     lockBody(true);
@@ -106,9 +133,16 @@
   }
 
   function closeDetail() {
+    // Zoom sicher schließen
+    if (zoomOverlay && !zoomOverlay.hidden) {
+      zoomOverlay.hidden = true;
+      if (zoomImg) zoomImg.src = '';
+    }
+
     detail.hidden = true;
     lockBody(false);
     gridView.style.pointerEvents = '';
+
     if (lastActiveCard) lastActiveCard.focus?.();
   }
 
@@ -119,10 +153,6 @@
     const title = ds.title || $('.card__title', card)?.textContent || 'Badewanne';
     const price = ds.price || $('.card__price', card)?.textContent || '';
     const desc = ds.desc || '';
-    const main =
-      ds.main ||
-      $('img', $('.card__media', card) || card)?.getAttribute('src') ||
-      '';
 
     setText(fKicker, getKicker(card));
     setText(fTitle, title);
@@ -133,9 +163,7 @@
     setText(fSize, ds.size || '', '—');
     setText(fWeight, ds.weight || '', '—');
 
-    setMainImage(main);
-    buildGallery(readThumbsFromCard(card), main);
-
+    buildGallery(card);
     openDetail();
   }
 
@@ -181,8 +209,8 @@
 
     function update() {
       track.style.transform = `translateX(${-index * 100}%)`;
-      prev.disabled = index === 0;
-      next.disabled = index === pages.length - 1;
+      prev.disabled = index === 0 || pages.length <= 1;
+      next.disabled = index === pages.length - 1 || pages.length <= 1;
     }
 
     prev.addEventListener('click', () => {
@@ -199,7 +227,7 @@
   });
 
   // Back + ESC
-  if (backBtn) backBtn.addEventListener('click', closeDetail);
+  backBtn?.addEventListener('click', closeDetail);
 
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
@@ -207,29 +235,29 @@
     // erst Zoom schließen
     if (zoomOverlay && !zoomOverlay.hidden) {
       zoomOverlay.hidden = true;
+      if (zoomImg) zoomImg.src = '';
       return;
     }
 
     if (!detail.hidden) closeDetail();
   });
 
-  // Gallery thumbs -> swap main
-  if (gallery) {
-    gallery.addEventListener('click', (e) => {
-      const btn = e.target.closest('.bt-thumb');
-      if (!btn) return;
+  // Gallery thumbs -> swap main (delegiert)
+  gallery?.addEventListener('click', (e) => {
+    const btn = e.target.closest('.bt-thumb');
+    if (!btn) return;
 
-      $$('.bt-thumb', gallery).forEach(t => t.classList.remove('is-active'));
-      btn.classList.add('is-active');
+    $$('.bt-thumb', gallery).forEach(t => t.classList.remove('is-active'));
+    btn.classList.add('is-active');
 
-      const src = btn.getAttribute('data-src');
-      if (src) setMainImage(src);
-    });
-  }
+    const src = safeSrc(btn.getAttribute('data-src'));
+    if (src && fMainImg) fMainImg.src = src;
+  });
 
   // Zoom
   function openZoom() {
     if (!zoomOverlay || !zoomImg || !fMainImg) return;
+    if (!safeSrc(fMainImg.src)) return;
     zoomImg.src = fMainImg.src;
     zoomOverlay.hidden = false;
   }
@@ -240,12 +268,10 @@
     if (zoomImg) zoomImg.src = '';
   }
 
-  if (zoomBtn) zoomBtn.addEventListener('click', openZoom);
-  if (zoomClose) zoomClose.addEventListener('click', closeZoom);
+  zoomBtn?.addEventListener('click', openZoom);
+  zoomClose?.addEventListener('click', closeZoom);
 
-  if (zoomOverlay) {
-    zoomOverlay.addEventListener('click', (e) => {
-      if (e.target === zoomOverlay) closeZoom();
-    });
-  }
+  zoomOverlay?.addEventListener('click', (e) => {
+    if (e.target === zoomOverlay) closeZoom();
+  });
 })();
