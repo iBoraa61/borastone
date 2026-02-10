@@ -273,15 +273,5 @@
     });
   }
 
-  // ---------------------------
-  // Optional: Submit (placeholder)
-  // ---------------------------
-  const form = $('#inquiryForm');
-  if (form) {
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      alert('Danke! Ihre Anfrage wurde vorbereitet. (Backend-Anbindung folgt)');
-      form.reset();
-    });
-  }
-})();
+ 
+
