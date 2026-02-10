@@ -79,7 +79,7 @@
         <span class="brand__tagline">LUXURY STONE ATELIER</span>
       </a>
 
-      <!-- Navigation: nur Hauptkategorien -->
+      <!-- Desktop Navigation -->
       <nav class="nav" aria-label="Hauptnavigation">
         <a class="nav__link is-active" href="index.html">STARTSEITE</a>
         <a class="nav__link" href="waschbecken.html">WASCHBECKEN</a>
@@ -87,6 +87,33 @@
         <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
         <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
       </nav>
+
+      <!-- Mobile Burger (sichtbar < 980px via CSS) -->
+      <button class="navToggle" id="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navOverlay">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 7h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+
+      <!-- Mobile Overlay + Drawer -->
+      <div class="navOverlay" id="navOverlay" aria-hidden="true">
+        <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+          <div class="navDrawer__top">
+            <div class="navDrawer__title">Menü</div>
+            <button class="navClose" id="navClose" type="button" aria-label="Menü schließen">✕</button>
+          </div>
+
+          <nav class="navMobile" aria-label="Mobile Navigation Links">
+            <a class="is-active" href="index.html">STARTSEITE</a>
+            <a href="waschbecken.html">WASCHBECKEN</a>
+            <a href="bad.html">BADEWANNEN</a>
+            <a href="fliesen.html">FLIESEN &amp; MEHR</a>
+            <a href="index.html#atelier">ÜBER BORASTONE</a>
+          </nav>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -147,7 +174,6 @@
     </aside>
 
     <div class="container home2__inner">
-
       <!-- Left: About -->
       <div class="home2__left">
         <div class="home2__kicker">ÜBER BORASTONE</div>
@@ -204,7 +230,6 @@
           </form>
         </div>
       </div>
-
     </div>
   </section>
 
@@ -214,7 +239,7 @@
         <a class="footer__link" href="mailto:info@borastone.de">MAIL: INFO@BORASTONE.DE</a>
         <a class="footer__link" href="tel:+491743418313">TELEFON: 0174 3418313</a>
       </div>
-  
+
       <div class="footer__right">
         <a class="footer__link" href="impressum.html">IMPRESSUM</a>
         <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
@@ -232,8 +257,58 @@
     </div>
   </div>
 
-  <!-- JS: Pager 1/2 + Snap Scroll + Hero Animation + Formspree Submit (Popup) -->
+  <!-- JS: Pager 1/2 + Snap Scroll + Hero Animation + Formspree Submit (Popup) + Mobile Nav -->
   <script>
+    // -------------------------
+    // Mobile Nav
+    // -------------------------
+    (() => {
+      const btn = document.getElementById('navToggle');
+      const overlay = document.getElementById('navOverlay');
+      const closeBtn = document.getElementById('navClose');
+      const drawer = overlay?.querySelector('.navDrawer');
+
+      if (!btn || !overlay || !drawer) return;
+
+      function openNav(){
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        btn.setAttribute('aria-expanded', 'true');
+        document.documentElement.style.overflow = 'hidden';
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeNav(){
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        btn.setAttribute('aria-expanded', 'false');
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      }
+
+      btn.addEventListener('click', () => {
+        const isOpen = overlay.classList.contains('is-open');
+        isOpen ? closeNav() : openNav();
+      });
+
+      closeBtn?.addEventListener('click', closeNav);
+
+      // click outside drawer closes
+      overlay.addEventListener('click', (e) => {
+        if (e.target === overlay) closeNav();
+      });
+
+      // ESC closes
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
+      });
+
+      // any link click closes
+      overlay.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', () => closeNav());
+      });
+    })();
+
     // Pager oben (Section 1)
     const step1 = document.querySelector('.pager#pager .pager__num[data-step="1"]');
     const step2 = document.querySelector('.pager#pager .pager__num[data-step="2"]');
@@ -249,15 +324,14 @@
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.target !== sec2) return;
-    
+
         const active = e.isIntersecting;
         setStep(active ? 2 : 1);
-    
+
         // Header nur auf Section 2 abdunkeln
         document.body.classList.toggle('page--home2Active', active);
       });
     }, { threshold: 0.45 });
-
 
     if (sec2) io.observe(sec2);
 
@@ -267,11 +341,15 @@
       if (hero) hero.classList.add('is-animate');
     });
 
-    // Scroll-Snap: ein Scroll = direkt Seite 2
+    // Scroll-Snap: nur Desktop/Trackpad sinnvoll – auf Touch NICHT erzwingen
     (() => {
       const hero = document.querySelector('.hero');
       const section2 = document.querySelector('#atelier');
       if (!hero || !section2) return;
+
+      // ✅ Touch-Geräte: Snap-Scroll nicht erzwingen
+      const isTouch = window.matchMedia('(pointer: coarse)').matches;
+      if (isTouch) return;
 
       let isScrolling = false;
 
@@ -342,7 +420,3 @@
 
 </body>
 </html>
-
-
-
-
