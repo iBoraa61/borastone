@@ -1,15 +1,5 @@
 /* bad.js
    Badewannen: Cards (4er-Paging mit Pfeilen) + Detail-Overlay + Zoom
-   Erwartet HTML wie in deinem neuen bad.html:
-   - .bt-gridView
-   - .cardsWrap[data-carousel="bad"]
-   - .cardsTrack > .cardsPage (je Page 4 Cards)
-   - .cardsArrow--prev / .cardsArrow--next
-   - Detail overlay: .bt-detail (hidden)
-   - Back: .bt-back
-   - Detail IDs: #bKicker #bTitle #bPrice #bDesc #bMaterial #bSize #bWeight #bMain
-   - Gallery container: #bGallery (wird dynamisch gefüllt mit .bt-thumb)
-   - Zoom: .bt-zoom + #zoomOverlay #zoomImg .bt-zoomOverlay__close
 */
 
 (() => {
@@ -112,8 +102,6 @@
     detail.hidden = false;
     lockBody(true);
     detail.scrollTop = 0;
-
-    // Grid nicht anklickbar, solange Detail offen
     gridView.style.pointerEvents = 'none';
   }
 
@@ -121,7 +109,6 @@
     detail.hidden = true;
     lockBody(false);
     gridView.style.pointerEvents = '';
-
     if (lastActiveCard) lastActiveCard.focus?.();
   }
 
@@ -152,10 +139,7 @@
     openDetail();
   }
 
-  // ---------------------------
-  // Hover stacking effect (pro Page, damit es mit Paging sauber läuft)
-  // CSS nutzt: .cardsPage.is-dim .card + .card.is-hover
-  // ---------------------------
+  // Hover stacking effect (pro Page)
   $$('.cardsPage', gridView).forEach((page) => {
     const cards = $$('.card', page);
 
@@ -184,9 +168,7 @@
     });
   });
 
-  // ---------------------------
-  // Carousel paging (4er-Seiten) – wie Waschbecken
-  // ---------------------------
+  // Carousel paging (4er-Seiten)
   $$('.cardsWrap', gridView).forEach((wrap) => {
     const track = $('.cardsTrack', wrap);
     const pages = $$('.cardsPage', wrap);
@@ -216,9 +198,7 @@
     update();
   });
 
-  // ---------------------------
-  // Detail: Back + ESC
-  // ---------------------------
+  // Back + ESC
   if (backBtn) backBtn.addEventListener('click', closeDetail);
 
   document.addEventListener('keydown', (e) => {
@@ -233,9 +213,7 @@
     if (!detail.hidden) closeDetail();
   });
 
-  // ---------------------------
   // Gallery thumbs -> swap main
-  // ---------------------------
   if (gallery) {
     gallery.addEventListener('click', (e) => {
       const btn = e.target.closest('.bt-thumb');
@@ -249,9 +227,7 @@
     });
   }
 
-  // ---------------------------
   // Zoom
-  // ---------------------------
   function openZoom() {
     if (!zoomOverlay || !zoomImg || !fMainImg) return;
     zoomImg.src = fMainImg.src;
@@ -272,7 +248,4 @@
       if (e.target === zoomOverlay) closeZoom();
     });
   }
-
- })();
-
-
+})();
