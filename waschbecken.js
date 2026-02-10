@@ -6,104 +6,91 @@
    - Zoom Overlay
    - Mobile Burger Menu (navToggle + navOverlay + navDrawer)
 // -------------------------
-  // Mobile Burger Menu (navOverlay/navDrawer)
-  // Benötigt HTML:
-  //  - button.navToggle
-  //  - div#navOverlay.navOverlay
-  //  - .navDrawer
-  //  - button.navClose
   // -------------------------
-  (() => {
-    const btn = qs('.navToggle');
-    const overlay = qs('#navOverlay');      // <-- WICHTIG: per ID
-    const drawer = overlay ? qs('.navDrawer', overlay) : null;
-    const closeBtn = overlay ? qs('.navClose', overlay) : null;
-
-    if (!btn || !overlay || !drawer) return;
-
-    const openNav = () => {
-      overlay.classList.add('is-open');
-      document.body.classList.add('is-navOpen');
-      btn.setAttribute('aria-expanded', 'true');
-    };
-
-    const closeNav = () => {
-      overlay.classList.remove('is-open');
-      document.body.classList.remove('is-navOpen');
-      btn.setAttribute('aria-expanded', 'false');
-    };
-
-    // Toggle
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      overlay.classList.contains('is-open') ? closeNav() : openNav();
-    });
-
-    // Close button
-    closeBtn?.addEventListener('click', (e) => {
-      e.preventDefault();
-      closeNav();
-    });
-
-    // Click outside drawer closes
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeNav();
-    });
-
-    // Links schließen Menü
-    qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
-
-    // ESC
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
-    });
-  })();
-
-  // -------------------------
-  // Tabs
-  // -------------------------
-  const tabs = qsa('.wb-tabs__btn');
-  const panels = qsa('.wb-panel');
-
-  function setTab(name) {
-    tabs.forEach((b) => {
-      const active = b.dataset.tab === name;
-      b.classList.toggle('is-active', active);
-      b.setAttribute('aria-selected', active ? 'true' : 'false');
-    });
-    panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === name));
-  }
-
-  setTab('stand');
-  tabs.forEach((btn) => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
-
-  // -------------------------
-  // Hover stacking (nur Desktop / non-touch)
-  // -------------------------
-  function bindHoverStacking(root = document) {
-    if (isTouch) return;
-
-    root.querySelectorAll('.cardsPage').forEach((page) => {
-      const cards = [...page.querySelectorAll('.card')];
-
-      cards.forEach((card) => {
-        if (card.__hoverBound) return;
-        card.__hoverBound = true;
-
-        card.addEventListener('mouseenter', () => {
-          page.classList.add('is-dim');
-          cards.forEach((c) => c.classList.remove('is-hover'));
-          card.classList.add('is-hover');
-        });
-
-        card.addEventListener('mouseleave', () => {
-          card.classList.remove('is-hover');
-          page.classList.remove('is-dim');
-        });
-      });
-    });
-  }
+   // Mobile Nav Toggle (Overlay/Drawer)
+   // -------------------------
+   (() => {
+     const btn = document.querySelector('.navToggle');
+     const overlay = document.getElementById('navOverlay');
+     const closeBtn = overlay?.querySelector('.navClose');
+   
+     if (!btn || !overlay) return;
+   
+     const openNav = () => {
+       overlay.classList.add('is-open');
+       overlay.setAttribute('aria-hidden', 'false');
+       btn.setAttribute('aria-expanded', 'true');
+     };
+   
+     const closeNav = () => {
+       overlay.classList.remove('is-open');
+       overlay.setAttribute('aria-hidden', 'true');
+       btn.setAttribute('aria-expanded', 'false');
+     };
+   
+     btn.addEventListener('click', (e) => {
+       e.preventDefault();
+       e.stopPropagation();
+       overlay.classList.contains('is-open') ? closeNav() : openNav();
+     });
+   
+     closeBtn?.addEventListener('click', closeNav);
+   
+     overlay.addEventListener('click', (e) => {
+       if (e.target === overlay) closeNav();
+     });
+   
+     overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeNav));
+   
+     document.addEventListener('keydown', (e) => {
+       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
+     });
+   })();
+   
+     // -------------------------
+     // Tabs
+     // -------------------------
+     const tabs = qsa('.wb-tabs__btn');
+     const panels = qsa('.wb-panel');
+   
+     function setTab(name) {
+       tabs.forEach((b) => {
+         const active = b.dataset.tab === name;
+         b.classList.toggle('is-active', active);
+         b.setAttribute('aria-selected', active ? 'true' : 'false');
+       });
+       panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === name));
+     }
+   
+     setTab('stand');
+     tabs.forEach((btn) => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
+   
+     // -------------------------
+     // Hover stacking (nur Desktop / non-touch)
+     // -------------------------
+     function bindHoverStacking(root = document) {
+       if (isTouch) return;
+   
+       root.querySelectorAll('.cardsPage').forEach((page) => {
+         const cards = [...page.querySelectorAll('.card')];
+   
+         cards.forEach((card) => {
+           if (card.__hoverBound) return;
+           card.__hoverBound = true;
+   
+           card.addEventListener('mouseenter', () => {
+             page.classList.add('is-dim');
+             cards.forEach((c) => c.classList.remove('is-hover'));
+             card.classList.add('is-hover');
+           });
+   
+           card.addEventListener('mouseleave', () => {
+             card.classList.remove('is-hover');
+             page.classList.remove('is-dim');
+           });
+         });
+       });
+     }
 
   // -------------------------
   // Detail view
@@ -376,4 +363,5 @@
 
   bindHoverStacking(document);
 })();
+
 
