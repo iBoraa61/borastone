@@ -85,25 +85,46 @@
     }
     .bs-popup__close:hover{ transform: translateY(-1px); border-color: rgba(200,176,138,.35); }
   </style>
-</head>
+<header class="header">
+  <div class="container header__inner">
+    <a class="brand" href="index.html" aria-label="BoraStone Startseite">
+      <span class="brand__wordmark">BORASTONE</span>
+      <span class="brand__tagline">LUXURY STONE ATELIER</span>
+    </a>
 
-<body class="page page--washbecken" data-page="waschbecken">
-  <header class="header">
-    <div class="container header__inner">
-      <a class="brand" href="index.html" aria-label="BoraStone Startseite">
-        <span class="brand__wordmark">BORASTONE</span>
-        <span class="brand__tagline">LUXURY STONE ATELIER</span>
-      </a>
+    <!-- Desktop Nav (bleibt wie gehabt) -->
+    <nav class="nav" aria-label="Hauptnavigation">
+      <a class="nav__link" href="index.html">STARTSEITE</a>
+      <a class="nav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
+      <a class="nav__link" href="bad.html">BADEWANNEN</a>
+      <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
+      <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
+    </nav>
 
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a class="nav__link" href="index.html">STARTSEITE</a>
-        <a class="nav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
-        <a class="nav__link" href="bad.html">BADEWANNEN</a>
-        <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
-        <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
-      </nav>
+    <!--  Burger: nur Mobile sichtbar -->
+    <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="mobileNav">
+      <span class="navToggle__lines" aria-hidden="true"></span>
+    </button>
+  </div>
+
+  <!--  Mobile Menü (Overlay) -->
+  <div class="mobileNav" id="mobileNav" hidden>
+    <div class="mobileNav__panel" role="dialog" aria-modal="true" aria-label="Navigation">
+      <div class="mobileNav__head">
+        <div class="mobileNav__title">MENÜ</div>
+        <button class="mobileNav__close" type="button" aria-label="Menü schließen">✕</button>
+      </div>
+
+      <div class="mobileNav__links">
+        <a class="mobileNav__link" href="index.html">STARTSEITE</a>
+        <a class="mobileNav__link is-active" href="waschbecken.html">WASCHBECKEN</a>
+        <a class="mobileNav__link" href="bad.html">BADEWANNEN</a>
+        <a class="mobileNav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
+        <a class="mobileNav__link" href="index.html#atelier">ÜBER BORASTONE</a>
+      </div>
     </div>
-  </header>
+  </div>
+</header>
 
   <main class="wb" role="main" aria-label="Waschbecken">
 
@@ -842,7 +863,7 @@
                 <div class="card__body">
                   <div class="card__kicker">WANDWASCHBECKEN</div>
                   <h3 class="card__title">Wandwaschbecken UMBRA Marble</h3>
-                  <div class="card__price"590,00 €</div>
+                  <div class="card__price">590,00 €</div>
                   <div class="card__hint">Details ansehen</div>
                 </div>
               </article>
@@ -1284,6 +1305,7 @@
 
 </body>
 </html>
+
 
 
 
