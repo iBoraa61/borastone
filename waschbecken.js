@@ -5,92 +5,108 @@
    - Detail View + dynamische Gallery
    - Zoom Overlay
    - Mobile Burger Menu (navToggle + navOverlay + navDrawer)
-// -------------------------
+*/
+
+(() => {
+  // Helpers
+  const qs = (s, el = document) => el.querySelector(s);
+  const qsa = (s, el = document) => [...el.querySelectorAll(s)];
+  const isTouch = matchMedia('(hover: none)').matches;
+
   // -------------------------
-   // Mobile Nav Toggle (Overlay/Drawer)
-   // -------------------------
-   (() => {
-     const btn = document.querySelector('.navToggle');
-     const overlay = document.getElementById('navOverlay');
-     const closeBtn = overlay?.querySelector('.navClose');
-   
-     if (!btn || !overlay) return;
-   
-     const openNav = () => {
-       overlay.classList.add('is-open');
-       overlay.setAttribute('aria-hidden', 'false');
-       btn.setAttribute('aria-expanded', 'true');
-     };
-   
-     const closeNav = () => {
-       overlay.classList.remove('is-open');
-       overlay.setAttribute('aria-hidden', 'true');
-       btn.setAttribute('aria-expanded', 'false');
-     };
-   
-     btn.addEventListener('click', (e) => {
-       e.preventDefault();
-       e.stopPropagation();
-       overlay.classList.contains('is-open') ? closeNav() : openNav();
-     });
-   
-     closeBtn?.addEventListener('click', closeNav);
-   
-     overlay.addEventListener('click', (e) => {
-       if (e.target === overlay) closeNav();
-     });
-   
-     overlay.querySelectorAll('a').forEach((a) => a.addEventListener('click', closeNav));
-   
-     document.addEventListener('keydown', (e) => {
-       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
-     });
-   })();
-   
-     // -------------------------
-     // Tabs
-     // -------------------------
-     const tabs = qsa('.wb-tabs__btn');
-     const panels = qsa('.wb-panel');
-   
-     function setTab(name) {
-       tabs.forEach((b) => {
-         const active = b.dataset.tab === name;
-         b.classList.toggle('is-active', active);
-         b.setAttribute('aria-selected', active ? 'true' : 'false');
-       });
-       panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === name));
-     }
-   
-     setTab('stand');
-     tabs.forEach((btn) => btn.addEventListener('click', () => setTab(btn.dataset.tab)));
-   
-     // -------------------------
-     // Hover stacking (nur Desktop / non-touch)
-     // -------------------------
-     function bindHoverStacking(root = document) {
-       if (isTouch) return;
-   
-       root.querySelectorAll('.cardsPage').forEach((page) => {
-         const cards = [...page.querySelectorAll('.card')];
-   
-         cards.forEach((card) => {
-           if (card.__hoverBound) return;
-           card.__hoverBound = true;
-   
-           card.addEventListener('mouseenter', () => {
-             page.classList.add('is-dim');
-             cards.forEach((c) => c.classList.remove('is-hover'));
-             card.classList.add('is-hover');
-           });
-   
-           card.addEventListener('mouseleave', () => {
-             card.classList.remove('is-hover');
-             page.classList.remove('is-dim');
-           });
-         });
-       });
-     }
+  // Mobile Burger Menu (navOverlay/navDrawer)
+  // Benötigt HTML: .navToggle + .navOverlay + .navDrawer + .navClose
+  // -------------------------
+  (() => {
+    const btn = qs('.navToggle');
+    const overlay = qs('.navOverlay'); // oder: qs('#navOverlay') wenn du willst
+    const closeBtn = qs('.navClose', overlay || document);
+
+    if (!btn || !overlay) return;
+
+    const openNav = () => {
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+    };
+
+    const closeNav = () => {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+    };
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      const isOpen = overlay.classList.contains('is-open');
+      if (isOpen) closeNav();
+      else openNav();
+    });
+
+    closeBtn?.addEventListener('click', closeNav);
+
+    // click outside drawer closes
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeNav();
+    });
+
+    // close when clicking a link in mobile nav
+    qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
+
+    // ESC closes
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
+    });
+  })();
+
+  // -------------------------
+  // Tabs
+  // -------------------------
+  const tabs = qsa('.wb-tabs__btn');
+  const panels = qsa('.wb-panel');
+
+  function setTab(name) {
+    tabs.forEach((b) => {
+      const active = b.dataset.tab === name;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    panels.forEach((p) => p.classList.toggle('is-active', p.dataset.panel === name));
+  }
+
+  // Default
+  setTab('stand');
+
+  tabs.forEach((btn) => {
+    btn.addEventListener('click', () => setTab(btn.dataset.tab));
+  });
+
+  // -------------------------
+  // Hover stacking (nur Desktop / non-touch)
+  // -------------------------
+  function bindHoverStacking(root = document) {
+    if (isTouch) return;
+
+    root.querySelectorAll('.cardsPage').forEach((page) => {
+      const cards = [...page.querySelectorAll('.card')];
+
+      cards.forEach((card) => {
+        if (card.__hoverBound) return;
+        card.__hoverBound = true;
+
+        card.addEventListener('mouseenter', () => {
+          page.classList.add('is-dim');
+          cards.forEach((c) => c.classList.remove('is-hover'));
+          card.classList.add('is-hover');
+        });
+
+        card.addEventListener('mouseleave', () => {
+          card.classList.remove('is-hover');
+          page.classList.remove('is-dim');
+        });
+      });
+    });
+  }
 
   // -------------------------
   // Detail view
@@ -112,7 +128,7 @@
   const gallery = qs('#dGallery');
 
   function safeStr(v) {
-    return (v && String(v).trim()) ? String(v).trim() : '';
+    return v && String(v).trim() ? String(v).trim() : '';
   }
 
   function lockBody(lock) {
@@ -124,7 +140,7 @@
     const ds = card.dataset;
     const out = [];
     for (let i = 1; i <= max; i++) {
-      const v = safeStr(ds[`thumb${i}`]);
+      const v = safeStr(ds[`thumb${i}`]); // ✅ wichtig: backticks
       if (v) out.push(v);
     }
     return out;
@@ -177,8 +193,7 @@
     sFinish.textContent = safeStr(card.dataset.specFinish);
     sLead.textContent = safeStr(card.dataset.specLead);
 
-    const mainSrc = safeStr(card.dataset.main);
-    dMain.src = mainSrc;
+    dMain.src = safeStr(card.dataset.main);
 
     buildGallery(card);
 
@@ -241,7 +256,6 @@
     if (!zoomOverlay || !zoomImg) return;
     zoomOverlay.hidden = true;
     zoomImg.src = '';
-    // Body bleibt gelockt, wenn Detail offen ist
     if (!(detail && !detail.hidden)) lockBody(false);
   }
 
@@ -275,7 +289,6 @@
 
   // -------------------------
   // Carousel pagination: 4 / 2 / 1
-  // WICHTIG: Cards nur aus dem jeweiligen wrap sammeln
   // -------------------------
   function getPerPage() {
     const w = window.innerWidth;
@@ -288,12 +301,13 @@
     const track = qs('.cardsTrack', wrap);
     if (!track) return;
 
-    // NUR cards aus diesem track (nicht aus Detail!)
+    // Cards nur aus diesem Track
     const allCards = [...track.querySelectorAll('.card')];
 
-    // pages platt machen und neu bauen (sicher & einfach)
+    // pages entfernen
     [...track.querySelectorAll('.cardsPage')].forEach((p) => p.remove());
 
+    // neu bauen
     for (let i = 0; i < allCards.length; i += perPage) {
       const page = document.createElement('div');
       page.className = 'cardsPage';
@@ -309,14 +323,13 @@
     if (!track || !prev || !next) return;
 
     let index = 0;
-
     const getPages = () => [...wrap.querySelectorAll('.cardsPage')];
 
     function update() {
       const pages = getPages();
       if (index > pages.length - 1) index = Math.max(0, pages.length - 1);
 
-      track.style.transform = `translateX(${-index * 100}%)`;
+      track.style.transform = `translateX(${-index * 100}%)`; // ✅ backticks
       prev.disabled = index === 0 || pages.length <= 1;
       next.disabled = index === pages.length - 1 || pages.length <= 1;
     }
@@ -333,7 +346,7 @@
 
     // Reset carousel when switching tabs
     const tabName = wrap.getAttribute('data-carousel');
-    const tabBtn = qs(`.wb-tabs__btn[data-tab="${tabName}"]`);
+    const tabBtn = qs(`.wb-tabs__btn[data-tab="${tabName}"]`); // ✅ quotes richtig
     tabBtn?.addEventListener('click', () => {
       index = 0;
       update();
@@ -356,12 +369,10 @@
   }
 
   // Init
-  mobile burgerAll('.cardsWrap').forEach((wrap) => {
+  document.querySelectorAll('.cardsWrap').forEach((wrap) => {
     paginateCarousel(wrap, getPerPage());
     initCarousel(wrap);
   });
 
   bindHoverStacking(document);
 })();
-
-
