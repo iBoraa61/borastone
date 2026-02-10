@@ -16,6 +16,76 @@
   <!-- Global + Page CSS -->
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="bad_style.css" />
+
+  <!-- Popup CSS (wie waschbecken.html) -->
+  <style>
+    .bs-popup{
+      position: fixed;
+      inset: 0;
+      z-index: 5000;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(0,0,0,.62);
+      backdrop-filter: blur(10px);
+    }
+    .bs-popup[hidden]{ display: none; }
+
+    .bs-popup__card{
+      width: min(560px, 92vw);
+      border-radius: 22px;
+      border: 1px solid rgba(200,176,138,.22);
+      background: rgba(0,0,0,.55);
+      box-shadow: 0 30px 90px rgba(0,0,0,.55);
+      padding: 22px 20px;
+      text-align: center;
+    }
+
+    .bs-popup__kicker{
+      font-family: var(--serif);
+      letter-spacing: .22em;
+      font-size: 11px;
+      text-transform: uppercase;
+      color: rgba(200,176,138,.92);
+      margin-bottom: 10px;
+    }
+
+    .bs-popup__title{
+      margin: 0 0 10px;
+      font-family: var(--serif);
+      font-weight: 500;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      font-size: 18px;
+      color: rgba(255,255,255,.92);
+    }
+
+    .bs-popup__text{
+      margin: 0;
+      color: rgba(255,255,255,.78);
+      line-height: 1.65;
+      font-size: 16px;
+    }
+
+    .bs-popup__close{
+      margin-top: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 10px 16px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      color: rgba(255,255,255,.90);
+      font-family: var(--serif);
+      letter-spacing: .18em;
+      font-size: 11px;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform .18s ease, border-color .18s ease;
+    }
+    .bs-popup__close:hover{ transform: translateY(-1px); border-color: rgba(200,176,138,.35); }
+  </style>
 </head>
 
 <body class="page page--bad" data-page="bad">
@@ -242,26 +312,21 @@
                 </ul>
               </div>
 
-              <!-- Formspree (AJAX) -->
+              <!-- Formspree: wie Waschbecken -->
               <form class="bt-inquiry" id="inquiryForm"
                     action="https://formspree.io/f/xbdajpba"
                     method="POST">
 
-                <!-- Subject + Produkt für E-Mail -->
-                <input type="hidden" name="subject" id="btSubject" value="Produktanfrage – BoraStone">
-                <input type="hidden" name="product" id="btProduct" value="">
-
-                <label class="bt-inquiry__label" for="btName">Name</label>
-                <input class="bt-field" type="text" id="btName" name="name" placeholder="Ihr Name" required>
-
-                <label class="bt-inquiry__label" for="btEmail">E-Mail</label>
-                <input class="bt-field" type="email" id="btEmail" name="email" placeholder="Ihre E-Mail" required>
+                <!-- Formspree Betreff -->
+                <input type="hidden" name="_subject" id="subjectField" value="Anfrage – BoraStone">
+                <input type="hidden" name="source" value="Badewannen (Produktdetail)">
 
                 <label class="bt-inquiry__label" for="btMessage">Nachricht</label>
                 <textarea class="bt-field" id="btMessage" name="message" rows="5"
                   placeholder="Schreiben Sie uns kurz Ihr Projekt, Lieferort und Wunsch-Termin…" required></textarea>
 
                 <div class="bt-inquiry__row">
+                  <input class="bt-field" type="email" id="btEmail" name="email" placeholder="Ihre E-Mail" required>
                   <button class="bt-btn bt-btn--gold" type="submit">ANFRAGE SENDEN</button>
                 </div>
 
@@ -279,94 +344,62 @@
 
   <script src="bad.js"></script>
 
-  <!-- Popup -->
-  <div class="bs-popup" id="bsPopup" aria-hidden="true">
-    <div class="bs-popup__inner" role="status" aria-live="polite">
-      <div class="bs-popup__title">Vielen Dank</div>
-      <div class="bs-popup__text">
-        Wir haben Ihre Anfrage erhalten und melden uns bald bei Ihnen.
-      </div>
+  <!-- Popup (wie Waschbecken) -->
+  <div class="bs-popup" id="bsPopup" hidden aria-live="polite" aria-label="Hinweis">
+    <div class="bs-popup__card" role="dialog" aria-modal="true">
+      <div class="bs-popup__kicker">BORASTONE</div>
+      <h3 class="bs-popup__title">Danke für Ihre Anfrage</h3>
+      <p class="bs-popup__text">Wir haben Ihre Nachricht erhalten und melden uns bald bei Ihnen.</p>
+      <button class="bs-popup__close" type="button" id="bsPopupClose">Schließen</button>
     </div>
   </div>
 
-  <style>
-    .bs-popup{
-      position: fixed;
-      inset: 0;
-      z-index: 3000;
-      display: none;
-      place-items: center;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(8px);
-      padding: 20px;
-    }
-    .bs-popup.is-visible{ display: grid; }
-    .bs-popup__inner{
-      width: min(520px, 92vw);
-      border-radius: 18px;
-      border: 1px solid rgba(200,176,138,.25);
-      background: rgba(0,0,0,.70);
-      box-shadow: 0 28px 90px rgba(0,0,0,.55);
-      padding: 18px 18px 16px;
-      text-align: center;
-    }
-    .bs-popup__title{
-      font-family: "Cinzel", ui-serif, Georgia, "Times New Roman", serif;
-      letter-spacing: .12em;
-      text-transform: uppercase;
-      font-size: 16px;
-      color: rgba(255,255,255,.92);
-      margin-bottom: 10px;
-    }
-    .bs-popup__text{
-      color: rgba(255,255,255,.75);
-      font-size: 15px;
-      line-height: 1.55;
-    }
-  </style>
-
+  <!-- Formspree Submit + Subject automatisch aus Produkt (wie Waschbecken) -->
   <script>
-    // Popup helper
-    function showPopup(){
-      const popup = document.getElementById('bsPopup');
-      if (!popup) return;
-      popup.classList.add('is-visible');
-      popup.setAttribute('aria-hidden', 'false');
-      setTimeout(() => {
-        popup.classList.remove('is-visible');
-        popup.setAttribute('aria-hidden', 'true');
-      }, 5600);
-    }
-
-    // Produktname aus Detail-Titel ziehen + Subject setzen
-    function updateBadSubject(){
-      const titleEl = document.getElementById('bTitle');
-      const product = (titleEl && titleEl.textContent || '').trim();
-      const subj = document.getElementById('btSubject');
-      const prod = document.getElementById('btProduct');
-
-      if (prod) prod.value = product || '';
-      if (subj) subj.value = product ? (`Produktanfrage: ${product} – BoraStone`) : 'Produktanfrage – BoraStone';
-    }
-
-    // Wenn Detail eingeblendet wird: Subject aktualisieren
-    const detail = document.querySelector('.bt-detail');
-    if (detail) {
-      const obs = new MutationObserver(() => {
-        if (!detail.hidden) updateBadSubject();
-      });
-      obs.observe(detail, { attributes: true, attributeFilter: ['hidden'] });
-    }
-
-    // Formspree AJAX Submit (keine Backend-Seite)
     (() => {
       const form = document.getElementById('inquiryForm');
+      const subjectField = document.getElementById('subjectField');
+
+      const popup = document.getElementById('bsPopup');
+      const popupClose = document.getElementById('bsPopupClose');
+
+      let popupTimer = null;
+
+      function openPopup(){
+        if (!popup) return;
+        popup.hidden = false;
+        clearTimeout(popupTimer);
+        popupTimer = setTimeout(() => {
+          popup.hidden = true;
+        }, 5600);
+      }
+
+      function closePopup(){
+        if (!popup) return;
+        popup.hidden = true;
+        clearTimeout(popupTimer);
+      }
+
+      popupClose?.addEventListener('click', closePopup);
+      popup?.addEventListener('click', (e) => {
+        if (e.target === popup) closePopup();
+      });
+      window.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && popup && !popup.hidden) closePopup();
+      });
+
       if (!form) return;
 
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        updateBadSubject();
+        // verhindert leere submits zuverlässig
+        if (!form.reportValidity()) return;
+
+        // Produktname aus Detail-Title ziehen
+        const productTitle = (document.getElementById('bTitle')?.textContent || '').trim();
+        const subject = productTitle ? `Anfrage: ${productTitle}` : 'Produktanfrage – BoraStone';
+        if (subjectField) subjectField.value = subject;
 
         try {
           const data = new FormData(form);
@@ -376,10 +409,14 @@
             headers: { 'Accept': 'application/json' }
           });
 
-          if (res.ok) form.reset();
-          showPopup();
+          if (res.ok) {
+            form.reset();
+            openPopup();
+          } else {
+            openPopup();
+          }
         } catch (err) {
-          showPopup();
+          openPopup();
         }
       });
     })();
@@ -387,4 +424,3 @@
 
 </body>
 </html>
-
