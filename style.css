@@ -962,67 +962,142 @@ img{ max-width: 100%; display: block; }
 }
 
 
-/* =========================
-   Burger Button (einheitlich)
-========================= */
-.navToggle{
-  display: none;              /* Desktop aus */
-  margin-left: auto;
+/* =========================================================
+   MOBILE NAV (Burger + Overlay)
+   -> Desktop bleibt unverändert
+   -> Aktiv nur <= 980px
+========================================================= */
 
+/* Burger Button (Desktop aus) */
+.navToggle{
+  display: none;
+  margin-left: auto;
   width: 46px;
   height: 46px;
   border-radius: 999px;
   border: 1px solid rgba(200,176,138,.22);
   background: rgba(0,0,0,.28);
   backdrop-filter: blur(10px);
-
   color: rgba(255,255,255,.92);
   cursor: pointer;
   pointer-events: auto;
-
-  place-items: center;
-  transition: transform .18s ease,
-              border-color .18s ease,
-              background .18s ease;
+  align-items: center;
+  justify-content: center;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
 }
-
 .navToggle:hover{
   transform: translateY(-1px);
   border-color: rgba(200,176,138,.35);
   background: rgba(0,0,0,.34);
 }
 
-/* Linien im Button */
+/* Burger lines (nicht zu dick) */
 .navToggle__lines{
   position: relative;
-  width: 18px;        /* <- “premium” Größe */
-  height: 2px;        /* <- nicht zu dünn / nicht zu dick */
+  width: 18px;
+  height: 1.6px;
   background: currentColor;
   border-radius: 2px;
   display: block;
 }
-
 .navToggle__lines::before,
 .navToggle__lines::after{
   content:"";
   position: absolute;
   left: 0;
   width: 100%;
-  height: 2px;
+  height: 1.6px;
   background: currentColor;
   border-radius: 2px;
 }
+.navToggle__lines::before{ top: -5px; }
+.navToggle__lines::after{  top:  5px; }
 
-.navToggle__lines::before{ top: -6px; }
-.navToggle__lines::after{  top:  6px; }
+/* Overlay: IMMER hidden bis is-open */
+.navOverlay{
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: none;            /* ✅ wichtig */
+  pointer-events: auto;
+}
+.navOverlay.is-open{ display: block; }
 
-/* Aktiv nur Tablet/Mobile */
-@media (max-width: 980px){
-  .navToggle{ display: grid; }
+/* Drawer */
+.navDrawer{
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: min(360px, 86vw);
+  background: rgba(7,7,7,.92);
+  border-left: 1px solid rgba(200,176,138,.14);
+  padding: 18px 18px 22px;
+  transform: translateX(102%);
+  transition: transform .22s ease;
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: 14px;
+}
+.navOverlay.is-open .navDrawer{ transform: translateX(0); }
+
+/* Drawer header */
+.navDrawer__top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.navDrawer__title{
+  font-family: var(--serif);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255,255,255,.80);
+}
+.navClose{
+  width: 44px;
+  height: 44px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.14);
+  background: rgba(0,0,0,.18);
+  color: rgba(255,255,255,.92);
+  cursor: pointer;
 }
 
+/* Links */
+.navMobile{
+  display: grid;
+  gap: 10px;
+  padding-top: 6px;
+}
+.navMobile a{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.10);
+  background: rgba(0,0,0,.20);
+  font-family: var(--serif);
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(255,255,255,.86);
+}
+.navMobile a.is-active{
+  border-color: rgba(200,176,138,.35);
+  background: rgba(200,176,138,.10);
+}
 
-
+/* Aktiv nur <= 980px */
+@media (max-width: 980px){
+  .nav{ display: none; }
+  .navToggle{ display: inline-flex; }
+}
 
 
 
