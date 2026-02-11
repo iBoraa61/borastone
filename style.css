@@ -769,7 +769,7 @@ img{ max-width: 100%; display: block; }
   }
 
   .hero__content{
-    padding: 50px 0 18px;        /* <-- DAS schiebt den Text nach unten */
+    padding: 150px 0 18px;        /* <-- DAS schiebt den Text nach unten */
     margin-top: 0;
   }
 
@@ -905,4 +905,5 @@ img{ max-width: 100%; display: block; }
 }
 .navToggle__lines::before{ top: -6px; }
 .navToggle__lines::after{ top: 6px; }
+
 
