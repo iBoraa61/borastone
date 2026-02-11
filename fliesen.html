@@ -17,6 +17,7 @@
 </head>
 
 <body class="page page--fliesen" data-page="fliesen">
+
   <header class="header">
     <div class="container header__inner">
       <a class="brand" href="index.html" aria-label="BoraStone Startseite">
@@ -32,29 +33,28 @@
         <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
       </nav>
 
-      <!-- Burger wie auf den anderen Seiten -->
-      <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
+      <!-- Burger -->
+      <button class="navToggle" id="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
         <span class="navToggle__lines" aria-hidden="true"></span>
       </button>
+    </div>
 
-      <!--  Overlay/Drawer -->
-      <div class="navOverlay" id="navOverlay" aria-hidden="true">
-        <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Navigation">
-          <div class="navDrawer__top">
-            <div class="navDrawer__title">Menü</div>
-            <button class="navClose" type="button" aria-label="Menü schließen">✕</button>
-          </div>
-
-          <nav class="navMobile" aria-label="Mobile Navigation">
-            <a href="index.html">STARTSEITE</a>
-            <a href="waschbecken.html">WASCHBECKEN</a>
-            <a href="bad.html">BADEWANNEN</a>
-            <a class="is-active" href="fliesen.html">FLIESEN &amp; MEHR</a>
-            <a href="index.html#atelier">ÜBER BORASTONE</a>
-          </nav>
+    <!-- Overlay muss OUTSIDE von header__inner sein -->
+    <div class="navOverlay" id="navOverlay" aria-hidden="true">
+      <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Navigation">
+        <div class="navDrawer__top">
+          <div class="navDrawer__title">Menü</div>
+          <button class="navClose" id="navClose" type="button" aria-label="Menü schließen">✕</button>
         </div>
-      </div>
 
+        <nav class="navMobile" aria-label="Mobile Navigation">
+          <a href="index.html">STARTSEITE</a>
+          <a href="waschbecken.html">WASCHBECKEN</a>
+          <a href="bad.html">BADEWANNEN</a>
+          <a class="is-active" href="fliesen.html">FLIESEN &amp; MEHR</a>
+          <a href="index.html#atelier">ÜBER BORASTONE</a>
+        </nav>
+      </div>
     </div>
   </header>
 
@@ -71,47 +71,7 @@
     </div>
   </main>
 
-  <!-- Mobile Nav JS (wie bei Waschbecken) -->
-  <script>
-    (() => {
-      const qs = (s, el = document) => el.querySelector(s);
-      const qsa = (s, el = document) => [...el.querySelectorAll(s)];
-
-      const btn = qs('.navToggle');
-      const overlay = qs('#navOverlay');
-      const closeBtn = qs('.navClose', overlay || document);
-
-      if (!btn || !overlay) return;
-
-      const openNav = () => {
-        overlay.classList.add('is-open');
-        overlay.setAttribute('aria-hidden', 'false');
-        btn.setAttribute('aria-expanded', 'true');
-      };
-
-      const closeNav = () => {
-        overlay.classList.remove('is-open');
-        overlay.setAttribute('aria-hidden', 'true');
-        btn.setAttribute('aria-expanded', 'false');
-      };
-
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        overlay.classList.contains('is-open') ? closeNav() : openNav();
-      });
-
-      closeBtn?.addEventListener('click', closeNav);
-
-      overlay.addEventListener('click', (e) => {
-        if (e.target === overlay) closeNav();
-      });
-
-      qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
-
-      document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
-      });
-    })();
-  </script>
+  <!-- Externes JS -->
+  <script src="fliesen.js"></script>
 </body>
 </html>
