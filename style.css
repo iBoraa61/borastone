@@ -762,31 +762,29 @@ img{ max-width: 100%; display: block; }
     display: none !important;
   }
 
-  /* Hero Layout: NICHT ganz oben kleben, aber höher als Desktop-Mitte */
+  /* Hero Layout: Text etwas weiter NACH UNTEN */
   .hero{
-    padding-top: 112px;         /* lässt Platz für Header */
-    place-items: start center;  /* Text sitzt oben-ish, nicht mittig */
+    padding-top: 116px;          /* Platz unter Header */
+    place-items: start center;
   }
 
   .hero__content{
-    padding: 44px 0 18px;       /* weiter runter als vorher */
-    margin-top: 4px;
+    padding: 76px 0 18px;        /* <-- DAS schiebt den Text nach unten */
+    margin-top: 0;
   }
 
-  /* Titel kleiner (Subtitle bleibt angenehm) */
+  /* Titel etwas kleiner (Subtitle bleibt gut) */
   .hero__title{
     margin-bottom: 12px;
-    font-size: clamp(20px, 7.0vw, 34px);
-    line-height: 1.04;
+    font-size: clamp(20px, 6.6vw, 34px);
+    line-height: 1.05;
   }
 
-  /* Subtitle: Größe wie vorher gut – nur minimal stabilisiert */
   .hero__subtitle{
     font-size: 15px;
     line-height: 1.5;
   }
 }
-
 /* =========================
    BUTTONS (Premium, unified)
 ========================= */
@@ -864,6 +862,46 @@ img{ max-width: 100%; display: block; }
   );
 }
 
-.navToggle svg{
-  display:block;
+/* =========================================================
+   Burger Icon Fix (SVG + Fallback Lines)
+========================================================= */
+
+/* 1) SVG sichtbar erzwingen (falls Browser/Reset es "killed") */
+.navToggle svg,
+.navToggle__icon{
+  display: block !important;
+  width: 18px;
+  height: 18px;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
+
+/* 2) Striche wirklich zeichnen */
+.navToggle svg path{
+  stroke: currentColor !important;
+  stroke-width: 1.8 !important;
+  stroke-linecap: round !important;
+  opacity: 1 !important;
+}
+
+/* 3) Falls du die span-lines Variante nutzt */
+.navToggle__lines{
+  position: relative;
+  width: 18px;
+  height: 2px;
+  background: currentColor;
+  border-radius: 999px;
+  display: block;
+}
+.navToggle__lines::before,
+.navToggle__lines::after{
+  content:"";
+  position:absolute;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  border-radius: 999px;
+}
+.navToggle__lines::before{ top: -6px; }
+.navToggle__lines::after{ top: 6px; }
