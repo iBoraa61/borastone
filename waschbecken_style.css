@@ -3,13 +3,16 @@
    (depends on global style.css variables)
 ========================= */
 
+/* =========================
+   Page background (FIX: wie Badewannen, Mobile-safe)
+========================= */
 .page--washbecken{
   height: 100%;
   overflow: hidden;
-  background: #00000000;
-  background-attachment: fixed;
 
-  /* full-page background image */
+  /* FIX: nicht background: transparent; (shorthand killt image in manchen Fällen) */
+  background-color: #070707;
+
   background-image:
     radial-gradient(1200px 700px at 30% 0%, rgba(0,0,0,.35), rgba(0,0,0,.70)),
     linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.78)),
@@ -18,7 +21,10 @@
   background-position: center;
   background-repeat: no-repeat;
 
-  /* Fallbacks, falls global nicht gesetzt */
+  /* FIX: "fixed" macht auf iOS/Safari oft Probleme */
+  background-attachment: scroll;
+
+  /* Tokens */
   --card-stroke: rgba(200,176,138,.22);
   --card-beige-2: rgba(46, 36, 28, .72);
   --card-beige-3: rgba(22, 18, 14, .86);
@@ -582,7 +588,11 @@
 */
 @media (max-width: 640px){
   /* Seite nicht "einsperren" (sonst fühlt sich Navigation tot an) */
-  .page--washbecken{ overflow: auto; }
+  .page--washbecken{
+    overflow: auto;
+    background-attachment: scroll; /* extra safe */
+    background-position: center;
+  }
 
   .wb{ height: auto; min-height: 100vh; padding-top: 106px; }
 
@@ -622,5 +632,3 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
-
-
