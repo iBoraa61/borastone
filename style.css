@@ -1124,8 +1124,8 @@ img{ max-width: 100%; display: block; }
 
 .navToggle__lines{
   position: relative;
-  width: 22px;
-  height: 2px;
+  width: 18px;
+  height: 1.6px;
   background: currentColor;   /* WICHTIG: macht die Linie sichtbar */
   border-radius: 2px;
   display: block;
@@ -1137,18 +1137,19 @@ img{ max-width: 100%; display: block; }
   position: absolute;
   left: 0;
   width: 100%;
-  height: 2px;
+  height: 1.6px;
   background: currentColor;   /* WICHTIG */
   border-radius: 2px;
 }
 
-.navToggle__lines::before{ top: -7px; }
-.navToggle__lines::after{  top:  7px; }
+.navToggle__lines::before{ top: -6px; }
+.navToggle__lines::after{  top:  6px; }
 
 /* Mobile sichtbar */
 @media (max-width: 980px){
   .navToggle{ display: grid; }
 }
+
 
 
 
