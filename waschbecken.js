@@ -1,10 +1,10 @@
-/* waschbecken.js
+/* waschbecken.js (angepasst / einheitlich)
+   - Mobile Burger Menu: IDENTISCH zur bad.js Logik (class-basiert, robust)
    - Tabs (Stand/Wand)
    - Paging Carousel (prev/next) + responsive (4/2/1)
    - Hover stacking (nur Desktop)
-   - Detail View + dynamische Gallery
+   - Detail View + dynamische Gallery (uniq thumbs)
    - Zoom Overlay
-   - Mobile Burger Menu (navToggle + navOverlay + navDrawer)
 */
 
 (() => {
@@ -13,55 +13,63 @@
   const qsa = (s, el = document) => [...el.querySelectorAll(s)];
   const isTouch = matchMedia('(hover: none)').matches;
 
-   // -------------------------
-   // Mobile Nav (wie Startseite)
-   // -------------------------
-   (() => {
-     const btn = document.getElementById('navToggle');
-     const overlay = document.getElementById('navOverlay');
-     const closeBtn = document.getElementById('navClose');
-     const drawer = overlay?.querySelector('.navDrawer');
-   
-     if (!btn || !overlay || !drawer) return;
-   
-     function openNav(){
-       overlay.classList.add('is-open');
-       overlay.setAttribute('aria-hidden', 'false');
-       btn.setAttribute('aria-expanded', 'true');
-       document.documentElement.style.overflow = 'hidden';
-       document.body.style.overflow = 'hidden';
-     }
-   
-     function closeNav(){
-       overlay.classList.remove('is-open');
-       overlay.setAttribute('aria-hidden', 'true');
-       btn.setAttribute('aria-expanded', 'false');
-       document.documentElement.style.overflow = '';
-       document.body.style.overflow = '';
-     }
-   
-     btn.addEventListener('click', () => {
-       const isOpen = overlay.classList.contains('is-open');
-       isOpen ? closeNav() : openNav();
-     });
-   
-     closeBtn?.addEventListener('click', closeNav);
-   
-     // click outside drawer closes
-     overlay.addEventListener('click', (e) => {
-       if (e.target === overlay) closeNav();
-     });
-   
-     // ESC closes
-     window.addEventListener('keydown', (e) => {
-       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
-     });
-   
-     // any link click closes
-     overlay.querySelectorAll('a').forEach(a => {
-       a.addEventListener('click', () => closeNav());
-     });
-   })();
+  // -------------------------
+  // Mobile Burger Menu (EINHEITLICH wie bad.js)
+  // Benötigt HTML: .navToggle + #navOverlay (oder .navOverlay) + .navClose
+  // Empfehlung im HTML: <div class="navOverlay" id="navOverlay" hidden ...>
+  // + CSS: .navOverlay[hidden]{ display:none; }
+  // -------------------------
+  (() => {
+    const btn = qs('.navToggle');
+    const overlay = qs('#navOverlay') || qs('.navOverlay');
+    const closeBtn = qs('.navClose', overlay || document);
+
+    if (!btn || !overlay) return;
+
+    const openNav = () => {
+      // wenn du hidden nutzt:
+      overlay.hidden = false;
+      overlay.classList.add('is-open');
+      overlay.setAttribute('aria-hidden', 'false');
+      btn.setAttribute('aria-expanded', 'true');
+      document.documentElement.style.overflow = 'hidden';
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeNav = () => {
+      overlay.classList.remove('is-open');
+      overlay.setAttribute('aria-hidden', 'true');
+      btn.setAttribute('aria-expanded', 'false');
+      document.documentElement.style.overflow = '';
+      document.body.style.overflow = '';
+      // wenn du hidden nutzt:
+      overlay.hidden = true;
+    };
+
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      overlay.classList.contains('is-open') ? closeNav() : openNav();
+    });
+
+    closeBtn?.addEventListener('click', closeNav);
+
+    overlay.addEventListener('click', (e) => {
+      if (e.target === overlay) closeNav();
+    });
+
+    // close when clicking a link in mobile nav
+    qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
+
+    // ESC closes
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
+    });
+
+    // Wenn man von Mobile -> Desktop resized: Menü zu (verhindert "hängendes" Overlay)
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 980 && overlay.classList.contains('is-open')) closeNav();
+    });
+  })();
 
   // -------------------------
   // Tabs
@@ -131,6 +139,14 @@
 
   const gallery = qs('#dGallery');
 
+  // Zoom overlay
+  const zoomOverlay = qs('#zoomOverlay');
+  const zoomImg = qs('#zoomImg');
+  const zoomBtn = qs('.wb-zoom');
+  const zoomClose = qs('.wb-zoomOverlay__close');
+
+  let lastActiveCard = null;
+
   function safeStr(v) {
     return v && String(v).trim() ? String(v).trim() : '';
   }
@@ -140,11 +156,26 @@
     document.body.style.overflow = lock ? 'hidden' : '';
   }
 
+  function setText(el, value, fallback = '') {
+    if (!el) return;
+    const v = safeStr(value);
+    el.textContent = v ? v : fallback;
+  }
+
+  function getMainFromCard(card) {
+    const ds = card.dataset;
+    const main = safeStr(ds.main);
+    if (main) return main;
+
+    const img = qs('img', qs('.card__media', card) || card);
+    return safeStr(img?.getAttribute('src'));
+  }
+
   function getThumbs(card, max = 6) {
     const ds = card.dataset;
     const out = [];
     for (let i = 1; i <= max; i++) {
-      const v = safeStr(ds[`thumb${i}`]); // ✅ wichtig: backticks
+      const v = safeStr(ds[`thumb${i}`]);
       if (v) out.push(v);
     }
     return out;
@@ -154,7 +185,7 @@
     if (!gallery) return;
     gallery.innerHTML = '';
 
-    const mainSrc = safeStr(card.dataset.main);
+    const mainSrc = getMainFromCard(card);
     const thumbs = getThumbs(card, 6);
 
     const uniq = [];
@@ -167,9 +198,17 @@
     pushUniq(mainSrc);
     thumbs.forEach(pushUniq);
 
-    if (uniq.length <= 1) return;
+    // main setzen
+    if (dMain && uniq[0]) dMain.src = uniq[0];
 
-    uniq.forEach((src, idx) => {
+    // wenn nur 1 bild -> gallery aus
+    if (uniq.length <= 1) {
+      gallery.style.display = 'none';
+      return;
+    }
+    gallery.style.display = '';
+
+    uniq.slice(0, 6).forEach((src, idx) => {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'wb-thumb' + (idx === 0 ? ' is-active' : '');
@@ -186,18 +225,19 @@
 
   function openDetail(card) {
     if (!detail) return;
+    lastActiveCard = card;
 
-    dType.textContent = safeStr(card.dataset.type);
-    dTitle.textContent = safeStr(card.dataset.title);
-    dPrice.textContent = safeStr(card.dataset.price);
-    dDesc.textContent = safeStr(card.dataset.desc);
+    const ds = card.dataset;
 
-    sMaterial.textContent = safeStr(card.dataset.specMaterial);
-    sSize.textContent = safeStr(card.dataset.specSize);
-    sFinish.textContent = safeStr(card.dataset.specFinish);
-    sLead.textContent = safeStr(card.dataset.specLead);
+    setText(dType, ds.type, 'WASCHBECKEN');
+    setText(dTitle, ds.title, 'Produkt');
+    setText(dPrice, ds.price, '');
+    setText(dDesc, ds.desc, '');
 
-    dMain.src = safeStr(card.dataset.main);
+    setText(sMaterial, ds.specMaterial, '—');
+    setText(sSize, ds.specSize, '—');
+    setText(sFinish, ds.specFinish, '—');
+    setText(sLead, ds.specLead, '—');
 
     buildGallery(card);
 
@@ -210,13 +250,14 @@
 
   function closeDetail() {
     if (!detail) return;
-    detail.hidden = true;
 
-    // falls Zoom offen war
+    // Zoom schließen falls offen
     if (zoomOverlay && !zoomOverlay.hidden) closeZoom();
 
+    detail.hidden = true;
     lockBody(false);
     qsa('.wb-gridView').forEach((v) => (v.style.pointerEvents = ''));
+    lastActiveCard?.focus?.();
   }
 
   // Card click (nur innerhalb gridView öffnen)
@@ -229,29 +270,26 @@
 
   backBtn?.addEventListener('click', closeDetail);
 
-  // Thumb click
+  // Thumb click -> swap main
   gallery?.addEventListener('click', (e) => {
     const btn = e.target.closest('.wb-thumb');
     if (!btn) return;
 
-    [...gallery.querySelectorAll('.wb-thumb')].forEach((b) => b.classList.remove('is-active'));
+    qsa('.wb-thumb', gallery).forEach((b) => b.classList.remove('is-active'));
     btn.classList.add('is-active');
 
     const src = safeStr(btn.dataset.src);
-    if (src) dMain.src = src;
+    if (src && dMain) dMain.src = src;
   });
 
   // -------------------------
   // Zoom overlay
   // -------------------------
-  const zoomOverlay = qs('#zoomOverlay');
-  const zoomImg = qs('#zoomImg');
-  const zoomBtn = qs('.wb-zoom');
-  const zoomClose = qs('.wb-zoomOverlay__close');
-
   function openZoom() {
-    if (!zoomOverlay || !zoomImg) return;
-    zoomImg.src = dMain?.src || '';
+    if (!zoomOverlay || !zoomImg || !dMain) return;
+    const src = safeStr(dMain.src);
+    if (!src) return;
+    zoomImg.src = src;
     zoomOverlay.hidden = false;
     lockBody(true);
   }
@@ -260,6 +298,7 @@
     if (!zoomOverlay || !zoomImg) return;
     zoomOverlay.hidden = true;
     zoomImg.src = '';
+    // wenn detail offen bleibt body locked – sonst freigeben
     if (!(detail && !detail.hidden)) lockBody(false);
   }
 
@@ -277,21 +316,6 @@
   });
 
   // -------------------------
-  // Wheel-blocker NUR Desktop
-  // -------------------------
-  if (!isTouch) {
-    window.addEventListener(
-      'wheel',
-      (e) => {
-        const inCards = e.target.closest('.cardsWrap');
-        const inDetail = e.target.closest('.wb-detail');
-        if (!inCards && !inDetail) e.preventDefault();
-      },
-      { passive: false }
-    );
-  }
-
-  // -------------------------
   // Carousel pagination: 4 / 2 / 1
   // -------------------------
   function getPerPage() {
@@ -305,10 +329,10 @@
     const track = qs('.cardsTrack', wrap);
     if (!track) return;
 
-    // Cards nur aus diesem Track
+    // alle Cards aus Track holen
     const allCards = [...track.querySelectorAll('.card')];
 
-    // pages entfernen
+    // alte pages entfernen
     [...track.querySelectorAll('.cardsPage')].forEach((p) => p.remove());
 
     // neu bauen
@@ -333,7 +357,7 @@
       const pages = getPages();
       if (index > pages.length - 1) index = Math.max(0, pages.length - 1);
 
-      track.style.transform = `translateX(${-index * 100}%)`; // ✅ backticks
+      track.style.transform = `translateX(${-index * 100}%)`;
       prev.disabled = index === 0 || pages.length <= 1;
       next.disabled = index === pages.length - 1 || pages.length <= 1;
     }
@@ -350,7 +374,7 @@
 
     // Reset carousel when switching tabs
     const tabName = wrap.getAttribute('data-carousel');
-    const tabBtn = qs(`.wb-tabs__btn[data-tab="${tabName}"]`); // ✅ quotes richtig
+    const tabBtn = qs(`.wb-tabs__btn[data-tab="${tabName}"]`);
     tabBtn?.addEventListener('click', () => {
       index = 0;
       update();
@@ -380,4 +404,3 @@
 
   bindHoverStacking(document);
 })();
-
