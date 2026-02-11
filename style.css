@@ -141,8 +141,8 @@ img{ max-width: 100%; display: block; }
       linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.38)),
       url("assets/images/hero2.png") center 55% / cover no-repeat;
   }
-
 }
+
 /* softer vignette */
 .hero::before{
   content:"";
@@ -197,7 +197,7 @@ img{ max-width: 100%; display: block; }
 .side--left{ left: 0; }
 .side--right{ right: 0; }
 
-/* Phone: bigger, centered vertically like pager */
+/* Phone */
 .side__phone{
   position: absolute;
   left: var(--side-offset);
@@ -206,7 +206,6 @@ img{ max-width: 100%; display: block; }
   pointer-events: auto;
 }
 
-/* Vertical one-line, bottom -> top */
 .phone{
   display: inline-flex;
   align-items: center;
@@ -217,13 +216,12 @@ img{ max-width: 100%; display: block; }
   transform: rotate(180deg);
 
   font-family: var(--serif);
-  font-size: 16px;          /* bigger */
+  font-size: 16px;
   letter-spacing: .18em;
   color: var(--gold);
   opacity: .96;
 }
 
-/* Premium icon container (bigger) */
 .phone__icon{
   width: 44px;
   height: 44px;
@@ -239,14 +237,12 @@ img{ max-width: 100%; display: block; }
 
 .phone__icon svg{
   display: block;
-  transform: rotate(180deg); /* counter-rotate so icon stays upright */
+  transform: rotate(180deg);
 }
 
-.phone__number{
-  letter-spacing: .16em;
-}
+.phone__number{ letter-spacing: .16em; }
 
-/* Right pager: same vertical center + same side offset */
+/* Right pager */
 .pager{
   position: absolute;
   right: var(--side-offset);
@@ -310,12 +306,10 @@ img{ max-width: 100%; display: block; }
     height: 40px;
   }
 
-  .pager{
-    gap: 12px;
-  }
+  .pager{ gap: 12px; }
 }
 
-/* Optional: shift image down slightly on ultrawide screens */
+/* Optional: ultrawide */
 @media (min-width: 1600px){
   .hero{
     background:
@@ -324,7 +318,6 @@ img{ max-width: 100%; display: block; }
       url("assets/images/hero2.png") center 68% / cover no-repeat;
   }
 }
-
 
 /* =========================
    Sections
@@ -335,9 +328,7 @@ img{ max-width: 100%; display: block; }
   background: #070707;
 }
 
-.section__head{
-  margin-bottom: 34px;
-}
+.section__head{ margin-bottom: 34px; }
 
 .section__title{
   margin: 0 0 10px;
@@ -355,348 +346,6 @@ img{ max-width: 100%; display: block; }
   font-size: 18px;
   line-height: 1.6;
   max-width: 70ch;
-}
-
-/* Subnav (Stand/Wand) */
-.subnav{
-  display: inline-flex;
-  gap: 14px;
-  padding: 10px 12px;
-  border: 1px solid rgba(200,176,138,.25);
-  border-radius: 999px;
-  background: rgba(0,0,0,.25);
-  backdrop-filter: blur(8px);
-}
-
-.subnav__link{
-  font-family: var(--serif);
-  font-size: 12px;
-  letter-spacing: .20em;
-  text-transform: uppercase;
-  padding: 10px 14px;
-  border-radius: 999px;
-  color: rgba(255,255,255,.78);
-  transition: background .2s ease, color .2s ease, border-color .2s ease;
-  border: 1px solid transparent;
-}
-
-.subnav__link:hover{
-  color: rgba(255,255,255,.92);
-}
-
-.subnav__link.is-active{
-  color: rgba(255,255,255,.92);
-  border-color: rgba(200,176,138,.35);
-  background: rgba(200,176,138,.10);
-}
-
-/* Give anchors some breathing room under fixed header */
-#standwaschbecken, #wandwaschbecken{
-  scroll-margin-top: 130px;
-}
-
-/* =========================
-   Product layout
-========================= */
-.product{
-  display: grid;
-  grid-template-columns: 1.25fr 1fr;
-  gap: 34px;
-  padding: 34px;
-  border-radius: 22px;
-  border: 1px solid rgba(200,176,138,.18);
-  background: rgba(0,0,0,.25);
-  box-shadow: 0 30px 80px rgba(0,0,0,.45);
-  backdrop-filter: blur(10px);
-  margin-bottom: 26px;
-}
-
-.product--alt{
-  margin-top: 28px;
-}
-
-.product__meta{
-  margin-bottom: 18px;
-}
-
-.product__kicker{
-  font-family: var(--serif);
-  letter-spacing: .22em;
-  font-size: 11px;
-  color: rgba(200,176,138,.90);
-  text-transform: uppercase;
-  margin-bottom: 10px;
-}
-
-.product__name{
-  margin: 0;
-  font-family: var(--serif);
-  font-weight: 500;
-  letter-spacing: .06em;
-  font-size: clamp(18px, 1.8vw, 26px);
-  line-height: 1.25;
-  color: rgba(255,255,255,.92);
-}
-
-.product__mainImage{
-  border-radius: 18px;
-  overflow: hidden;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.22);
-}
-
-.product__mainImage img{
-  width: 100%;
-  height: 520px;
-  object-fit: cover;
-  display: block;
-}
-
-/* Right side */
-.product__right{
-  display: grid;
-  grid-template-rows: auto 1fr;
-  gap: 18px;
-}
-
-/* Gallery tiles */
-.gallery{
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 12px;
-}
-
-.gallery__tile{
-  border: 1px solid rgba(255,255,255,.12);
-  border-radius: 14px;
-  overflow: hidden;
-  background: rgba(0,0,0,.18);
-  padding: 0;
-  cursor: pointer;
-  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-}
-
-.gallery__tile img{
-  width: 100%;
-  height: 92px;
-  object-fit: cover;
-  display: block;
-}
-
-.gallery__tile:hover{
-  transform: translateY(-2px);
-  border-color: rgba(200,176,138,.28);
-}
-
-.gallery__tile.is-active{
-  border-color: rgba(200,176,138,.55);
-  box-shadow: 0 18px 50px rgba(0,0,0,.35);
-}
-
-/* Buy box */
-.product__buy{
-  border-radius: 18px;
-  border: 1px solid rgba(200,176,138,.16);
-  background: rgba(0,0,0,.20);
-  padding: 18px;
-}
-
-.price{
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 12px;
-  padding-bottom: 14px;
-  margin-bottom: 14px;
-  border-bottom: 1px solid rgba(255,255,255,.10);
-}
-
-.price__label{
-  font-family: var(--serif);
-  letter-spacing: .22em;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.62);
-}
-
-.price__value{
-  font-family: var(--serif);
-  font-weight: 500;
-  letter-spacing: .06em;
-  font-size: 22px;
-  color: rgba(255,255,255,.92);
-}
-
-/* Description */
-.product__descTitle{
-  font-family: var(--serif);
-  letter-spacing: .22em;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: rgba(200,176,138,.92);
-  margin-bottom: 10px;
-}
-
-.product__desc p{
-  margin: 0 0 14px;
-  color: rgba(255,255,255,.72);
-  line-height: 1.65;
-  font-size: 16px;
-}
-
-.specs{
-  list-style: none;
-  margin: 0 0 18px;
-  padding: 0;
-  display: grid;
-  gap: 10px;
-}
-
-.specs li{
-  display: flex;
-  justify-content: space-between;
-  gap: 14px;
-  padding: 10px 12px;
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,.10);
-  background: rgba(0,0,0,.16);
-}
-
-.specs li span:first-child{
-  color: rgba(255,255,255,.62);
-}
-
-.specs li span:last-child{
-  color: rgba(255,255,255,.86);
-  font-family: var(--serif);
-  letter-spacing: .04em;
-}
-
-/* Inquiry form */
-.inquiry{
-  margin-top: 10px;
-}
-
-.inquiry__label{
-  display: block;
-  font-family: var(--serif);
-  letter-spacing: .22em;
-  font-size: 11px;
-  text-transform: uppercase;
-  color: rgba(255,255,255,.70);
-  margin-bottom: 8px;
-}
-
-.inquiry__field{
-  width: 100%;
-  border-radius: 14px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.18);
-  color: rgba(255,255,255,.90);
-  padding: 12px 14px;
-  outline: none;
-  font-family: var(--serif-soft);
-  font-size: 16px;
-}
-
-.inquiry__field::placeholder{
-  color: rgba(255,255,255,.45);
-}
-
-.inquiry__field:focus{
-  border-color: rgba(200,176,138,.40);
-  box-shadow: 0 0 0 3px rgba(200,176,138,.10);
-}
-
-.inquiry__row{
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 12px;
-  margin-top: 12px;
-  align-items: center;
-}
-
-.btn{
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 999px;
-  padding: 12px 18px;
-  border: 1px solid rgba(255,255,255,.14);
-  background: rgba(0,0,0,.18);
-  color: rgba(255,255,255,.90);
-  font-family: var(--serif);
-  letter-spacing: .18em;
-  font-size: 12px;
-  text-transform: uppercase;
-  cursor: pointer;
-  transition: transform .18s ease, background .18s ease, border-color .18s ease;
-}
-
-.btn:hover{
-  transform: translateY(-1px);
-}
-
-.btn--gold{
-  border-color: rgba(200,176,138,.45);
-  background: rgba(200,176,138,.12);
-}
-
-.btn--gold:hover{
-  border-color: rgba(200,176,138,.70);
-  background: rgba(200,176,138,.18);
-}
-
-.inquiry__note{
-  margin: 10px 0 0;
-  color: rgba(255,255,255,.55);
-  font-size: 14px;
-  line-height: 1.5;
-}
-
-/* =========================
-   Responsive
-========================= */
-@media (max-width: 1020px){
-  .product{
-    grid-template-columns: 1fr;
-  }
-
-  .product__mainImage img{
-    height: 460px;
-  }
-
-  .gallery{
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (max-width: 640px){
-  .section{
-    padding: 86px 0 70px;
-  }
-
-  .subnav{
-    width: 100%;
-    justify-content: center;
-  }
-
-  .gallery{
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .gallery__tile img{
-    height: 110px;
-  }
-
-  .inquiry__row{
-    grid-template-columns: 1fr;
-  }
-
-  .btn{
-    width: 100%;
-    padding: 14px 18px;
-  }
 }
 
 /* =========================
@@ -808,10 +457,7 @@ img{ max-width: 100%; display: block; }
   box-shadow: 0 0 0 3px rgba(200,176,138,.10);
 }
 
-.home2__btn{
-  margin-top: 14px;
-  width: 100%;
-}
+.home2__btn{ margin-top: 14px; width: 100%; }
 
 .home2__note{
   margin: 10px 0 0;
@@ -861,55 +507,38 @@ img{ max-width: 100%; display: block; }
 }
 
 /* =========================
-   HERO Intro Animation (Load-triggered)
+   HERO Intro Animation
 ========================= */
-
 .hero__title,
 .hero__subtitle{
   will-change: opacity, transform;
 }
 
-/* Startzustand */
 .hero__content.is-animate .hero__title,
 .hero__content.is-animate .hero__subtitle{
   opacity: 0;
   transform: translateY(18px);
 }
 
-/* TITEL – bewusst langsamer & majestätischer */
 .hero__content.is-animate .hero__title{
   animation: heroTitleIn 1.8s cubic-bezier(.22,.61,.36,1) forwards;
 }
 
-/* SUBTITLE – bleibt elegant & schneller */
 .hero__content.is-animate .hero__subtitle{
   animation: heroSubIn .9s ease forwards;
   animation-delay: 1.6s;
 }
 
-/* Keyframes */
 @keyframes heroTitleIn{
-  0%{
-    opacity: 0;
-    transform: translateY(22px);
-  }
-  60%{
-    opacity: .85;
-  }
-  100%{
-    opacity: 1;
-    transform: translateY(0);
-  }
+  0%{ opacity: 0; transform: translateY(22px); }
+  60%{ opacity: .85; }
+  100%{ opacity: 1; transform: translateY(0); }
 }
 
 @keyframes heroSubIn{
-  to{
-    opacity: 1;
-    transform: translateY(0);
-  }
+  to{ opacity: 1; transform: translateY(0); }
 }
 
-/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .hero__content.is-animate .hero__title,
   .hero__content.is-animate .hero__subtitle{
@@ -920,9 +549,7 @@ img{ max-width: 100%; display: block; }
 }
 
 /* Pager auch auf Section 2 rechts fix anzeigen */
-.home2{
-  position: relative;
-}
+.home2{ position: relative; }
 
 .home2 .side--right{
   position: absolute;
@@ -933,16 +560,9 @@ img{ max-width: 100%; display: block; }
   pointer-events: none;
 }
 
-.home2 .pager{
-  pointer-events: none;
-}
+.home2 .pager{ pointer-events: none; }
 
-/* =======================================
-   Header background NUR für Legal + Startseite 2
-   (Startseite 1 + Produktseiten bleiben transparent)
-======================================= */
-
-/* Impressum + Datenschutz */
+/* Header background NUR für Legal + Startseite 2 */
 .page--legal .header{
   background: rgba(7,7,7,.92);
   backdrop-filter: blur(10px);
@@ -950,7 +570,6 @@ img{ max-width: 100%; display: block; }
   border-bottom: none;
 }
 
-/* Startseite: Section 2 aktiv */
 .page--home2Active .header{
   background: rgba(7,7,7,.70);
   backdrop-filter: blur(10px);
@@ -958,17 +577,41 @@ img{ max-width: 100%; display: block; }
   border-bottom: 1px solid rgba(200,176,138,.12);
 }
 
-
 /* =========================================================
-   MOBILE NAV (Burger + Overlay)
-   -> Desktop bleibt unverändert
-   -> Aktiv nur <= 980px
+   MOBILE NAV (Burger + Overlay) – unified with product pages
 ========================================================= */
 
-/* Burger Button (Desktop aus) */
-.navToggle{
+/* Actions wrapper (Phone + Burger) */
+.navActions{
   display: none;
   margin-left: auto;
+  align-items: center;
+  gap: 10px;
+  pointer-events: auto;
+}
+
+/* Phone button */
+.navPhone{
+  width: 46px;
+  height: 46px;
+  border-radius: 999px;
+  border: 1px solid rgba(200,176,138,.22);
+  background: rgba(0,0,0,.28);
+  backdrop-filter: blur(10px);
+  color: rgba(255,255,255,.92);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform .18s ease, border-color .18s ease, background .18s ease;
+}
+.navPhone:hover{
+  transform: translateY(-1px);
+  border-color: rgba(200,176,138,.35);
+  background: rgba(0,0,0,.34);
+}
+
+/* Burger Button */
+.navToggle{
   width: 46px;
   height: 46px;
   border-radius: 999px;
@@ -978,6 +621,7 @@ img{ max-width: 100%; display: block; }
   color: rgba(255,255,255,.92);
   cursor: pointer;
   pointer-events: auto;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform .18s ease, border-color .18s ease, background .18s ease;
@@ -988,7 +632,7 @@ img{ max-width: 100%; display: block; }
   background: rgba(0,0,0,.34);
 }
 
-/* Burger lines (nicht zu dick) */
+/* Burger lines */
 .navToggle__lines{
   position: relative;
   width: 18px;
@@ -1010,7 +654,7 @@ img{ max-width: 100%; display: block; }
 .navToggle__lines::before{ top: -5px; }
 .navToggle__lines::after{  top:  5px; }
 
-/* Overlay: IMMER hidden bis is-open */
+/* Overlay */
 .navOverlay{
   position: fixed;
   inset: 0;
@@ -1018,7 +662,7 @@ img{ max-width: 100%; display: block; }
   background: rgba(0,0,0,.62);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  display: none;            /* ✅ wichtig */
+  display: none;
   pointer-events: auto;
 }
 .navOverlay.is-open{ display: block; }
@@ -1093,36 +737,33 @@ img{ max-width: 100%; display: block; }
 /* Aktiv nur <= 980px */
 @media (max-width: 980px){
   .nav{ display: none; }
-  .navToggle{ display: inline-flex; }
+  .navActions{ display: inline-flex; }
 }
 
 /* =========================================================
-   ✅ STARTSEITE MOBILE FIX (NUR <= 640px)
-   - Hero-Text weiter nach oben
-   - Overlap mit Telefon/Pager verhindern (Side ausblenden)
-   - Desktop/Laptop bleibt unverändert
+   STARTSEITE – Mobile Fixes (nur Mobile)
+   - Side Phone & Pager ausblenden
+   - Hero Text höher positionieren
 ========================================================= */
 @media (max-width: 640px){
 
-  /* Side-Elemente (Telefon links + Pager rechts) auf Mobile aus */
+  /* Side elements auf Mobile komplett weg */
   .hero .side,
   .home2 .side{
     display: none !important;
   }
 
-  /* Hero startet oben statt exakt mittig */
+  /* Hero Text höher + nicht in der Mitte kleben */
   .hero{
-    padding-top: 96px;          /* vorher 120px */
-    place-items: start center;  /* statt center */
+    padding-top: 92px;            /* weniger Abstand */
+    place-items: start center;    /* statt center */
   }
 
-  /* Content nach oben ziehen */
   .hero__content{
-    padding: 28px 0 22px; /* vorher 60px 0 40px */
+    padding: 26px 0 18px;
     margin-top: 6px;
   }
 
-  /* Titel kompakter, damit er höher sitzt und nicht “drückt” */
   .hero__title{
     margin-bottom: 12px;
     font-size: clamp(22px, 8.2vw, 34px);
