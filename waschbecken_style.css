@@ -577,12 +577,19 @@
   .wb-mainImage img{ height: 460px; }
 }
 
-/* ✅ MOBILE: statt Carousel => vertikale Liste + große Karten
+/*  MOBILE: statt Carousel => vertikale Liste + große Karten
    (Desktop bleibt exakt wie vorher)
 */
 @media (max-width: 640px){
   /* Seite nicht "einsperren" (sonst fühlt sich Navigation tot an) */
   .page--washbecken{ overflow: auto; }
+   
+   /* FIX: Mobile kann background-attachment: fixed oft nicht */
+    background-attachment: scroll;
+
+    /* optional, hilft je nach Gerät */
+    min-height: 100vh;
+    background-position: center;
 
   .wb{ height: auto; min-height: 100vh; padding-top: 106px; }
 
@@ -622,3 +629,4 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
+
