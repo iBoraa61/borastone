@@ -99,7 +99,7 @@
         <span class="brand__wordmark">BORASTONE</span>
         <span class="brand__tagline">LUXURY STONE ATELIER</span>
       </a>
-
+  
       <nav class="nav" aria-label="Hauptnavigation">
         <a class="nav__link" href="index.html">STARTSEITE</a>
         <a class="nav__link" href="waschbecken.html">WASCHBECKEN</a>
@@ -107,6 +107,27 @@
         <a class="nav__link" href="fliesen.html">FLIESEN &amp; MEHR</a>
         <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
       </nav>
+  
+      <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false">
+        <span class="navToggle__lines" aria-hidden="true"></span>
+      </button>
+  
+      <div class="navOverlay" id="navOverlay" aria-hidden="true">
+        <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Navigation">
+          <div class="navDrawer__top">
+            <div class="navDrawer__title">Menü</div>
+            <button class="navClose" type="button" aria-label="Menü schließen">✕</button>
+          </div>
+  
+          <nav class="navMobile" aria-label="Mobile Navigation">
+            <a href="index.html">STARTSEITE</a>
+            <a href="waschbecken.html">WASCHBECKEN</a>
+            <a class="is-active" href="bad.html">BADEWANNEN</a>
+            <a href="fliesen.html">FLIESEN &amp; MEHR</a>
+            <a href="index.html#atelier">ÜBER BORASTONE</a>
+          </nav>
+        </div>
+      </div>
     </div>
   </header>
 
@@ -411,6 +432,7 @@
 
 </body>
 </html>
+
 
 
 
