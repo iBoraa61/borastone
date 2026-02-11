@@ -197,9 +197,6 @@ img{ max-width: 100%; display: block; }
 .side--left{ left: 0; }
 .side--right{ right: 0; }
 
-/* (removed) left divider line — user requested no line */
-/* .side__divider { ... }  */
-
 /* Phone: bigger, centered vertically like pager */
 .side__phone{
   position: absolute;
@@ -1099,7 +1096,41 @@ img{ max-width: 100%; display: block; }
   .navToggle{ display: inline-flex; }
 }
 
+/* =========================================================
+   ✅ STARTSEITE MOBILE FIX (NUR <= 640px)
+   - Hero-Text weiter nach oben
+   - Overlap mit Telefon/Pager verhindern (Side ausblenden)
+   - Desktop/Laptop bleibt unverändert
+========================================================= */
+@media (max-width: 640px){
 
+  /* Side-Elemente (Telefon links + Pager rechts) auf Mobile aus */
+  .hero .side,
+  .home2 .side{
+    display: none !important;
+  }
 
+  /* Hero startet oben statt exakt mittig */
+  .hero{
+    padding-top: 96px;          /* vorher 120px */
+    place-items: start center;  /* statt center */
+  }
 
+  /* Content nach oben ziehen */
+  .hero__content{
+    padding: 28px 0 22px; /* vorher 60px 0 40px */
+    margin-top: 6px;
+  }
 
+  /* Titel kompakter, damit er höher sitzt und nicht “drückt” */
+  .hero__title{
+    margin-bottom: 12px;
+    font-size: clamp(22px, 8.2vw, 34px);
+    line-height: 1.02;
+  }
+
+  .hero__subtitle{
+    font-size: 15px;
+    line-height: 1.5;
+  }
+}
