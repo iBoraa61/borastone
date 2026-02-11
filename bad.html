@@ -376,11 +376,11 @@
     (() => {
       const form = document.getElementById('inquiryForm');
       const subjectField = document.getElementById('subjectField');
-
+  
       const popup = document.getElementById('bsPopup');
       const popupClose = document.getElementById('bsPopupClose');
       let popupTimer = null;
-
+  
       function openPopup(){
         if (!popup) return;
         popup.hidden = false;
@@ -392,31 +392,33 @@
         popup.hidden = true;
         clearTimeout(popupTimer);
       }
-
+  
       popupClose?.addEventListener('click', closePopup);
       popup?.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
       window.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && popup && !popup.hidden) closePopup();
       });
-
+  
       if (!form) return;
-
+  
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
-
+        e.stopImmediatePropagation(); // ✅ FIX: verhindert Konflikte mit anderen Listenern
+  
         // Produktname aus Detail-Title ziehen
         const productTitle = (document.getElementById('bTitle')?.textContent || '').trim();
         const subject = productTitle ? `Anfrage: ${productTitle}` : 'Produktanfrage – BoraStone';
         if (subjectField) subjectField.value = subject;
-
+  
         try {
           const data = new FormData(form);
+  
           const res = await fetch(form.action, {
             method: 'POST',
             body: data,
             headers: { 'Accept': 'application/json' }
           });
-
+  
           if (res.ok) {
             form.reset();
             openPopup();
@@ -432,6 +434,7 @@
 
 </body>
 </html>
+
 
 
 
