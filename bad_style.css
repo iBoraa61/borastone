@@ -23,7 +23,7 @@
   --bt-stroke: rgba(200,176,138,.22);
   --bt-gold: rgba(200,176,138,.85);
 
-  /* Card Farben – unverändert */
+  /* Card Farben */
   --card-bg-1: rgba(0,0,0,.18);
   --card-bg-2: rgba(0,0,0,.34);
 }
@@ -85,7 +85,7 @@
   will-change: transform;
 }
 
-/* Page: immer 4 Cards nebeneinander */
+/* Page: 4 Cards nebeneinander */
 .bt-gridView .cardsPage{
   flex: 0 0 100%;
   display: grid;
@@ -127,7 +127,7 @@
 .bt-gridView .cardsArrow--next{ right: -12px; }
 
 /* =========================
-   Card (unveränderter Look)
+   Card
 ========================= */
 .bt-gridView .card{
   position: relative;
@@ -158,12 +158,10 @@
 .bt-gridView .card__media img{
   width: 100%;
   height: 100%;
-  object-fit: cover; /* default */
+  object-fit: cover;
   display: block;
   filter: contrast(1.02) saturate(1.02);
 }
-
-
 
 .bt-gridView .card__body{
   padding: 14px 14px 16px;
@@ -179,7 +177,6 @@
   color: rgba(255,255,255,.92);
   overflow: hidden;
 
-  /* Standard + Webkit */
   line-clamp: 2;
   display: -webkit-box;
   -webkit-box-orient: vertical;
@@ -199,7 +196,7 @@
   font-size: 13px;
 }
 
-/* Hover stacking (angepasst für Paging: pro cardsPage) */
+/* Hover stacking (pro cardsPage) */
 .bt-gridView .cardsPage.is-dim .card{
   opacity: .55;
   filter: blur(.1px);
@@ -544,7 +541,7 @@
 }
 
 /* =========================
-   Responsive
+   Responsive (Desktop/Tablet)
 ========================= */
 @media (max-width: 1100px){
   .bt-gridView .cardsPage{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -555,18 +552,61 @@
   .bt-mainImage img{ height: 460px; }
 }
 
+/*  MOBILE: statt Carousel => vertikale Liste + große Karten (wie Waschbecken) */
 @media (max-width: 640px){
-  .bt{ padding-top: 106px; }
-  .bt-gridView{ height: calc(100vh - 106px - 118px); }
 
-  .bt-gridView .cardsPage{ grid-template-columns: 1fr; }
+  /* Seite soll auf Mobile normal scrollen */
+  .page--bad{ overflow: auto; }
 
-  .bt-gridView .cardsArrow--prev{ left: -6px; }
-  .bt-gridView .cardsArrow--next{ right: -6px; }
+  /* Wrapper */
+  .bt{
+    height: auto;
+    min-height: 100vh;
+    padding-top: 106px;
+  }
 
+  /* Grid darf scrollen */
+  .bt-gridView{
+    height: auto;
+    overflow: auto;
+    padding-bottom: 24px;
+  }
+
+  /* Pfeile weg */
+  .bt-gridView .cardsArrow{ display: none; }
+
+  /* Track/Paging deaktivieren => untereinander */
+  .bt-gridView .cardsWrap{ overflow: visible; height: auto; }
+
+  .bt-gridView .cardsTrack{
+    display: block;
+    height: auto;
+    transform: none !important;
+    padding: 10px 0 24px;
+  }
+
+  .bt-gridView .cardsPage{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+
+  /* Bild größer */
+  .bt-gridView .card__media{ height: 340px; }
+
+  /* Detail overlay Abstand */
+  .bt-detail{ inset: 106px 0 0 0; }
+
+  /* Form layout */
   .bt-inquiry__row{ grid-template-columns: 1fr; }
   .bt-btn{ width: 100%; padding: 14px 18px; }
 
-  #bGallery{ grid-template-columns: repeat(2, 1fr); }
+  /* Gallery */
+  #bGallery{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
   .bt-thumb img{ height: 110px; }
 }
