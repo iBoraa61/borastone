@@ -864,3 +864,6 @@ img{ max-width: 100%; display: block; }
   );
 }
 
+.navToggle svg{
+  display:block;
+}
