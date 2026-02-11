@@ -1,10 +1,4 @@
-/* bad.js
-   - Mobile Burger Menu (navToggle + navOverlay + navDrawer + navClose)  ✅ wie Waschbecken
-   - Cards: Paging Carousel (prev/next) nur Desktop/Tablet
-   - Hover stacking nur Desktop (non-touch)
-   - Detail View + dynamische Gallery (nur vorhandene Bilder, keine Duplikate)
-   - Zoom Overlay
-*/
+
 
 (() => {
   // Helpers
@@ -13,8 +7,7 @@
   const isTouch = matchMedia('(hover: none)').matches;
 
   // -------------------------
-  // Mobile Burger Menu (wie Waschbecken)
-  // Benötigt HTML: .navToggle + .navOverlay + .navDrawer + .navClose
+  // Mobile Burger Menu
   // -------------------------
   (() => {
     const btn = qs('.navToggle');
@@ -50,10 +43,8 @@
       if (e.target === overlay) closeNav();
     });
 
-    // close when clicking a link in mobile nav
     qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
 
-    // ESC closes
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
     });
@@ -141,13 +132,10 @@
     pushUniq(mainUrl);
     thumbUrls.forEach(pushUniq);
 
-    // main setzen
     if (fMainImg && uniq[0]) fMainImg.src = uniq[0];
 
-    // reset gallery
     gallery.innerHTML = '';
 
-    // wenn nur 1 bild -> verstecken
     if (uniq.length <= 1) {
       gallery.style.display = 'none';
       return;
@@ -195,7 +183,6 @@
   }
 
   function closeDetail() {
-    // zoom schließen falls offen
     if (zoomOverlay && !zoomOverlay.hidden) closeZoom();
 
     detail.hidden = true;
@@ -204,8 +191,14 @@
     lastActiveCard?.focus?.();
   }
 
-  // Card click (delegiert)
+  // ✅ Card click (delegiert) — FIX: NICHT öffnen wenn Detail offen oder wenn Klick in Form/Detail
   document.addEventListener('click', (e) => {
+    // wenn Detail offen -> niemals Cards öffnen (verhindert Click-through / re-trigger)
+    if (detail && !detail.hidden) return;
+
+    // Sicherheitsnetz: falls irgendwo ein Formular-Klick reinrutscht
+    if (e.target.closest('form')) return;
+
     const card = e.target.closest('.bt-gridView .card');
     if (!card) return;
     if (e.target.closest('.cardsArrow')) return;
@@ -242,7 +235,6 @@
     if (!zoomOverlay || !zoomImg) return;
     zoomOverlay.hidden = true;
     zoomImg.src = '';
-    // wenn detail offen bleibt body locked – sonst freigeben
     if (!(detail && !detail.hidden)) lockBody(false);
   }
 
@@ -252,7 +244,6 @@
     if (e.target === zoomOverlay) closeZoom();
   });
 
-  // ESC: Zoom zuerst, sonst Detail schließen
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
     if (zoomOverlay && !zoomOverlay.hidden) return closeZoom();
@@ -288,7 +279,6 @@
 
   // -------------------------
   // Carousel paging (nur Desktop/Tablet)
-  // Mobile: CSS macht Liste + transform:none; hier machen wir einfach nix.
   // -------------------------
   function initCarousel(wrap) {
     const track = qs('.cardsTrack', wrap);
@@ -301,7 +291,6 @@
     let index = 0;
 
     function update() {
-      // Mobile? -> nicht anfassen
       if (window.innerWidth <= 640) return;
 
       track.style.transform = `translateX(${-index * 100}%)`;
