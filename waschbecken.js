@@ -13,51 +13,55 @@
   const qsa = (s, el = document) => [...el.querySelectorAll(s)];
   const isTouch = matchMedia('(hover: none)').matches;
 
-  // -------------------------
-  // Mobile Burger Menu (navOverlay/navDrawer)
-  // Benötigt HTML: .navToggle + .navOverlay + .navDrawer + .navClose
-  // -------------------------
-  (() => {
-    const btn = qs('.navToggle');
-    const overlay = qs('.navOverlay'); // oder: qs('#navOverlay') wenn du willst
-    const closeBtn = qs('.navClose', overlay || document);
-
-    if (!btn || !overlay) return;
-
-    const openNav = () => {
-      overlay.classList.add('is-open');
-      overlay.setAttribute('aria-hidden', 'false');
-      btn.setAttribute('aria-expanded', 'true');
-    };
-
-    const closeNav = () => {
-      overlay.classList.remove('is-open');
-      overlay.setAttribute('aria-hidden', 'true');
-      btn.setAttribute('aria-expanded', 'false');
-    };
-
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const isOpen = overlay.classList.contains('is-open');
-      if (isOpen) closeNav();
-      else openNav();
-    });
-
-    closeBtn?.addEventListener('click', closeNav);
-
-    // click outside drawer closes
-    overlay.addEventListener('click', (e) => {
-      if (e.target === overlay) closeNav();
-    });
-
-    // close when clicking a link in mobile nav
-    qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
-
-    // ESC closes
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
-    });
-  })();
+   // -------------------------
+   // Mobile Nav (wie Startseite)
+   // -------------------------
+   (() => {
+     const btn = document.getElementById('navToggle');
+     const overlay = document.getElementById('navOverlay');
+     const closeBtn = document.getElementById('navClose');
+     const drawer = overlay?.querySelector('.navDrawer');
+   
+     if (!btn || !overlay || !drawer) return;
+   
+     function openNav(){
+       overlay.classList.add('is-open');
+       overlay.setAttribute('aria-hidden', 'false');
+       btn.setAttribute('aria-expanded', 'true');
+       document.documentElement.style.overflow = 'hidden';
+       document.body.style.overflow = 'hidden';
+     }
+   
+     function closeNav(){
+       overlay.classList.remove('is-open');
+       overlay.setAttribute('aria-hidden', 'true');
+       btn.setAttribute('aria-expanded', 'false');
+       document.documentElement.style.overflow = '';
+       document.body.style.overflow = '';
+     }
+   
+     btn.addEventListener('click', () => {
+       const isOpen = overlay.classList.contains('is-open');
+       isOpen ? closeNav() : openNav();
+     });
+   
+     closeBtn?.addEventListener('click', closeNav);
+   
+     // click outside drawer closes
+     overlay.addEventListener('click', (e) => {
+       if (e.target === overlay) closeNav();
+     });
+   
+     // ESC closes
+     window.addEventListener('keydown', (e) => {
+       if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
+     });
+   
+     // any link click closes
+     overlay.querySelectorAll('a').forEach(a => {
+       a.addEventListener('click', () => closeNav());
+     });
+   })();
 
   // -------------------------
   // Tabs
@@ -376,3 +380,4 @@
 
   bindHoverStacking(document);
 })();
+
