@@ -590,6 +590,8 @@ img{ max-width: 100%; display: block; }
   pointer-events: auto;
 }
 
+
+
 /* Phone button */
 .navPhone{
   width: 46px;
@@ -740,6 +742,16 @@ img{ max-width: 100%; display: block; }
   .navActions{ display: inline-flex; }
 }
 
+/* Burger überall wieder ganz rechts */
+.navToggle{
+  margin-left: auto;
+}
+
+/* Auf der Startseite: in .navActions NICHT auto schieben (sonst trennt sich das Icon) */
+.navActions .navToggle{
+  margin-left: 0;
+}
+
 /* =========================================================
    STARTSEITE – Mobile Fixes (nur Mobile)
    - Side Phone & Pager ausblenden
@@ -753,21 +765,22 @@ img{ max-width: 100%; display: block; }
     display: none !important;
   }
 
-  /* Hero Text höher + nicht in der Mitte kleben */
+  /* Hero Text: etwas weiter RUNTER (nicht zu weit oben) */
   .hero{
-    padding-top: 92px;            /* weniger Abstand */
-    place-items: start center;    /* statt center */
+    padding-top: 108px;          /* war 92px -> weiter runter */
+    place-items: start center;   /* bleibt: nicht mittig kleben */
   }
 
   .hero__content{
-    padding: 26px 0 18px;
-    margin-top: 6px;
+    padding: 34px 0 18px;        /* war 26px -> weiter runter */
+    margin-top: 10px;            /* war 6px -> leicht runter */
   }
 
+  /* Titel kleiner (Subtitle bleibt wie du sagst "gut") */
   .hero__title{
     margin-bottom: 12px;
-    font-size: clamp(22px, 8.2vw, 34px);
-    line-height: 1.02;
+    font-size: clamp(20px, 7.4vw, 32px);  /* kleiner als vorher */
+    line-height: 1.03;
   }
 
   .hero__subtitle{
@@ -775,3 +788,4 @@ img{ max-width: 100%; display: block; }
     line-height: 1.5;
   }
 }
+
