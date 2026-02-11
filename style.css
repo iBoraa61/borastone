@@ -1,3 +1,15 @@
+/* =========================================================
+   Borastone – style.css (komplett angepasst)
+   - Desktop/Laptop bleibt unverändert
+   - Mobile Startseite:
+     ✅ linke Telefonnummer + rechter Pager ausgeblendet
+     ✅ Phone-Icon + Burger im Header (edel, nebeneinander)
+     ✅ Hero-Text: etwas weiter runter, Titel kleiner
+   - Mobile alle Seiten:
+     ✅ Burger wieder einheitlich ganz rechts
+     ✅ Wenn Startseite .navActions hat: Phone+Burger bleiben zusammen rechts
+========================================================= */
+
 :root{
   --bg: #0b0b0b;
 
@@ -36,7 +48,9 @@ img{ max-width: 100%; display: block; }
   margin: 0 auto;
 }
 
-/* Header */
+/* =========================================================
+   Header
+========================================================= */
 .header{
   position: fixed;
   inset: 0 0 auto 0;
@@ -83,6 +97,7 @@ img{ max-width: 100%; display: block; }
   text-align: center;
 }
 
+/* Desktop Nav */
 .nav{
   margin-left: auto;
   display: flex;
@@ -101,10 +116,8 @@ img{ max-width: 100%; display: block; }
   opacity: .92;
   transition: opacity .2s ease, color .2s ease;
 }
-
 .nav__link:hover{ opacity: 1; color: rgba(255,255,255,.95); }
 .nav__link.is-active{ color: rgba(255,255,255,.95); }
-
 .nav__link.is-active::after{
   content:"";
   position:absolute;
@@ -115,9 +128,9 @@ img{ max-width: 100%; display: block; }
   background: var(--gold-soft);
 }
 
-/* ---------------------------------
-   HERO: full width (no side bars)
----------------------------------- */
+/* =========================================================
+   HERO
+========================================================= */
 .hero{
   min-height: 100vh;
   position: relative;
@@ -183,9 +196,9 @@ img{ max-width: 100%; display: block; }
   text-shadow: 0 12px 30px rgba(0,0,0,.45);
 }
 
-/* ---------------------------------
-   Side elements
----------------------------------- */
+/* =========================================================
+   Side elements (Startseite)
+========================================================= */
 .side{
   position: absolute;
   top: 0;
@@ -197,7 +210,7 @@ img{ max-width: 100%; display: block; }
 .side--left{ left: 0; }
 .side--right{ right: 0; }
 
-/* Phone */
+/* Phone vertical (Desktop) */
 .side__phone{
   position: absolute;
   left: var(--side-offset);
@@ -281,7 +294,9 @@ img{ max-width: 100%; display: block; }
 .pager__num{ opacity: .55; }
 .pager__num.is-active{ opacity: .95; }
 
-/* Responsive */
+/* =========================================================
+   Responsive base
+========================================================= */
 @media (max-width: 980px){
   .nav{ display: none; }
   .brand{ min-width: unset; }
@@ -293,14 +308,12 @@ img{ max-width: 100%; display: block; }
   .header{ padding: 18px 0; }
 
   .brand__wordmark{ font-size: 30px; }
-
   :root{ --side-offset: 14px; }
 
   .phone{
     font-size: 14px;
     gap: 12px;
   }
-
   .phone__icon{
     width: 40px;
     height: 40px;
@@ -319,9 +332,9 @@ img{ max-width: 100%; display: block; }
   }
 }
 
-/* =========================
-   Sections
-========================= */
+/* =========================================================
+   Sections (allgemein)
+========================================================= */
 .section{
   position: relative;
   padding: 110px 0 90px;
@@ -348,9 +361,9 @@ img{ max-width: 100%; display: block; }
   max-width: 70ch;
 }
 
-/* =========================
+/* =========================================================
    Startseite Section 2 (Über + Kontakt)
-========================= */
+========================================================= */
 .home2{
   min-height: 100vh;
   padding: 140px 0 90px;
@@ -471,6 +484,9 @@ img{ max-width: 100%; display: block; }
   .home2{ padding-top: 120px; }
 }
 
+/* =========================================================
+   Footer
+========================================================= */
 .footer{
   padding: 22px 0 34px;
   background: rgba(0,0,0,.92);
@@ -506,24 +522,27 @@ img{ max-width: 100%; display: block; }
   background: rgba(200,176,138,.12);
 }
 
-/* =========================
-   HERO Intro Animation
-========================= */
+/* =========================================================
+   HERO Intro Animation (Load-triggered)
+========================================================= */
 .hero__title,
 .hero__subtitle{
   will-change: opacity, transform;
 }
 
+/* Startzustand */
 .hero__content.is-animate .hero__title,
 .hero__content.is-animate .hero__subtitle{
   opacity: 0;
   transform: translateY(18px);
 }
 
+/* TITEL */
 .hero__content.is-animate .hero__title{
   animation: heroTitleIn 1.8s cubic-bezier(.22,.61,.36,1) forwards;
 }
 
+/* SUBTITLE */
 .hero__content.is-animate .hero__subtitle{
   animation: heroSubIn .9s ease forwards;
   animation-delay: 1.6s;
@@ -534,11 +553,11 @@ img{ max-width: 100%; display: block; }
   60%{ opacity: .85; }
   100%{ opacity: 1; transform: translateY(0); }
 }
-
 @keyframes heroSubIn{
   to{ opacity: 1; transform: translateY(0); }
 }
 
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce){
   .hero__content.is-animate .hero__title,
   .hero__content.is-animate .hero__subtitle{
@@ -562,7 +581,9 @@ img{ max-width: 100%; display: block; }
 
 .home2 .pager{ pointer-events: none; }
 
-/* Header background NUR für Legal + Startseite 2 */
+/* =========================================================
+   Header background NUR für Legal + Startseite 2
+========================================================= */
 .page--legal .header{
   background: rgba(7,7,7,.92);
   backdrop-filter: blur(10px);
@@ -578,10 +599,12 @@ img{ max-width: 100%; display: block; }
 }
 
 /* =========================================================
-   MOBILE NAV (Burger + Overlay) – unified with product pages
+   MOBILE NAV (Burger + Overlay) – unified
+   - Andere Seiten: nur Burger
+   - Startseite: navActions (Phone + Burger)
 ========================================================= */
 
-/* Actions wrapper (Phone + Burger) */
+/* navActions (Startseite) */
 .navActions{
   display: none;
   margin-left: auto;
@@ -590,9 +613,7 @@ img{ max-width: 100%; display: block; }
   pointer-events: auto;
 }
 
-
-
-/* Phone button */
+/* Phone button (Startseite) */
 .navPhone{
   width: 46px;
   height: 46px;
@@ -614,6 +635,7 @@ img{ max-width: 100%; display: block; }
 
 /* Burger Button */
 .navToggle{
+  display: none;            /* Desktop aus */
   width: 46px;
   height: 46px;
   border-radius: 999px;
@@ -623,7 +645,6 @@ img{ max-width: 100%; display: block; }
   color: rgba(255,255,255,.92);
   cursor: pointer;
   pointer-events: auto;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
   transition: transform .18s ease, border-color .18s ease, background .18s ease;
@@ -634,29 +655,7 @@ img{ max-width: 100%; display: block; }
   background: rgba(0,0,0,.34);
 }
 
-/* Burger lines */
-.navToggle__lines{
-  position: relative;
-  width: 18px;
-  height: 1.6px;
-  background: currentColor;
-  border-radius: 2px;
-  display: block;
-}
-.navToggle__lines::before,
-.navToggle__lines::after{
-  content:"";
-  position: absolute;
-  left: 0;
-  width: 100%;
-  height: 1.6px;
-  background: currentColor;
-  border-radius: 2px;
-}
-.navToggle__lines::before{ top: -5px; }
-.navToggle__lines::after{  top:  5px; }
-
-/* Overlay */
+/* Overlay: hidden bis is-open */
 .navOverlay{
   position: fixed;
   inset: 0;
@@ -736,26 +735,36 @@ img{ max-width: 100%; display: block; }
   background: rgba(200,176,138,.10);
 }
 
-/* Aktiv nur <= 980px */
+/* --------- Mobile activation (<=980px) --------- */
 @media (max-width: 980px){
   .nav{ display: none; }
+
+  /* Standard: Burger (für Produktseiten ohne navActions) */
+  .navToggle{ display: inline-flex; }
+
+  /* Startseite: wenn navActions existiert -> Phone+Burger zeigen */
   .navActions{ display: inline-flex; }
 }
 
-/* Burger überall wieder ganz rechts */
-.navToggle{
+/* --------- Burger Alignment: überall wieder rechts ---------
+   - Produktseiten: .navToggle direkt in .header__inner -> margin-left:auto
+   - Startseite: .navActions übernimmt margin-left:auto, Burger bleibt neben Phone
+*/
+.header__inner .navToggle{
   margin-left: auto;
 }
-
-/* Auf der Startseite: in .navActions NICHT auto schieben (sonst trennt sich das Icon) */
-.navActions .navToggle{
+.header__inner .navActions{
+  margin-left: auto;
+}
+.header__inner .navActions .navToggle{
   margin-left: 0;
 }
 
 /* =========================================================
    STARTSEITE – Mobile Fixes (nur Mobile)
-   - Side Phone & Pager ausblenden
-   - Hero Text höher positionieren
+   - Side Phone & Pager ausblenden (Hero + Home2)
+   - Hero Text: etwas weiter runter
+   - Title: etwas kleiner
 ========================================================= */
 @media (max-width: 640px){
 
@@ -765,27 +774,27 @@ img{ max-width: 100%; display: block; }
     display: none !important;
   }
 
-  /* Hero Text: etwas weiter RUNTER (nicht zu weit oben) */
+  /* Hero Layout: NICHT ganz oben kleben, aber höher als Desktop-Mitte */
   .hero{
-    padding-top: 108px;          /* war 92px -> weiter runter */
-    place-items: start center;   /* bleibt: nicht mittig kleben */
+    padding-top: 112px;         /* lässt Platz für Header */
+    place-items: start center;  /* Text sitzt oben-ish, nicht mittig */
   }
 
   .hero__content{
-    padding: 34px 0 18px;        /* war 26px -> weiter runter */
-    margin-top: 10px;            /* war 6px -> leicht runter */
+    padding: 44px 0 18px;       /* weiter runter als vorher */
+    margin-top: 4px;
   }
 
-  /* Titel kleiner (Subtitle bleibt wie du sagst "gut") */
+  /* Titel kleiner (Subtitle bleibt angenehm) */
   .hero__title{
     margin-bottom: 12px;
-    font-size: clamp(20px, 7.4vw, 32px);  /* kleiner als vorher */
-    line-height: 1.03;
+    font-size: clamp(20px, 7.0vw, 34px);
+    line-height: 1.04;
   }
 
+  /* Subtitle: Größe wie vorher gut – nur minimal stabilisiert */
   .hero__subtitle{
     font-size: 15px;
     line-height: 1.5;
   }
 }
-
