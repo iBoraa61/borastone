@@ -14,6 +14,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css" />
+
   <style>
     .footer__inner--split{
       display:flex;
@@ -88,27 +89,29 @@
         <a class="nav__link" href="index.html#atelier">ÜBER BORASTONE</a>
       </nav>
 
-      <!-- Mobile Burger (sichtbar < 980px via CSS) -->
-      <button class="navToggle" id="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navOverlay">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path d="M4 7h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          <path d="M4 17h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-        </svg>
-      </button>
+      <!-- Mobile Actions (Phone + Burger) -->
+      <div class="navActions" aria-label="Mobile Aktionen">
+        <a class="navPhone" href="tel:+491743418313" aria-label="Anrufen: +49 174 3418313">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M20 16.7v2a2 2 0 0 1-2.2 2c-9.1-.8-13.7-5.4-14.5-14.5A2 2 0 0 1 5.3 4h2a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1l-1 1c1.3 2.4 3.2 4.3 5.6 5.6l1-1a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7A2 2 0 0 1 20 16.7Z"
+              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+
+        <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navOverlay">
+          <span class="navToggle__lines" aria-hidden="true"></span>
+        </button>
+      </div>
 
       <!-- Mobile Overlay + Drawer -->
       <div class="navOverlay" id="navOverlay" aria-hidden="true">
         <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
           <div class="navDrawer__top">
             <div class="navDrawer__title">Menü</div>
-            <button class="navClose" id="navClose" type="button" aria-label="Menü schließen">✕</button>
+            <button class="navClose" type="button" aria-label="Menü schließen">✕</button>
           </div>
 
           <nav class="navMobile" aria-label="Mobile Navigation Links">
-            <!-- Optional (empfohlen): Telefon im Menü, weil Side auf Mobile ausgeblendet wird -->
-            <a href="tel:+491743418313">TELEFON: +49 174 3418313</a>
-
             <a class="is-active" href="index.html">STARTSEITE</a>
             <a href="waschbecken.html">WASCHBECKEN</a>
             <a href="bad.html">BADEWANNEN</a>
@@ -212,7 +215,6 @@
                 action="https://formspree.io/f/xbdajpba"
                 method="POST">
 
-            <!-- Betreff (allgemein) -->
             <input type="hidden" name="subject" value="Allgemeine Anfrage – BoraStone">
 
             <label class="home2__label" for="name">Name</label>
@@ -260,55 +262,52 @@
     </div>
   </div>
 
-  <!-- JS: Pager 1/2 + Snap Scroll + Hero Animation + Formspree Submit (Popup) + Mobile Nav -->
+  <!-- JS -->
   <script>
     // -------------------------
-    // Mobile Nav
+    // Mobile Nav (gleiche Logik wie Bad.js)
     // -------------------------
     (() => {
-      const btn = document.getElementById('navToggle');
-      const overlay = document.getElementById('navOverlay');
-      const closeBtn = document.getElementById('navClose');
-      const drawer = overlay?.querySelector('.navDrawer');
+      const qs = (s, el = document) => el.querySelector(s);
+      const qsa = (s, el = document) => [...el.querySelectorAll(s)];
 
-      if (!btn || !overlay || !drawer) return;
+      const btn = qs('.navToggle');
+      const overlay = qs('#navOverlay');
+      const closeBtn = qs('.navClose', overlay || document);
 
-      function openNav(){
+      if (!btn || !overlay) return;
+
+      const openNav = () => {
         overlay.classList.add('is-open');
         overlay.setAttribute('aria-hidden', 'false');
         btn.setAttribute('aria-expanded', 'true');
         document.documentElement.style.overflow = 'hidden';
         document.body.style.overflow = 'hidden';
-      }
+      };
 
-      function closeNav(){
+      const closeNav = () => {
         overlay.classList.remove('is-open');
         overlay.setAttribute('aria-hidden', 'true');
         btn.setAttribute('aria-expanded', 'false');
         document.documentElement.style.overflow = '';
         document.body.style.overflow = '';
-      }
+      };
 
-      btn.addEventListener('click', () => {
-        const isOpen = overlay.classList.contains('is-open');
-        isOpen ? closeNav() : openNav();
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        overlay.classList.contains('is-open') ? closeNav() : openNav();
       });
 
       closeBtn?.addEventListener('click', closeNav);
 
-      // click outside drawer closes
       overlay.addEventListener('click', (e) => {
         if (e.target === overlay) closeNav();
       });
 
-      // ESC closes
-      window.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
-      });
+      qsa('a', overlay).forEach((a) => a.addEventListener('click', closeNav));
 
-      // any link click closes
-      overlay.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', () => closeNav());
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeNav();
       });
     })();
 
@@ -323,34 +322,27 @@
       step2.classList.toggle('is-active', n === 2);
     }
 
-    // IntersectionObserver: wenn Section 2 sichtbar -> Step 2
     const io = new IntersectionObserver((entries) => {
       entries.forEach((e) => {
         if (e.target !== sec2) return;
-
         const active = e.isIntersecting;
         setStep(active ? 2 : 1);
-
-        // Header nur auf Section 2 abdunkeln
         document.body.classList.toggle('page--home2Active', active);
       });
     }, { threshold: 0.45 });
 
     if (sec2) io.observe(sec2);
 
-    // Hero Text Animation erst nach Load starten
     window.addEventListener('load', () => {
       const hero = document.querySelector('.hero__content');
       if (hero) hero.classList.add('is-animate');
     });
 
-    // Scroll-Snap: nur Desktop/Trackpad sinnvoll – auf Touch NICHT erzwingen
     (() => {
       const hero = document.querySelector('.hero');
       const section2 = document.querySelector('#atelier');
       if (!hero || !section2) return;
 
-      // ✅ Touch-Geräte: Snap-Scroll nicht erzwingen
       const isTouch = window.matchMedia('(pointer: coarse)').matches;
       if (isTouch) return;
 
@@ -380,7 +372,6 @@
       }, { passive: false });
     })();
 
-    // Popup helper
     function showPopup(){
       const popup = document.getElementById('bsPopup');
       if (!popup) return;
@@ -392,7 +383,6 @@
       }, 5600);
     }
 
-    // Formspree submit (Popup statt Status-Text, ohne Autoresponse)
     (() => {
       const form = document.getElementById('homeContact');
       if (!form) return;
