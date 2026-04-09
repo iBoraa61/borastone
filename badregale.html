@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AMBOSTONE – Leuchten</title>
+  <title>AMBOSTONE – Badregale</title>
 
   <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
   <link rel="apple-touch-icon" href="favicon.png">
@@ -18,8 +18,7 @@
 
   <style>
     html { background: #070707; }
-    /* override waschbecken background with leuchten/fliesen look */
-    .page--leuchten {
+    .page--badregale {
       overflow: auto;
       background-color: #070707;
       background-image:
@@ -35,10 +34,7 @@
       --card-beige-3: rgba(22, 18, 14, .86);
     }
 
-    /* Page head */
-    .lk__head {
-      padding: 32px 0 20px;
-    }
+    .lk__head { padding: 32px 0 20px; }
     .lk__breadcrumb {
       display: inline-flex;
       align-items: center;
@@ -53,21 +49,13 @@
       transition: color .18s ease;
     }
     .lk__breadcrumb:hover { color: rgba(200,176,138,1); }
-    .lk__kicker {
-      font-family: var(--serif);
-      letter-spacing: .28em;
-      font-size: 11px;
-      text-transform: uppercase;
-      color: rgba(200,176,138,.70);
-      margin-bottom: 10px;
-    }
     .lk__title {
       margin: 0 0 6px;
       font-family: var(--serif);
       font-weight: 500;
       letter-spacing: .14em;
       text-transform: uppercase;
-      font-size: clamp(20px, 2vw, 32px);
+      font-size: clamp(18px, 1.8vw, 28px);
       color: rgba(255,255,255,.92);
     }
     .lk__sub {
@@ -76,7 +64,6 @@
       font-size: 15px;
     }
 
-    /* Simple 4-col product grid (not carousel – 4 items always fit) */
     .lk-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -87,14 +74,12 @@
     @media (max-width: 760px)  { .lk-grid { grid-template-columns: repeat(2, minmax(0,1fr)); } }
     @media (max-width: 480px)  { .lk-grid { grid-template-columns: 1fr; } }
 
-    /* wb overrides for auto-height (no locked 100vh scroll) */
     .wb { height: auto; min-height: 100vh; padding-top: 110px; }
     .wb-gridView { height: auto; overflow: visible; }
     .wb-panel { display: block !important; height: auto; }
     .wb-detail { position: fixed; inset: 110px 0 0 0; overflow: auto; }
   </style>
 
-  <!-- Popup CSS (same as waschbecken) -->
   <style>
     .bs-popup{ position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.62); backdrop-filter: blur(10px); }
     .bs-popup[hidden]{ display: none; }
@@ -107,7 +92,7 @@
   </style>
 </head>
 
-<body class="page page--leuchten" data-page="leuchten">
+<body class="page page--badregale" data-page="badregale">
   <header class="header">
     <div class="container header__inner">
       <a class="brand" href="index.html" aria-label="AMBOSTONE Startseite">
@@ -145,176 +130,92 @@
     </div>
   </header>
 
-  <main class="wb" role="main" aria-label="Leuchten">
+  <main class="wb" role="main" aria-label="Badregale">
 
     <div class="container lk__head">
       <a class="lk__breadcrumb" href="fliesen.html">← STONE LIVING</a>
-      <h1 class="lk__title">LEUCHTEN</h1>
-      <p class="lk__sub">Mit Marmorfüßen</p>
+      <h1 class="lk__title">BADREGALE</h1>
+      <p class="lk__sub">Aus Marmor</p>
     </div>
 
-    <section class="wb-gridView" aria-label="Leuchten Kollektion">
-      <div class="wb-panel is-active" data-panel="leuchten">
+    <section class="wb-gridView" aria-label="Badregale Kollektion">
+      <div class="wb-panel is-active" data-panel="badregale">
         <div class="container">
           <div class="lk-grid">
 
-            <!-- Leuchte 1 -->
+            <!-- Badregal 1 -->
             <article class="card"
-              data-type="LEUCHTE"
-              data-title="Leuchte LUMARIA Marble"
+              data-type="BADREGAL"
+              data-title="Badregal STRATA Marble"
               data-price="auf Anfrage"
-              data-desc="Elegante Tischleuchte mit massivem Marmorfuß. Zeitloses Design, natürliche Materialität – ein echter Blickfang für jede Rauminszenierung."
+              data-desc="Elegantes Badregal aus massivem Naturmarmor. Klare Linien, luxuriöse Materialität – funktional und zugleich ein skulpturales Statement im Bad."
               data-spec-material="Marmor (Naturstein)"
               data-spec-size="auf Anfrage"
               data-spec-finish="poliert"
               data-spec-lead="auf Anfrage"
-              data-main="assets/images/living/Leuchten/leuchte1_main.jpg"
-              data-thumb1="assets/images/living/Leuchten/leuchte1.1.jpg"
-              data-thumb2="assets/images/living/Leuchten/leuchte1.2.jpg"
-              data-thumb3="assets/images/living/Leuchten/leuchte1.3.jpg"
+              data-main="assets/images/living/Badregale/badregal1_main.png"
+              data-thumb1="assets/images/living/Badregale/badregal1.jpg"
             >
               <div class="card__media">
-                <img src="assets/images/living/Leuchten/leuchte1_main.jpg" alt="Leuchte LUMARIA mit Marmorfuß">
+                <img src="assets/images/living/Badregale/badregal1_main.png" alt="Badregal STRATA aus Marmor">
               </div>
               <div class="card__body">
-                <div class="card__kicker">LEUCHTE</div>
-                <h3 class="card__title">Leuchte LUMARIA Marble</h3>
+                <div class="card__kicker">BADREGAL</div>
+                <h3 class="card__title">Badregal STRATA Marble</h3>
                 <div class="card__price">auf Anfrage</div>
                 <div class="card__hint">Details ansehen</div>
               </div>
             </article>
 
-            <!-- Leuchte 2 -->
+            <!-- Badregal 2 -->
             <article class="card"
-              data-type="LEUCHTE"
-              data-title="Leuchte SOLARIS Marble"
+              data-type="BADREGAL"
+              data-title="Badregal VELA Marble"
               data-price="auf Anfrage"
-              data-desc="Tischleuchte mit skulpturalem Marmorsockel. Außergewöhnliche Formensprache mit luxuriöser Materialpräsenz."
+              data-desc="Naturmarmor-Regal mit ruhiger, heller Maserung. Zeitlose Eleganz für das anspruchsvolle Badezimmer – leicht, offen und von natürlicher Wärme."
               data-spec-material="Marmor (Naturstein)"
               data-spec-size="auf Anfrage"
               data-spec-finish="poliert"
               data-spec-lead="auf Anfrage"
-              data-main="assets/images/living/Leuchten/leuchte2_main.jpg"
-              data-thumb1="assets/images/living/Leuchten/leuchte2.1.jpg"
-              data-thumb2="assets/images/living/Leuchten/leuchte2.2.jpg"
-              data-thumb3="assets/images/living/Leuchten/leuchte2.3.jpg"
+              data-main="assets/images/living/Badregale/badregal2_main.jpg"
+              data-thumb1="assets/images/living/Badregale/badregal2.jpg"
             >
               <div class="card__media">
-                <img src="assets/images/living/Leuchten/leuchte2_main.jpg" alt="Leuchte SOLARIS mit Marmorfuß">
+                <img src="assets/images/living/Badregale/badregal2_main.jpg" alt="Badregal VELA aus Marmor">
               </div>
               <div class="card__body">
-                <div class="card__kicker">LEUCHTE</div>
-                <h3 class="card__title">Leuchte SOLARIS Marble</h3>
+                <div class="card__kicker">BADREGAL</div>
+                <h3 class="card__title">Badregal VELA Marble</h3>
                 <div class="card__price">auf Anfrage</div>
                 <div class="card__hint">Details ansehen</div>
               </div>
             </article>
 
-            <!-- Leuchte 3 -->
+            <!-- Badregal 3 -->
             <article class="card"
-              data-type="LEUCHTE"
-              data-title="Leuchte PIETRA Marble"
+              data-type="BADREGAL"
+              data-title="Badregal NOCTA Marble"
               data-price="auf Anfrage"
-              data-desc="Klare Linien, massiver Marmorsockel – diese Leuchte verbindet architektonische Strenge mit natürlicher Wärme."
-              data-spec-material="Marmor (Naturstein)"
-              data-spec-size="auf Anfrage"
-              data-spec-finish="matt"
-              data-spec-lead="auf Anfrage"
-              data-main="assets/images/living/Leuchten/leuchte3_main.jpg"
-              data-thumb1="assets/images/living/Leuchten/leuchte3.1.jpg"
-              data-thumb2="assets/images/living/Leuchten/leuchte3.2.jpg"
-              data-thumb3="assets/images/living/Leuchten/leuchte3.3.jpg"
-            >
-              <div class="card__media">
-                <img src="assets/images/living/Leuchten/leuchte3_main.jpg" alt="Leuchte PIETRA mit Marmorfuß">
-              </div>
-              <div class="card__body">
-                <div class="card__kicker">LEUCHTE</div>
-                <h3 class="card__title">Leuchte PIETRA Marble</h3>
-                <div class="card__price">auf Anfrage</div>
-                <div class="card__hint">Details ansehen</div>
-              </div>
-            </article>
-
-            <!-- Leuchte 4 -->
-            <article class="card"
-              data-type="LEUCHTE"
-              data-title="Leuchte ONARA Marble"
-              data-price="auf Anfrage"
-              data-desc="Großzügiger Marmorsockel, edle Textur. Diese Leuchte setzt ein Statement – puristisch, hochwertig, unverwechselbar."
+              data-desc="Dunkler Naturmarmor mit feiner Aderung. Kraftvolle Präsenz, modernes Design – ein Regal das den Raum definiert."
               data-spec-material="Marmor (Naturstein)"
               data-spec-size="auf Anfrage"
               data-spec-finish="poliert"
               data-spec-lead="auf Anfrage"
-              data-main="assets/images/living/Leuchten/leuchte4_main.jpg"
-              data-thumb1="assets/images/living/Leuchten/leuchte4.1.jpg"
-              data-thumb2="assets/images/living/Leuchten/leuchte4.2.jpg"
+              data-main="assets/images/living/Badregale/badregal3_main.jpg"
+              data-thumb1="assets/images/living/Badregale/badregal3.jpg"
             >
               <div class="card__media">
-                <img src="assets/images/living/Leuchten/leuchte4_main.jpg" alt="Leuchte ONARA mit Marmorfuß">
+                <img src="assets/images/living/Badregale/badregal3_main.jpg" alt="Badregal NOCTA aus Marmor">
               </div>
               <div class="card__body">
-                <div class="card__kicker">LEUCHTE</div>
-                <h3 class="card__title">Leuchte ONARA Marble</h3>
+                <div class="card__kicker">BADREGAL</div>
+                <h3 class="card__title">Badregal NOCTA Marble</h3>
                 <div class="card__price">auf Anfrage</div>
                 <div class="card__hint">Details ansehen</div>
               </div>
             </article>
 
-            <!-- Leuchte 5 -->
-            <article class="card"
-              data-type="LEUCHTE"
-              data-title="Leuchte CALVA Marble"
-              data-price="auf Anfrage"
-              data-desc="Schlanke Tischleuchte mit organisch geformtem Marmorsockel. Natürliche Maserung, edles Finish – Licht und Stein in perfekter Harmonie."
-              data-spec-material="Marmor (Naturstein)"
-              data-spec-size="auf Anfrage"
-              data-spec-finish="poliert"
-              data-spec-lead="auf Anfrage"
-              data-main="assets/images/living/Leuchten/leuchte5_main.jpeg"
-              data-thumb1="assets/images/living/Leuchten/leuchte5.1.jpeg"
-              data-thumb2="assets/images/living/Leuchten/leuchte5.2.jpeg"
-              data-thumb3="assets/images/living/Leuchten/leuchte5.3.jpeg"
-            >
-              <div class="card__media">
-                <img src="assets/images/living/Leuchten/leuchte5_main.jpeg" alt="Leuchte CALVA mit Marmorfuß">
-              </div>
-              <div class="card__body">
-                <div class="card__kicker">LEUCHTE</div>
-                <h3 class="card__title">Leuchte CALVA Marble</h3>
-                <div class="card__price">auf Anfrage</div>
-                <div class="card__hint">Details ansehen</div>
-              </div>
-            </article>
-
-            <!-- Leuchte 6 -->
-            <article class="card"
-              data-type="LEUCHTE"
-              data-title="Leuchte VELA Marble"
-              data-price="auf Anfrage"
-              data-desc="Elegante Tischleuchte mit breitem Marmorsockel und ruhiger Aderung. Zeitlos, hochwertig und von unaufdringlicher Präsenz."
-              data-spec-material="Marmor (Naturstein)"
-              data-spec-size="auf Anfrage"
-              data-spec-finish="poliert"
-              data-spec-lead="auf Anfrage"
-              data-main="assets/images/living/Leuchten/leuchte6_main.jpg"
-              data-thumb1="assets/images/living/Leuchten/leuchte6.1.jpg"
-              data-thumb2="assets/images/living/Leuchten/leuchte6.2.jpg"
-              data-thumb3="assets/images/living/Leuchten/leuchte6.3.jpg"
-              data-thumb4="assets/images/living/Leuchten/leuchte6.4.jpg"
-            >
-              <div class="card__media">
-                <img src="assets/images/living/Leuchten/leuchte6_main.jpg" alt="Leuchte VELA mit Marmorfuß">
-              </div>
-              <div class="card__body">
-                <div class="card__kicker">LEUCHTE</div>
-                <h3 class="card__title">Leuchte VELA Marble</h3>
-                <div class="card__price">auf Anfrage</div>
-                <div class="card__hint">Details ansehen</div>
-              </div>
-            </article>
-
-          </div><!-- /lk-grid -->
+          </div>
         </div>
       </div>
     </section>
@@ -324,7 +225,7 @@
       <div class="container wb-detail__inner">
         <button class="wb-back" type="button" aria-label="Zurück zur Übersicht">← Zur Übersicht</button>
 
-        <div class="wb-detail__kicker" id="dType">LEUCHTE</div>
+        <div class="wb-detail__kicker" id="dType">BADREGAL</div>
         <h2 class="wb-detail__title" id="dTitle">Titel</h2>
 
         <div class="wb-product">
@@ -369,8 +270,8 @@
               <form class="wb-inquiry" id="inquiryForm"
                     action="https://formspree.io/f/xbdajpba"
                     method="POST">
-                <input type="hidden" name="_subject" id="subjectField" value="Anfrage – AMBOSTONE Leuchten">
-                <input type="hidden" name="source" value="Stone Living – Leuchten">
+                <input type="hidden" name="_subject" id="subjectField" value="Anfrage – AMBOSTONE Badregale">
+                <input type="hidden" name="source" value="Stone Living – Badregale">
 
                 <label class="wb-inquiry__label" for="message">Nachricht</label>
                 <textarea class="wb-field" id="message" name="message" rows="5"
@@ -391,7 +292,6 @@
 
   </main>
 
-  <!-- Popup -->
   <div class="bs-popup" id="bsPopup" hidden aria-live="polite">
     <div class="bs-popup__card" role="dialog" aria-modal="true">
       <div class="bs-popup__kicker">AMBOSTONE</div>
@@ -401,7 +301,7 @@
     </div>
   </div>
 
-  <script src="leuchten.js"></script>
+  <script src="badregale.js"></script>
 
   <script>
     (() => {
@@ -411,17 +311,8 @@
       const popupClose = document.getElementById('bsPopupClose');
       let popupTimer = null;
 
-      function openPopup() {
-        if (!popup) return;
-        popup.hidden = false;
-        clearTimeout(popupTimer);
-        popupTimer = setTimeout(() => { popup.hidden = true; }, 5600);
-      }
-      function closePopup() {
-        if (!popup) return;
-        popup.hidden = true;
-        clearTimeout(popupTimer);
-      }
+      function openPopup() { if (!popup) return; popup.hidden = false; clearTimeout(popupTimer); popupTimer = setTimeout(() => { popup.hidden = true; }, 5600); }
+      function closePopup() { if (!popup) return; popup.hidden = true; clearTimeout(popupTimer); }
 
       popupClose?.addEventListener('click', closePopup);
       popup?.addEventListener('click', (e) => { if (e.target === popup) closePopup(); });
@@ -431,9 +322,9 @@
       form.addEventListener('submit', async (e) => {
         e.preventDefault();
         const productTitle = (document.getElementById('dTitle')?.textContent || '').trim();
-        if (subjectField) subjectField.value = productTitle ? `Anfrage: ${productTitle}` : 'Anfrage – Leuchten AMBOSTONE';
+        if (subjectField) subjectField.value = productTitle ? `Anfrage: ${productTitle}` : 'Anfrage – Badregale AMBOSTONE';
         try {
-          const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
+          await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { 'Accept': 'application/json' } });
           form.reset();
           openPopup();
         } catch { openPopup(); }

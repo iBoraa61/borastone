@@ -32,7 +32,8 @@
 .page--leuchten .header,
 .page--spiegel .header,
 .page--beistelltische .header,
-.page--serviertabletts .header{
+.page--serviertabletts .header,
+.page--badregale .header{
   background-color: #070707;
   background-image:
     radial-gradient(1200px 700px at 30% 0%, rgba(0,0,0,.35), rgba(0,0,0,.72)),
