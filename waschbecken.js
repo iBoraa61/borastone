@@ -246,6 +246,9 @@
 
     lockBody(true);
     qsa('.wb-gridView').forEach((v) => (v.style.pointerEvents = 'none'));
+
+    const _t = safeStr(ds.title) || 'produkt';
+    history.pushState({ p: _t }, '', '?p=' + encodeURIComponent(_t));
   }
 
   function closeDetail() {
@@ -258,6 +261,8 @@
     lockBody(false);
     qsa('.wb-gridView').forEach((v) => (v.style.pointerEvents = ''));
     lastActiveCard?.focus?.();
+
+    if (location.search) history.pushState(null, '', location.pathname);
   }
 
   // Card click (nur innerhalb gridView öffnen)
@@ -403,4 +408,14 @@
   });
 
   bindHoverStacking(document);
+
+  // Deep-link: URL ?p=title auto-opens product; browser back closes detail
+  window.addEventListener('popstate', () => {
+    if (!new URLSearchParams(location.search).get('p') && detail && !detail.hidden) closeDetail();
+  });
+  const _dp = new URLSearchParams(location.search).get('p');
+  if (_dp) {
+    const _dc = qsa('.card').find(c => safeStr(c.dataset.title) === decodeURIComponent(_dp));
+    if (_dc) openDetail(_dc);
+  }
 })();

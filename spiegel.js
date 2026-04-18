@@ -75,6 +75,9 @@
     detail.hidden = false;
     detail.scrollTop = 0;
     lockBody(true);
+
+    const _t = safeStr(ds.title) || 'produkt';
+    history.pushState({ p: _t }, '', '?p=' + encodeURIComponent(_t));
   }
 
   function closeDetail() {
@@ -83,6 +86,8 @@
     detail.hidden = true;
     lockBody(false);
     lastActiveCard?.focus?.();
+
+    if (location.search) history.pushState(null, '', location.pathname);
   }
 
   document.addEventListener('click', (e) => {
@@ -126,4 +131,14 @@
     if (zoomOverlay && !zoomOverlay.hidden) return closeZoom();
     if (detail && !detail.hidden) return closeDetail();
   });
+
+  // Deep-link: URL ?p=title auto-opens product; browser back closes detail
+  window.addEventListener('popstate', () => {
+    if (!new URLSearchParams(location.search).get('p') && detail && !detail.hidden) closeDetail();
+  });
+  const _dp = new URLSearchParams(location.search).get('p');
+  if (_dp) {
+    const _dc = [...document.querySelectorAll('.card')].find(c => safeStr(c.dataset.title) === decodeURIComponent(_dp));
+    if (_dc) openDetail(_dc);
+  }
 })();

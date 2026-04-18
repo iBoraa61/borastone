@@ -180,6 +180,8 @@
     detail.scrollTop = 0;
     lockBody(true);
     gridView.style.pointerEvents = 'none';
+
+    if (title) history.pushState({ p: title }, '', '?p=' + encodeURIComponent(title));
   }
 
   function closeDetail() {
@@ -189,6 +191,8 @@
     lockBody(false);
     gridView.style.pointerEvents = '';
     lastActiveCard?.focus?.();
+
+    if (location.search) history.pushState(null, '', location.pathname);
   }
 
   // ✅ Card click (delegiert) — FIX: NICHT öffnen wenn Detail offen oder wenn Klick in Form/Detail
@@ -314,4 +318,14 @@
 
   qsa('.bt-gridView .cardsWrap').forEach((wrap) => initCarousel(wrap));
   bindHoverStacking(document);
+
+  // Deep-link: URL ?p=title auto-opens product; browser back closes detail
+  window.addEventListener('popstate', () => {
+    if (!new URLSearchParams(location.search).get('p') && detail && !detail.hidden) closeDetail();
+  });
+  const _dp = new URLSearchParams(location.search).get('p');
+  if (_dp) {
+    const _dc = qsa('.card').find(c => safeStr(c.dataset.title) === decodeURIComponent(_dp));
+    if (_dc) openDetail(_dc);
+  }
 })();
