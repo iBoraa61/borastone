@@ -126,35 +126,25 @@ img{ max-width: 100%; display: block; }
   place-items: center;
   isolation: isolate;
   padding-top: 120px;
-
-  background:
-    radial-gradient(1000px 520px at 50% 45%, rgba(0,0,0,.05), rgba(0,0,0,.28)),
-    linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.38)),
-    url("assets/images/hero2.png") center 40% / cover no-repeat;
-
-  background-color: #0a0a0a;
+  overflow: hidden;
+  background-color: #080808;
 }
 
-@media (max-width: 640px){
-  .hero{
-    background:
-      radial-gradient(1000px 520px at 50% 45%, rgba(0,0,0,.05), rgba(0,0,0,.28)),
-      linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.38)),
-      url("assets/images/hero2.png") center 55% / cover no-repeat;
-  }
-}
-
-/* softer vignette */
+/* overlay on reel */
 .hero::before{
   content:"";
   position:absolute;
   inset: 0;
   background:
-    radial-gradient(75% 75% at 50% 45%, rgba(0,0,0,0) 55%, rgba(0,0,0,.28) 100%);
-  z-index: -1;
+    radial-gradient(75% 75% at 50% 45%, rgba(0,0,0,0) 30%, rgba(0,0,0,.32) 100%),
+    linear-gradient(to bottom, rgba(0,0,0,.50) 0%, rgba(0,0,0,.16) 40%, rgba(0,0,0,.58) 100%);
+  z-index: 2;
+  pointer-events: none;
 }
 
 .hero__content{
+  position: relative;
+  z-index: 3;
   text-align: center;
   padding: 60px 0 40px;
 }
@@ -195,6 +185,41 @@ img{ max-width: 100%; display: block; }
 }
 
 /* =========================================================
+   Hero Reel (animated film strip)
+========================================================= */
+.hero__reel{
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.hero__reel-track{
+  display: flex;
+  height: 100%;
+  will-change: transform;
+  animation: reel-pan 55s linear infinite;
+}
+
+.hero__reel-track img{
+  height: 100%;
+  width: auto;
+  min-width: 45vw;
+  object-fit: cover;
+  flex-shrink: 0;
+  filter: brightness(.72) saturate(.85);
+}
+
+@keyframes reel-pan{
+  from{ transform: translateX(0); }
+  to  { transform: translateX(-50%); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .hero__reel-track{ animation-play-state: paused; }
+}
+
+/* =========================================================
    Side elements (Startseite)
 ========================================================= */
 .side{
@@ -203,6 +228,7 @@ img{ max-width: 100%; display: block; }
   bottom: 0;
   width: 88px;
   pointer-events: none;
+  z-index: 3;
 }
 
 .side--left{ left: 0; }
@@ -322,11 +348,152 @@ img{ max-width: 100%; display: block; }
 
 /* Optional: ultrawide */
 @media (min-width: 1600px){
-  .hero{
-    background:
-      radial-gradient(1000px 520px at 50% 45%, rgba(0,0,0,.05), rgba(0,0,0,.28)),
-      linear-gradient(to bottom, rgba(0,0,0,.18), rgba(0,0,0,.38)),
-      url("assets/images/hero2.png") center 68% / cover no-repeat;
+  .hero__reel-track img{ min-width: 35vw; }
+}
+
+/* =========================================================
+   Feature rows (alternating showcase)
+========================================================= */
+.feat-row{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 80vh;
+  background-color: #070707;
+  overflow: hidden;
+}
+
+.feat-row + .feat-row{
+  border-top: 1px solid rgba(255,255,255,.04);
+}
+
+.feat-row--flip{
+  background-color: #0a0908;
+}
+
+.feat-row--flip .feat-row__img{ order: 2; }
+.feat-row--flip .feat-row__text{ order: 1; }
+
+.feat-row__img{
+  overflow: hidden;
+  position: relative;
+}
+
+.feat-row__img img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.6s cubic-bezier(.25,.46,.45,.94);
+}
+
+.feat-row:hover .feat-row__img img{
+  transform: scale(1.05);
+}
+
+.feat-row__text{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: clamp(40px, 6vw, 100px) clamp(30px, 5vw, 80px);
+}
+
+.feat-row__kicker{
+  display: block;
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.80);
+  margin-bottom: 20px;
+}
+
+.feat-row__title{
+  margin: 0 0 22px;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: clamp(20px, 2.4vw, 38px);
+  letter-spacing: .07em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.92);
+  line-height: 1.18;
+}
+
+.feat-row__desc{
+  margin: 0 0 32px;
+  font-family: var(--serif-soft);
+  font-size: clamp(15px, 1.15vw, 18px);
+  color: rgba(255,255,255,.58);
+  line-height: 1.70;
+  max-width: 44ch;
+}
+
+.feat-row__cta{
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 11.5px;
+  letter-spacing: .20em;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.88);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(200,176,138,.28);
+  padding-bottom: 4px;
+  width: fit-content;
+  transition: color .2s ease, border-color .2s ease;
+}
+
+.feat-row__cta:hover{
+  color: rgba(200,176,138,1);
+  border-color: rgba(200,176,138,.65);
+}
+
+/* Scroll reveal */
+.feat-row .feat-row__img,
+.feat-row .feat-row__text{
+  opacity: 0;
+  transition: opacity .95s cubic-bezier(.25,.46,.45,.94),
+              transform .95s cubic-bezier(.25,.46,.45,.94);
+}
+
+.feat-row .feat-row__img{
+  transform: translateX(-50px);
+}
+
+.feat-row .feat-row__text{
+  transform: translateX(50px);
+  transition-delay: .15s;
+}
+
+.feat-row--flip .feat-row__img{
+  transform: translateX(50px);
+}
+
+.feat-row--flip .feat-row__text{
+  transform: translateX(-50px);
+}
+
+.feat-row.is-visible .feat-row__img,
+.feat-row.is-visible .feat-row__text{
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media (max-width: 820px){
+  .feat-row{
+    grid-template-columns: 1fr;
+    min-height: auto;
+  }
+  .feat-row--flip .feat-row__img{ order: 0; }
+  .feat-row--flip .feat-row__text{ order: 1; }
+  .feat-row__img{ height: 62vw; }
+  .feat-row .feat-row__img,
+  .feat-row .feat-row__text,
+  .feat-row--flip .feat-row__img,
+  .feat-row--flip .feat-row__text{
+    transform: translateY(30px);
+  }
+  .feat-row.is-visible .feat-row__img,
+  .feat-row.is-visible .feat-row__text{
+    transform: translateY(0);
   }
 }
 

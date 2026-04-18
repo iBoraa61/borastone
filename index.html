@@ -125,6 +125,30 @@
 
   <!-- SECTION 1: HERO -->
   <main class="hero" role="main" aria-label="Hero" id="top">
+
+    <!-- Animated film-strip background -->
+    <div class="hero__reel" aria-hidden="true">
+      <div class="hero__reel-track">
+        <img src="assets/images/products/stand-01-main.jpeg" alt="">
+        <img src="assets/images/products/stand-03-main.jpg" alt="">
+        <img src="assets/images/products/tub-01-main.png" alt="">
+        <img src="assets/images/products/wand-01-main.jpg" alt="">
+        <img src="assets/images/products/stand-05-main.png" alt="">
+        <img src="assets/images/products/tub-02-main.png" alt="">
+        <img src="assets/images/products/wand-03-main.jpg" alt="">
+        <img src="assets/images/products/stand-07-main.png" alt="">
+        <!-- duplicate for seamless loop -->
+        <img src="assets/images/products/stand-01-main.jpeg" alt="">
+        <img src="assets/images/products/stand-03-main.jpg" alt="">
+        <img src="assets/images/products/tub-01-main.png" alt="">
+        <img src="assets/images/products/wand-01-main.jpg" alt="">
+        <img src="assets/images/products/stand-05-main.png" alt="">
+        <img src="assets/images/products/tub-02-main.png" alt="">
+        <img src="assets/images/products/wand-03-main.jpg" alt="">
+        <img src="assets/images/products/stand-07-main.png" alt="">
+      </div>
+    </div>
+
     <!-- Left vertical contact -->
     <aside class="side side--left" aria-label="Kontakt">
       <div class="side__phone">
@@ -165,6 +189,43 @@
       </p>
     </section>
   </main>
+
+  <!-- FEATURE SECTIONS: Produkthighlights -->
+  <section class="feat-row" data-reveal>
+    <div class="feat-row__img">
+      <img src="assets/images/products/stand-02-main.png" alt="Naturstein Standwaschbecken">
+    </div>
+    <div class="feat-row__text">
+      <span class="feat-row__kicker">Waschbecken</span>
+      <h2 class="feat-row__title">Skulpturale Becken<br>aus Naturstein</h2>
+      <p class="feat-row__desc">Freistehende Standwaschbecken und Wandwaschbecken in Marmor und Sinterstein &ndash; jedes Stück ein Unikat mit individueller Maserung.</p>
+      <a class="feat-row__cta" href="waschbecken.html">Kollektion erkunden &rarr;</a>
+    </div>
+  </section>
+
+  <section class="feat-row feat-row--flip" data-reveal>
+    <div class="feat-row__img">
+      <img src="assets/images/products/tub-01-main.png" alt="Freistehende Badewanne aus Marmor">
+    </div>
+    <div class="feat-row__text">
+      <span class="feat-row__kicker">Badewannen</span>
+      <h2 class="feat-row__title">Freistehende Wannen<br>mit Spa-Charakter</h2>
+      <p class="feat-row__desc">Massive Naturmarmor-Wannen mit unverwechselbarer Präsenz &ndash; konzipiert für Räume, die ein Statement setzen.</p>
+      <a class="feat-row__cta" href="bad.html">Kollektion erkunden &rarr;</a>
+    </div>
+  </section>
+
+  <section class="feat-row" data-reveal>
+    <div class="feat-row__img">
+      <img src="assets/images/living/Beistelltische/Beistelltisch1_main.jpg" alt="Stone Living &ndash; Beistelltisch Marmor">
+    </div>
+    <div class="feat-row__text">
+      <span class="feat-row__kicker">Stone Living</span>
+      <h2 class="feat-row__title">Naturstein im<br>ganzen Raum</h2>
+      <p class="feat-row__desc">Leuchten, Spiegel, Beistelltische und Badregale &ndash; kuratierte Naturstein-Objekte für jeden Raum.</p>
+      <a class="feat-row__cta" href="fliesen.html">Kollektion erkunden &rarr;</a>
+    </div>
+  </section>
 
   <!-- SECTION 2: ÜBER + KONTAKT -->
   <section class="home2" id="atelier" aria-label="Über AMBOSTONE & Kontakt">
@@ -340,38 +401,19 @@
       if (hero) hero.classList.add('is-animate');
     });
 
+    // Scroll reveal for feature sections
     (() => {
-      const hero = document.querySelector('.hero');
-      const section2 = document.querySelector('#atelier');
-      if (!hero || !section2) return;
-
-      const isTouch = window.matchMedia('(pointer: coarse)').matches;
-      if (isTouch) return;
-
-      let isScrolling = false;
-
-      function snapTo(el){
-        isScrolling = true;
-        el.scrollIntoView({ behavior: 'smooth' });
-        setTimeout(() => isScrolling = false, 900);
-      }
-
-      window.addEventListener('wheel', (e) => {
-        if (isScrolling) return;
-
-        const dir = Math.sign(e.deltaY);
-        const heroVisible = hero.getBoundingClientRect().top >= -10;
-
-        if (dir > 0 && heroVisible) {
-          e.preventDefault();
-          snapTo(section2);
-        }
-
-        if (dir < 0 && !heroVisible) {
-          e.preventDefault();
-          snapTo(hero);
-        }
-      }, { passive: false });
+      const rows = document.querySelectorAll('.feat-row[data-reveal]');
+      if (!rows.length) return;
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            e.target.classList.add('is-visible');
+            obs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      rows.forEach(r => obs.observe(r));
     })();
 
     function showPopup(){
