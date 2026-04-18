@@ -265,13 +265,16 @@
     if (location.search) history.pushState(null, '', location.pathname);
   }
 
-  // Card click → neues Fenster öffnen
+  // Card click → neues Tab öffnen (popup-blocker-sicher)
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.wb-gridView .card');
     if (!card) return;
     if (e.target.closest('.cardsArrow')) return;
     const _t = safeStr(card.dataset.title);
-    window.open(location.pathname + (_t ? '?p=' + encodeURIComponent(_t) : ''), '_blank');
+    const url = location.pathname + (_t ? '?p=' + encodeURIComponent(_t) : '');
+    const a = document.createElement('a');
+    a.href = url; a.target = '_blank'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
   });
 
   backBtn?.addEventListener('click', closeDetail);
@@ -418,8 +421,8 @@
   if (_dp) {
     const _dc = qsa('.card').find(c => safeStr(c.dataset.title) === decodeURIComponent(_dp));
     if (_dc) {
+      document.body.classList.add('is-detail-page');
       openDetail(_dc);
-      qsa('.cardsArrow').forEach(a => { a.style.display = 'none'; });
     }
   }
 })();

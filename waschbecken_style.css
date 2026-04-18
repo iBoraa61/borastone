@@ -3,6 +3,10 @@
    (depends on global style.css variables)
 ========================= */
 
+/* Detailseite (via ?p= Link): Pfeile + Grid ausblenden */
+.is-detail-page .cardsArrow{ display: none !important; }
+.is-detail-page .wb-gridView{ visibility: hidden; pointer-events: none; }
+
 /* =========================
    Page background (FIX: wie Badewannen, Mobile-safe)
 ========================= */

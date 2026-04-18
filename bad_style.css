@@ -3,6 +3,10 @@
    aber eigene Datei + eigener Background.
 */
 
+/* Detailseite (via ?p= Link): Pfeile + Grid ausblenden */
+.is-detail-page .cardsArrow{ display: none !important; }
+.is-detail-page .bt-gridView{ visibility: hidden; pointer-events: none; }
+
 /* =========================
    Page background
 ========================= */
