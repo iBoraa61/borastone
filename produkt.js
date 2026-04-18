@@ -49,7 +49,14 @@
   function showError(msg) {
     if (loadingMsg) {
       loadingMsg.className = 'produkt-error';
-      loadingMsg.innerHTML = `<p>${msg}</p><a href="${src || 'index.html'}">← Zurück</a>`;
+      loadingMsg.textContent = '';
+      const p = document.createElement('p');
+      p.textContent = msg;
+      const a = document.createElement('a');
+      a.href = src || 'index.html';
+      a.textContent = '← Zurück';
+      loadingMsg.appendChild(p);
+      loadingMsg.appendChild(a);
     }
   }
 
@@ -64,14 +71,20 @@
       if (el) el.textContent = safeStr(val) || fallback;
     };
 
-    setText('dType',     ds.type,         'PRODUKT');
-    setText('dTitle',    ds.title,        'Produkt');
-    setText('dPrice',    ds.price,        '');
-    setText('dDesc',     ds.desc,         '');
-    setText('sMaterial', ds.specMaterial, '—');
-    setText('sSize',     ds.specSize,     '—');
-    setText('sFinish',   ds.specFinish,   '—');
-    setText('sLead',     ds.specLead,     '—');
+    setText('dType',     ds.type || ds.kicker, 'PRODUKT');
+    setText('dTitle',    ds.title,              'Produkt');
+    setText('dPrice',    ds.price,              '');
+    setText('dDesc',     ds.desc,               '');
+    setText('sMaterial', ds.specMaterial || ds.material, '—');
+    setText('sSize',     ds.specSize    || ds.size,     '—');
+    setText('sFinish',   ds.specFinish  || ds.weight || '', '');
+    setText('sLead',     ds.specLead    || '',          '');
+
+    // Labels anpassen je nach Produkttyp
+    const finishLabel = qs('#lFinish');
+    const leadLabel   = qs('#lLead');
+    if (finishLabel && ds.weight && !ds.specFinish) finishLabel.textContent = 'Gewicht';
+    if (leadLabel && !ds.specLead) leadLabel.closest('li')?.remove();
 
     // Form fields
     const subjectField = qs('#subjectField');
@@ -82,8 +95,8 @@
     buildGallery(ds);
 
     // Show section
-    if (loadingMsg) loadingMsg.hidden = true;
-    if (detailSection) detailSection.hidden = false;
+    if (loadingMsg) loadingMsg.remove();
+    if (detailSection) detailSection.removeAttribute('hidden');
   }
 
   // -------------------------

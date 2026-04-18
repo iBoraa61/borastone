@@ -16,10 +16,12 @@
   <link rel="stylesheet" href="waschbecken_style.css" />
 
   <style>
-    /* Standalone page: detail fills the page instead of overlaying a grid */
+    /* Universal hidden fix */
+    [hidden]{ display: none !important; }
+
+    /* Standalone page: detail fills the page */
     .wb-detail{
       position: static !important;
-      display: block !important;
       overflow: visible !important;
       min-height: calc(100vh - 80px);
       padding-top: 32px;
@@ -66,7 +68,8 @@
     /* Loading state */
     .produkt-loading{ display: flex; align-items: center; justify-content: center; min-height: 60vh; font-family: var(--serif); letter-spacing: .2em; font-size: 13px; color: rgba(255,255,255,.4); text-transform: uppercase; }
     .produkt-error{ display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 16px; min-height: 60vh; font-family: var(--serif); color: rgba(255,255,255,.6); text-align: center; }
-    .produkt-error a{ color: rgba(200,176,138,.85); }
+    .produkt-error a{ color: rgba(200,176,138,.85); text-decoration: none; }
+    .produkt-error a:hover{ text-decoration: underline; }
   </style>
 </head>
 
@@ -158,8 +161,8 @@
                 <ul class="wb-specs">
                   <li><span>Material</span><span id="sMaterial"></span></li>
                   <li><span>Maße</span><span id="sSize"></span></li>
-                  <li><span>Finish</span><span id="sFinish"></span></li>
-                  <li><span>Lieferzeit</span><span id="sLead"></span></li>
+                  <li><span id="lFinish">Finish</span><span id="sFinish"></span></li>
+                  <li><span id="lLead">Lieferzeit</span><span id="sLead"></span></li>
                 </ul>
               </div>
 
