@@ -90,16 +90,13 @@
     if (location.search) history.pushState(null, '', location.pathname);
   }
 
-  // Card click → eigene Produktseite in neuem Tab
+  // Card click → eigene Produktseite öffnen
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.wb-gridView .card');
     if (!card) return;
     const _t = safeStr(card.dataset.title);
     if (!_t) return;
-    const url = 'produkt.html?src=spiegel.html&p=' + encodeURIComponent(_t);
-    const a = document.createElement('a');
-    a.href = url; a.target = '_blank'; a.rel = 'noopener';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    location.href = 'produkt.html?src=spiegel.html&p=' + encodeURIComponent(_t);
   });
 
   backBtn?.addEventListener('click', closeDetail);
@@ -138,16 +135,4 @@
     if (detail && !detail.hidden) return closeDetail();
   });
 
-  // Deep-link: URL ?p=title auto-opens product; browser back closes detail
-  window.addEventListener('popstate', () => {
-    if (!new URLSearchParams(location.search).get('p') && detail && !detail.hidden) closeDetail();
-  });
-  const _dp = new URLSearchParams(location.search).get('p');
-  if (_dp) {
-    const _dc = [...document.querySelectorAll('.card')].find(c => safeStr(c.dataset.title) === decodeURIComponent(_dp));
-    if (_dc) {
-      document.body.classList.add('is-detail-page');
-      openDetail(_dc);
-    }
-  }
 })();

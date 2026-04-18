@@ -25,6 +25,35 @@
       padding-top: 32px;
       padding-bottom: 64px;
     }
+    /* Großer goldener Zurück-Button */
+    .wb-back{
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 28px;
+      border: 1.5px solid rgba(200,176,138,.55);
+      background: rgba(200,176,138,.12);
+      color: rgba(200,176,138,1);
+      border-radius: 999px;
+      font-family: var(--serif);
+      font-size: 15px;
+      font-weight: 500;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: all .22s ease;
+    }
+    .wb-back:hover{
+      background: rgba(200,176,138,.22);
+      border-color: rgba(200,176,138,.8);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 24px rgba(200,176,138,.18);
+    }
+    .wb-back svg{
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+    }
     /* Popup */
     .bs-popup{ position: fixed; inset: 0; z-index: 5000; display: grid; place-items: center; padding: 24px; background: rgba(0,0,0,.62); backdrop-filter: blur(10px); }
     .bs-popup[hidden]{ display: none; }
@@ -85,7 +114,12 @@
 
     <section class="wb-detail" aria-label="Produktdetails" id="detailSection" hidden>
       <div class="container wb-detail__inner">
-        <button class="wb-back" type="button" id="backBtn" aria-label="Zurück zur Übersicht">← Zur Übersicht</button>
+        <button class="wb-back" type="button" id="backBtn" aria-label="Zurück zur Übersicht">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Zur Übersicht
+        </button>
 
         <div class="wb-detail__kicker" id="dType"></div>
         <h2 class="wb-detail__title" id="dTitle"></h2>

@@ -265,17 +265,14 @@
     if (location.search) history.pushState(null, '', location.pathname);
   }
 
-  // Card click → eigene Produktseite in neuem Tab
+  // Card click → eigene Produktseite öffnen
   document.addEventListener('click', (e) => {
     const card = e.target.closest('.wb-gridView .card');
     if (!card) return;
     if (e.target.closest('.cardsArrow')) return;
     const _t = safeStr(card.dataset.title);
     if (!_t) return;
-    const url = 'produkt.html?src=waschbecken.html&p=' + encodeURIComponent(_t);
-    const a = document.createElement('a');
-    a.href = url; a.target = '_blank'; a.rel = 'noopener';
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    location.href = 'produkt.html?src=waschbecken.html&p=' + encodeURIComponent(_t);
   });
 
   backBtn?.addEventListener('click', closeDetail);
@@ -414,16 +411,4 @@
 
   bindHoverStacking(document);
 
-  // Deep-link: URL ?p=title auto-opens product; browser back closes detail
-  window.addEventListener('popstate', () => {
-    if (!new URLSearchParams(location.search).get('p') && detail && !detail.hidden) closeDetail();
-  });
-  const _dp = new URLSearchParams(location.search).get('p');
-  if (_dp) {
-    const _dc = qsa('.card').find(c => safeStr(c.dataset.title) === decodeURIComponent(_dp));
-    if (_dc) {
-      document.body.classList.add('is-detail-page');
-      openDetail(_dc);
-    }
-  }
 })();
