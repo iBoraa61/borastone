@@ -16,8 +16,25 @@
   <link rel="stylesheet" href="waschbecken_style.css" />
 
   <style>
+    /* Produkt page background */
+    .page--produkt {
+      background-color: #070707;
+      background-image:
+        radial-gradient(1200px 700px at 30% 0%, rgba(0,0,0,.35), rgba(0,0,0,.70)),
+        linear-gradient(180deg, rgba(0,0,0,.35), rgba(0,0,0,.78)),
+        url('assets/images/bg/onyx_background.png');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: rgba(255,255,255,.92);
+    }
+
     /* Universal hidden fix */
     [hidden]{ display: none !important; }
+
+    /* Override page-level overflow locks */
+    html, body { overflow: auto !important; height: auto !important; }
+    .wb, .bt { height: auto !important; overflow: visible !important; }
 
     /* Standalone page: detail fills the page */
     .wb-detail{
@@ -73,7 +90,7 @@
   </style>
 </head>
 
-<body class="page page--washbecken">
+<body class="page page--produkt">
   <header class="header">
     <div class="container header__inner">
       <a class="brand" href="index.html" aria-label="AMBOSTONE Startseite">

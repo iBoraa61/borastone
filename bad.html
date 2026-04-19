@@ -368,8 +368,10 @@
     if (e.target.closest('.cardsArrow')) return;
     var t = (card.dataset.title || '').trim();
     if (!t) return;
-    location.href = 'produkt.html?src=bad.html&p=' + encodeURIComponent(t);
-  });
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    window.location.href = 'produkt.html?src=bad.html&p=' + encodeURIComponent(t);
+  }, true);
   </script>
 
   <script src="bad.js"></script>
