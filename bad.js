@@ -66,6 +66,10 @@
   const fMaterial = qs('#bMaterial');
   const fSize = qs('#bSize');
   const fWeight = qs('#bWeight');
+  const fFinish = qs('#bFinish');
+  const fCapacity = qs('#bCapacity');
+  const fOrigin = qs('#bOrigin');
+  const fDrain = qs('#bDrain');
   const fMainImg = qs('#bMain');
   const gallery = qs('#bGallery');
 
@@ -171,8 +175,12 @@
     setText(fDesc, desc);
 
     setText(fMaterial, ds.material, '—');
+    setText(fOrigin, ds.origin, '—');
     setText(fSize, ds.size, '—');
     setText(fWeight, ds.weight, '—');
+    setText(fCapacity, ds.capacity, '—');
+    setText(fFinish, ds.finish, '—');
+    setText(fDrain, ds.drain, '—');
 
     buildGallery(card);
 
