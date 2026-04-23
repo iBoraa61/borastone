@@ -920,7 +920,7 @@
         <div class="wb-reviews__kicker">Referenzen</div>
         <h2 class="wb-reviews__title">Was unsere Kunden sagen</h2>
       </div>
-      <div class="wb-reviews__grid">
+      <div class="wb-reviews__track-wrap"><div class="wb-reviews__track" id="wbReviewsTrack">
 
         <div class="wb-review-card">
           <div class="wb-review-card__stars">★★★★★</div>
@@ -1037,6 +1037,30 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    /* ---- Reviews Slider ---- */
+    (function(){
+      var track = document.getElementById('wbReviewsTrack');
+      if (!track) return;
+      var origCards = Array.from(track.children);
+      origCards.forEach(function(c){ track.appendChild(c.cloneNode(true)); });
+      var cardW = 320, gap = 24, step = cardW + gap;
+      var total = origCards.length, idx = 0, animating = false;
+      function goTo(n, animated){
+        track.style.transition = (animated === false) ? 'none' : 'transform 0.65s cubic-bezier(.4,0,.2,1)';
+        track.style.transform = 'translateX(-' + (n * step) + 'px)';
+      }
+      function next(){ if (animating) return; animating = true; idx++; goTo(idx, true); }
+      track.addEventListener('transitionend', function(){
+        animating = false;
+        if (idx >= total){ idx = 0; goTo(idx, false); track.getBoundingClientRect(); }
+      });
+      var timer = setInterval(next, 3800);
+      track.closest('.wb-reviews__track-wrap').addEventListener('mouseenter', function(){ clearInterval(timer); });
+      track.closest('.wb-reviews__track-wrap').addEventListener('mouseleave', function(){ timer = setInterval(next, 3800); });
+    })();
+  </script>
 
 </body>
 </html>

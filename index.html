@@ -76,13 +76,19 @@
       color: rgba(255,255,255,.88);
       margin: 0 0 48px;
     }
-    .trust__grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-      text-align: left;
+    .trust__track-wrap {
+      overflow: hidden;
+      position: relative;
+    }
+    .trust__track {
+      display: flex;
+      gap: 24px;
+      padding: 8px 0 28px;
+      transition: transform 0.65s cubic-bezier(.4,0,.2,1);
+      will-change: transform;
     }
     .trust__card {
+      flex: 0 0 320px;
       border: 1px solid rgba(200,176,138,.15);
       border-radius: 16px;
       padding: 28px 24px 22px;
@@ -117,8 +123,7 @@
       color: rgba(255,255,255,.40);
       letter-spacing: .04em;
     }
-    @media (max-width: 860px) { .trust__grid { grid-template-columns: repeat(2, 1fr); gap: 14px; } }
-    @media (max-width: 540px) { .trust__grid { grid-template-columns: 1fr; } }
+
   </style>
 
   <!-- Popup CSS -->
@@ -392,7 +397,7 @@
     <div class="container trust__inner">
       <div class="trust__kicker">REFERENZEN</div>
       <h2 class="trust__title">Was unsere Kunden sagen</h2>
-      <div class="trust__grid">
+      <div class="trust__track-wrap"><div class="trust__track" id="trustReviewsTrack">
         <figure class="trust__card">
           <blockquote class="trust__quote">
             Die Calacatta-Badewanne ist das erste was man beim Betreten des Bades sieht. Jeder Besucher fragt sofort woher sie kommt.
@@ -474,7 +479,7 @@
             <span class="trust__city">München</span>
           </figcaption>
         </figure>
-      </div>
+      </div></div>
     </div>
   </section>
 
@@ -820,6 +825,30 @@
           showPopup();
         }
       });
+    })();
+  </script>
+
+  <script>
+    /* ---- Reviews Slider ---- */
+    (function(){
+      var track = document.getElementById('trustReviewsTrack');
+      if (!track) return;
+      var origCards = Array.from(track.children);
+      origCards.forEach(function(c){ track.appendChild(c.cloneNode(true)); });
+      var cardW = 320, gap = 24, step = cardW + gap;
+      var total = origCards.length, idx = 0, animating = false;
+      function goTo(n, animated){
+        track.style.transition = (animated === false) ? 'none' : 'transform 0.65s cubic-bezier(.4,0,.2,1)';
+        track.style.transform = 'translateX(-' + (n * step) + 'px)';
+      }
+      function next(){ if (animating) return; animating = true; idx++; goTo(idx, true); }
+      track.addEventListener('transitionend', function(){
+        animating = false;
+        if (idx >= total){ idx = 0; goTo(idx, false); track.getBoundingClientRect(); }
+      });
+      var timer = setInterval(next, 3800);
+      track.closest('.trust__track-wrap').addEventListener('mouseenter', function(){ clearInterval(timer); });
+      track.closest('.trust__track-wrap').addEventListener('mouseleave', function(){ timer = setInterval(next, 3800); });
     })();
   </script>
 

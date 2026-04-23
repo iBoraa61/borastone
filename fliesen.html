@@ -186,7 +186,7 @@
         <div class="sl-reviews__kicker">Referenzen</div>
         <h2 class="sl-reviews__title">Was unsere Kunden sagen</h2>
       </div>
-      <div class="sl-reviews__grid">
+      <div class="sl-reviews__track-wrap"><div class="sl-reviews__track" id="slReviewsTrack">
 
         <div class="sl-review-card">
           <div class="sl-review-card__stars">★★★★★</div>
@@ -260,7 +260,7 @@
           <div class="sl-review-card__author">Christina F. <span>Hamburg</span></div>
         </div>
 
-      </div>
+      </div></div>
     </div>
   </section>
 
@@ -321,6 +321,30 @@
       </div>
     </div>
   </footer>
+
+  <script>
+    /* ---- Reviews Slider ---- */
+    (function(){
+      var track = document.getElementById('slReviewsTrack');
+      if (!track) return;
+      var origCards = Array.from(track.children);
+      origCards.forEach(function(c){ track.appendChild(c.cloneNode(true)); });
+      var cardW = 320, gap = 24, step = cardW + gap;
+      var total = origCards.length, idx = 0, animating = false;
+      function goTo(n, animated){
+        track.style.transition = (animated === false) ? 'none' : 'transform 0.65s cubic-bezier(.4,0,.2,1)';
+        track.style.transform = 'translateX(-' + (n * step) + 'px)';
+      }
+      function next(){ if (animating) return; animating = true; idx++; goTo(idx, true); }
+      track.addEventListener('transitionend', function(){
+        animating = false;
+        if (idx >= total){ idx = 0; goTo(idx, false); track.getBoundingClientRect(); }
+      });
+      var timer = setInterval(next, 3800);
+      track.closest('.sl-reviews__track-wrap').addEventListener('mouseenter', function(){ clearInterval(timer); });
+      track.closest('.sl-reviews__track-wrap').addEventListener('mouseleave', function(){ timer = setInterval(next, 3800); });
+    })();
+  </script>
 
 </body>
 </html>
