@@ -1084,3 +1084,552 @@ img{ max-width: 100%; display: block; }
 .navToggle__lines::after{ top: 6px; }
 
 
+/* =========================================================
+   Announcement Bar
+========================================================= */
+.announce-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 202;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: #1e1c19;
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.65);
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .30s ease;
+  pointer-events: auto;
+}
+
+.announce-bar a {
+  color: var(--gold);
+  white-space: nowrap;
+}
+
+.announce-bar--hidden {
+  transform: translateY(-100%);
+}
+
+/* =========================================================
+   Header — scroll dark background
+========================================================= */
+.header {
+  transition:
+    background .30s ease,
+    backdrop-filter .30s ease,
+    box-shadow .30s ease;
+}
+
+.header.is-scrolled:not(.header--lusso) {
+  background: rgba(10,8,6,.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* =========================================================
+   Header — Lusso layout (index.html)
+========================================================= */
+.header--lusso {
+  top: 38px;
+  padding: 0;
+  transition:
+    top .35s cubic-bezier(.4,0,.2,1),
+    background .30s ease,
+    backdrop-filter .30s ease,
+    box-shadow .30s ease;
+}
+
+.header--lusso.is-scrolled {
+  top: 0;
+  background: rgba(10,8,6,.96);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+}
+
+/* Inner: 3-column grid (left | brand center | right) */
+.header--lusso .header__inner {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 14px 0;
+  gap: 0;
+}
+
+/* Left slot */
+.header__left {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.hdr-search-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.72);
+  padding: 6px 0;
+  transition: color .2s ease;
+  pointer-events: auto;
+}
+
+.hdr-search-btn:hover { color: rgba(255,255,255,.95); }
+
+.hdr-phone-inline {
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .10em;
+  color: rgba(255,255,255,.58);
+  white-space: nowrap;
+  transition: color .2s ease;
+  pointer-events: auto;
+}
+
+.hdr-phone-inline:hover { color: var(--gold); }
+
+/* Right slot */
+.header__right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+}
+
+.hdr-contact-link {
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.78);
+  transition: color .2s ease;
+  pointer-events: auto;
+}
+
+.hdr-contact-link:hover { color: rgba(255,255,255,.95); }
+
+/* Sub-nav row */
+.header__nav-bar {
+  border-top: 1px solid rgba(255,255,255,.06);
+  pointer-events: auto;
+}
+
+.header__nav-bar .container {
+  display: flex;
+  justify-content: center;
+}
+
+.header__nav-bar .nav {
+  margin: 0;
+  justify-content: center;
+  padding: 10px 0 14px;
+}
+
+/* Brand centered */
+.header--lusso .brand {
+  min-width: unset;
+  justify-self: center;
+}
+
+/* Mobile overrides */
+@media (max-width: 980px) {
+  .hdr-phone-inline { display: none; }
+  .hdr-contact-link { display: none; }
+  .hdr-search-btn   { display: none; }
+  .header__nav-bar  { display: none; }
+  .header--lusso .header__inner {
+    grid-template-columns: auto 1fr auto;
+    padding: 14px 0;
+  }
+}
+
+/* =========================================================
+   Hero — index.html extra padding for taller header
+========================================================= */
+.hero--lusso {
+  padding-top: 158px;
+}
+
+@media (max-width: 980px) {
+  .hero--lusso { padding-top: 96px; }
+}
+
+@media (max-width: 640px) {
+  .hero--lusso { padding-top: 80px; }
+}
+
+/* Hero title — 50 % smaller variant */
+.hero__title--sm {
+  font-size: clamp(13px, 2.3vw, 36px) !important;
+}
+
+@media (max-width: 640px) {
+  .hero__title--sm { font-size: clamp(16px, 5vw, 28px) !important; }
+}
+
+/* =========================================================
+   Search Overlay
+========================================================= */
+.search-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(0,0,0,.92);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  display: grid;
+  place-items: start center;
+  padding: 120px 20px 40px;
+}
+
+.search-overlay[hidden] { display: none; }
+
+.search-overlay__box {
+  width: min(680px, 100%);
+}
+
+.search-overlay__input-wrap {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(200,176,138,.40);
+  gap: 14px;
+  padding-bottom: 14px;
+  margin-bottom: 28px;
+}
+
+.search-overlay__icon {
+  color: rgba(255,255,255,.38);
+  flex-shrink: 0;
+}
+
+.search-overlay__input {
+  flex: 1;
+  background: none;
+  border: none;
+  outline: none;
+  font-family: var(--serif);
+  font-size: clamp(18px, 2.5vw, 28px);
+  letter-spacing: .06em;
+  color: rgba(255,255,255,.92);
+  caret-color: var(--gold);
+}
+
+.search-overlay__input::placeholder { color: rgba(255,255,255,.24); }
+
+.search-overlay__close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(255,255,255,.48);
+  font-size: 22px;
+  line-height: 1;
+  padding: 4px;
+  transition: color .2s ease;
+  pointer-events: auto;
+}
+
+.search-overlay__close:hover { color: rgba(255,255,255,.88); }
+
+.search-overlay__results {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.search-result {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.04);
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.search-result:hover {
+  background: rgba(255,255,255,.07);
+  border-color: rgba(200,176,138,.22);
+}
+
+.search-result__name {
+  font-family: var(--serif);
+  font-size: 15px;
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.88);
+}
+
+.search-result__cat {
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.65);
+}
+
+.search-empty {
+  text-align: center;
+  padding: 46px 0;
+  color: rgba(255,255,255,.32);
+  font-family: var(--serif);
+  font-size: 13px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+
+/* =========================================================
+   Duo Section (Standwaschbecken + Wandwaschbecken)
+========================================================= */
+.duo-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-height: 78vh;
+  background: #070707;
+}
+
+.duo-card {
+  position: relative;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+}
+
+.duo-card + .duo-card {
+  border-left: 1px solid rgba(255,255,255,.05);
+}
+
+.duo-card__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 1.5s cubic-bezier(.25,.46,.45,.94), filter .4s ease;
+  filter: brightness(.72);
+}
+
+.duo-card:hover .duo-card__img {
+  transform: scale(1.06);
+  filter: brightness(.60);
+}
+
+.duo-card__overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 60px 36px 38px;
+  background: linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.22) 65%, rgba(0,0,0,0) 100%);
+}
+
+.duo-card__category {
+  display: block;
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.80);
+  margin-bottom: 10px;
+}
+
+.duo-card__title {
+  margin: 0 0 10px;
+  font-family: var(--serif);
+  font-size: clamp(16px, 1.7vw, 26px);
+  font-weight: 500;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.92);
+  line-height: 1.2;
+}
+
+.duo-card__desc {
+  margin: 0 0 18px;
+  font-family: var(--serif-soft);
+  font-size: clamp(12px, 1vw, 15px);
+  color: rgba(255,255,255,.62);
+  line-height: 1.65;
+  max-width: 36ch;
+}
+
+.duo-card__link {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .20em;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.88);
+  border-bottom: 1px solid rgba(200,176,138,.32);
+  padding-bottom: 3px;
+}
+
+.duo-card:hover .duo-card__link {
+  color: rgba(200,176,138,1);
+  border-color: rgba(200,176,138,.65);
+}
+
+/* Scroll-reveal */
+.duo-section[data-reveal] .duo-card {
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity .85s cubic-bezier(.25,.46,.45,.94),
+    transform .85s cubic-bezier(.25,.46,.45,.94);
+}
+
+.duo-section[data-reveal] .duo-card:nth-child(2) {
+  transition-delay: .12s;
+}
+
+.duo-section.is-visible .duo-card {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 640px) {
+  .duo-section { grid-template-columns: 1fr; }
+  .duo-card { min-height: 68vw; }
+  .duo-card + .duo-card { border-left: none; border-top: 1px solid rgba(255,255,255,.05); }
+  .duo-card__overlay { padding: 42px 22px 24px; }
+}
+
+/* =========================================================
+   Living Strip (Stone Living overview)
+========================================================= */
+.living-strip {
+  padding: 72px 0 80px;
+  background: #070707;
+  border-top: 1px solid rgba(255,255,255,.04);
+}
+
+.living-strip__head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.living-strip__kicker {
+  display: block;
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: .30em;
+  text-transform: uppercase;
+  color: rgba(200,176,138,.75);
+  margin-bottom: 10px;
+}
+
+.living-strip__title {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(18px, 1.8vw, 28px);
+  font-weight: 500;
+  letter-spacing: .10em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.88);
+}
+
+.living-strip__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.living-item {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,.07);
+  transition: border-color .22s ease, transform .22s ease;
+}
+
+.living-item:hover {
+  border-color: rgba(200,176,138,.32);
+  transform: translateY(-2px);
+}
+
+.living-item__img-wrap {
+  overflow: hidden;
+  aspect-ratio: 3 / 4;
+}
+
+.living-item__img-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  filter: brightness(.82);
+  transition: transform 1.2s cubic-bezier(.25,.46,.45,.94), filter .3s ease;
+}
+
+.living-item:hover .living-item__img-wrap img {
+  transform: scale(1.07);
+  filter: brightness(.72);
+}
+
+.living-item__info {
+  padding: 12px 14px 15px;
+  background: rgba(255,255,255,.03);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.living-item__name {
+  font-family: var(--serif);
+  font-size: 11px;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.86);
+}
+
+.living-item__cta {
+  font-family: var(--serif);
+  font-size: 10px;
+  letter-spacing: .14em;
+  color: rgba(200,176,138,.72);
+}
+
+/* Scroll-reveal */
+.living-strip[data-reveal] .living-item {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity .75s cubic-bezier(.25,.46,.45,.94),
+    transform .75s cubic-bezier(.25,.46,.45,.94),
+    border-color .22s ease;
+}
+
+.living-strip[data-reveal] .living-item:nth-child(2) { transition-delay: .08s; }
+.living-strip[data-reveal] .living-item:nth-child(3) { transition-delay: .16s; }
+.living-strip[data-reveal] .living-item:nth-child(4) { transition-delay: .24s; }
+.living-strip[data-reveal] .living-item:nth-child(5) { transition-delay: .32s; }
+
+.living-strip.is-visible .living-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 1000px) {
+  .living-strip__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .living-strip__grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .living-strip { padding: 52px 0 60px; }
+}
+

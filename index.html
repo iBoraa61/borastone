@@ -175,59 +175,103 @@
 
 <body class="page">
 
-  <header class="header">
+  <!-- Announcement bar -->
+  <div class="announce-bar" id="announceBar">
+    Für exklusive Anfragen rufen Sie uns bitte an:&#160;
+    <a href="tel:+491743418313">0174 3418313</a>
+  </div>
+
+  <header class="header header--lusso" id="mainHeader">
+
+    <!-- Top row: left | brand center | right -->
     <div class="container header__inner">
-      <!-- Brand -->
+
+      <!-- Left: search + phone -->
+      <div class="header__left">
+        <button class="hdr-search-btn" id="searchToggle" type="button" aria-label="Suche öffnen">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.6"/>
+            <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <span>Suche</span>
+        </button>
+        <a class="hdr-phone-inline" href="tel:+491743418313">0174 3418313</a>
+      </div>
+
+      <!-- Center: brand -->
       <a class="brand" href="index.html" aria-label="AMBOSTONE Startseite">
         <span class="brand__wordmark">AMBOSTONE</span>
         <span class="brand__tagline">LUXURY STONE ATELIER</span>
       </a>
 
-      <!-- Desktop Navigation -->
-      <nav class="nav" aria-label="Hauptnavigation">
-        <a class="nav__link is-active" href="index.html">STARTSEITE</a>
-        <a class="nav__link" href="waschbecken.html">WASCHBECKEN</a>
-        <a class="nav__link" href="bad.html">BADEWANNEN</a>
-        <a class="nav__link" href="fliesen.html">STONE LIVING</a>
-        <a class="nav__link" href="index.html#atelier">ÜBER AMBOSTONE</a>
-      </nav>
+      <!-- Right: Kontakt + mobile burger -->
+      <div class="header__right">
+        <a class="hdr-contact-link" href="index.html#atelier">Kontakt</a>
 
-      <!-- Mobile Actions (Phone + Burger) -->
-      <div class="navActions" aria-label="Mobile Aktionen">
-        <a class="navPhone" href="tel:+491743418313" aria-label="Anrufen: +49 174 3418313">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M20 16.7v2a2 2 0 0 1-2.2 2c-9.1-.8-13.7-5.4-14.5-14.5A2 2 0 0 1 5.3 4h2a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1l-1 1c1.3 2.4 3.2 4.3 5.6 5.6l1-1a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7A2 2 0 0 1 20 16.7Z"
-              stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </a>
-
-        <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navOverlay">
-          <span class="navToggle__lines" aria-hidden="true"></span>
-        </button>
-      </div>
-
-      <!-- Mobile Overlay + Drawer -->
-      <div class="navOverlay" id="navOverlay" aria-hidden="true">
-        <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
-          <div class="navDrawer__top">
-            <div class="navDrawer__title">Menü</div>
-            <button class="navClose" type="button" aria-label="Menü schließen">✕</button>
-          </div>
-
-          <nav class="navMobile" aria-label="Mobile Navigation Links">
-            <a class="is-active" href="index.html">STARTSEITE</a>
-            <a href="waschbecken.html">WASCHBECKEN</a>
-            <a href="bad.html">BADEWANNEN</a>
-            <a href="fliesen.html">STONE LIVING</a>
-            <a href="index.html#atelier">ÜBER AMBOSTONE</a>
-          </nav>
+        <!-- Mobile Actions (Phone + Burger) -->
+        <div class="navActions" aria-label="Mobile Aktionen">
+          <a class="navPhone" href="tel:+491743418313" aria-label="Anrufen: +49 174 3418313">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="M20 16.7v2a2 2 0 0 1-2.2 2c-9.1-.8-13.7-5.4-14.5-14.5A2 2 0 0 1 5.3 4h2a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1l-1 1c1.3 2.4 3.2 4.3 5.6 5.6l1-1a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7A2 2 0 0 1 20 16.7Z"
+                stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+          <button class="navToggle" type="button" aria-label="Menü öffnen" aria-expanded="false" aria-controls="navOverlay">
+            <span class="navToggle__lines" aria-hidden="true"></span>
+          </button>
         </div>
+      </div>
+    </div>
+
+    <!-- Sub-nav row (desktop only) -->
+    <div class="header__nav-bar">
+      <div class="container">
+        <nav class="nav" aria-label="Hauptnavigation">
+          <a class="nav__link is-active" href="index.html">STARTSEITE</a>
+          <a class="nav__link" href="waschbecken.html">WASCHBECKEN</a>
+          <a class="nav__link" href="bad.html">BADEWANNEN</a>
+          <a class="nav__link" href="fliesen.html">STONE LIVING</a>
+          <a class="nav__link" href="index.html#atelier">ÜBER AMBOSTONE</a>
+        </nav>
+      </div>
+    </div>
+
+    <!-- Mobile Overlay + Drawer -->
+    <div class="navOverlay" id="navOverlay" aria-hidden="true">
+      <div class="navDrawer" role="dialog" aria-modal="true" aria-label="Mobile Navigation">
+        <div class="navDrawer__top">
+          <div class="navDrawer__title">Menü</div>
+          <button class="navClose" type="button" aria-label="Menü schließen">✕</button>
+        </div>
+        <nav class="navMobile" aria-label="Mobile Navigation Links">
+          <a class="is-active" href="index.html">STARTSEITE</a>
+          <a href="waschbecken.html">WASCHBECKEN</a>
+          <a href="bad.html">BADEWANNEN</a>
+          <a href="fliesen.html">STONE LIVING</a>
+          <a href="index.html#atelier">ÜBER AMBOSTONE</a>
+        </nav>
       </div>
     </div>
   </header>
 
+  <!-- Search Overlay -->
+  <div class="search-overlay" id="searchOverlay" hidden>
+    <div class="search-overlay__box">
+      <div class="search-overlay__input-wrap">
+        <svg class="search-overlay__icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="1.6"/>
+          <path d="m21 21-4.35-4.35" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+        </svg>
+        <input class="search-overlay__input" type="text" id="searchInput"
+               placeholder="Produkt suchen …" autocomplete="off" spellcheck="false">
+        <button class="search-overlay__close" id="searchClose" type="button" aria-label="Suche schließen">✕</button>
+      </div>
+      <div class="search-overlay__results" id="searchResults"></div>
+    </div>
+  </div>
+
   <!-- SECTION 1: HERO -->
-  <main class="hero" role="main" aria-label="Hero" id="top">
+  <main class="hero hero--lusso" role="main" aria-label="Hero" id="top">
 
     <!-- Animated film-strip background -->
     <div class="hero__reel" aria-hidden="true">
@@ -252,35 +296,8 @@
       </div>
     </div>
 
-    <!-- Left vertical contact -->
-    <aside class="side side--left" aria-label="Kontakt">
-      <div class="side__phone">
-        <a class="phone" href="tel:+491743418313">
-          <span class="phone__icon" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-              <path d="M20 16.7v2a2 2 0 0 1-2.2 2c-9.1-.8-13.7-5.4-14.5-14.5A2 2 0 0 1 5.3 4h2a2 2 0 0 1 2 1.7c.1 1 .3 2 .7 3a2 2 0 0 1-.5 2.1l-1 1c1.3 2.4 3.2 4.3 5.6 5.6l1-1a2 2 0 0 1 2.1-.5c1 .4 2 .6 3 .7A2 2 0 0 1 20 16.7Z"
-                    stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span class="phone__number">+49 174 3418313</span>
-        </a>
-      </div>
-    </aside>
-
-    <!-- Right progress indicator -->
-    <aside class="side side--right" aria-label="Seitenindikator">
-      <div class="pager" id="pager">
-        <span class="pager__line"></span>
-        <div class="pager__nums">
-          <span class="pager__num is-active" data-step="1">1</span>
-          <span class="pager__num" data-step="2">2</span>
-        </div>
-        <span class="pager__line pager__line--short"></span>
-      </div>
-    </aside>
-
     <section class="hero__content container">
-      <h1 class="hero__title">
+      <h1 class="hero__title hero__title--sm">
           NATURSTEIN.<br />
           <span class="hero__title--light">Natürlich.</span><br />
           AUSSERGEWÖHNLICH.
@@ -293,29 +310,26 @@
     </section>
   </main>
 
-  <!-- FEATURE SECTIONS: Produkthighlights -->
-  <section class="feat-row" data-reveal>
-    <div class="feat-row__img">
-      <img src="assets/images/products/stand-02-main.png" alt="Naturstein Standwaschbecken">
-    </div>
-    <div class="feat-row__text">
-      <span class="feat-row__kicker">Waschbecken</span>
-      <h2 class="feat-row__title">Skulpturale Becken<br>aus Naturstein</h2>
-      <p class="feat-row__desc">Freistehende Standwaschbecken und Wandwaschbecken in Marmor und Sinterstein &ndash; jedes Stück ein Unikat mit individueller Maserung.</p>
-      <a class="feat-row__cta" href="waschbecken.html">Kollektion erkunden &rarr;</a>
-    </div>
-  </section>
-
-  <section class="feat-row feat-row--flip" data-reveal>
-    <div class="feat-row__img">
-      <img src="assets/images/products/wand-03-main.jpg" alt="Wandwaschbecken aus Naturstein">
-    </div>
-    <div class="feat-row__text">
-      <span class="feat-row__kicker">Wandwaschbecken</span>
-      <h2 class="feat-row__title">Wandh&auml;ngende Becken<br>aus Naturstein</h2>
-      <p class="feat-row__desc">Pr&auml;zise Wandmontage, markante Konturen &ndash; unsere Wandwaschbecken aus Marmor und Sinterstein verbinden Funktion mit Eleganz.</p>
-      <a class="feat-row__cta" href="waschbecken.html#wand">Kollektion erkunden &rarr;</a>
-    </div>
+  <!-- Waschbecken duo (Stand + Wand nebeneinander) -->
+  <section class="duo-section" data-reveal>
+    <a class="duo-card" href="waschbecken.html">
+      <img class="duo-card__img" src="assets/images/products/stand-02-main.png" alt="Naturstein Standwaschbecken">
+      <div class="duo-card__overlay">
+        <span class="duo-card__category">Waschbecken</span>
+        <h2 class="duo-card__title">Standwaschbecken</h2>
+        <p class="duo-card__desc">Skulpturale Becken aus Marmor und Sinterstein &ndash; jedes Stück ein Unikat.</p>
+        <span class="duo-card__link">Kollektion erkunden &rarr;</span>
+      </div>
+    </a>
+    <a class="duo-card" href="waschbecken.html#wand">
+      <img class="duo-card__img" src="assets/images/products/wand-03-main.jpg" alt="Wandwaschbecken aus Naturstein">
+      <div class="duo-card__overlay">
+        <span class="duo-card__category">Waschbecken</span>
+        <h2 class="duo-card__title">Wandwaschbecken</h2>
+        <p class="duo-card__desc">Wandhängende Präzision &ndash; markante Konturen aus Marmor und Sinterstein.</p>
+        <span class="duo-card__link">Kollektion erkunden &rarr;</span>
+      </div>
+    </a>
   </section>
 
   <section class="feat-row" data-reveal>
@@ -330,15 +344,60 @@
     </div>
   </section>
 
-  <section class="feat-row feat-row--flip" data-reveal>
-    <div class="feat-row__img">
-      <img src="assets/images/living/Beistelltische/Beistelltisch1_main.jpg" alt="Stone Living &ndash; Beistelltisch Marmor">
-    </div>
-    <div class="feat-row__text">
-      <span class="feat-row__kicker">Stone Living</span>
-      <h2 class="feat-row__title">Naturstein im<br>ganzen Raum</h2>
-      <p class="feat-row__desc">Leuchten, Spiegel, Beistelltische und Badregale &ndash; kuratierte Naturstein-Objekte für jeden Raum.</p>
-      <a class="feat-row__cta" href="fliesen.html">Kollektion erkunden &rarr;</a>
+  <!-- Stone Living — horizontaler Strip -->
+  <section class="living-strip" data-reveal>
+    <div class="container">
+      <div class="living-strip__head">
+        <span class="living-strip__kicker">Stone Living</span>
+        <h2 class="living-strip__title">Naturstein im ganzen Raum</h2>
+      </div>
+      <div class="living-strip__grid">
+        <a class="living-item" href="beistelltische.html">
+          <div class="living-item__img-wrap">
+            <img src="assets/images/living/Beistelltische/Beistelltisch1_main.jpg" alt="Beistelltische aus Naturstein">
+          </div>
+          <div class="living-item__info">
+            <span class="living-item__name">Beistelltische</span>
+            <span class="living-item__cta">Entdecken &rarr;</span>
+          </div>
+        </a>
+        <a class="living-item" href="leuchten.html">
+          <div class="living-item__img-wrap">
+            <img src="assets/images/living/Leuchten/leuchte1_main.jpg" alt="Naturstein Leuchten">
+          </div>
+          <div class="living-item__info">
+            <span class="living-item__name">Leuchten</span>
+            <span class="living-item__cta">Entdecken &rarr;</span>
+          </div>
+        </a>
+        <a class="living-item" href="spiegel.html">
+          <div class="living-item__img-wrap">
+            <img src="assets/images/living/Spiegel/Spiegel1_main.jpg" alt="Spiegel mit Natursteinrahmen">
+          </div>
+          <div class="living-item__info">
+            <span class="living-item__name">Spiegel</span>
+            <span class="living-item__cta">Entdecken &rarr;</span>
+          </div>
+        </a>
+        <a class="living-item" href="badregale.html">
+          <div class="living-item__img-wrap">
+            <img src="assets/images/living/Badregale/badregal1_main.png" alt="Badregale aus Naturstein">
+          </div>
+          <div class="living-item__info">
+            <span class="living-item__name">Badregale</span>
+            <span class="living-item__cta">Entdecken &rarr;</span>
+          </div>
+        </a>
+        <a class="living-item" href="serviertabletts.html">
+          <div class="living-item__img-wrap">
+            <img src="assets/images/living/Serviertablets/tablet1_main.jpg" alt="Serviertabletts aus Naturstein">
+          </div>
+          <div class="living-item__info">
+            <span class="living-item__name">Serviertabletts</span>
+            <span class="living-item__cta">Entdecken &rarr;</span>
+          </div>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -381,17 +440,6 @@
 
   <!-- SECTION 2: ÜBER + KONTAKT -->
   <section class="home2" id="atelier" aria-label="Über AMBOSTONE & Kontakt">
-    <!-- Right progress indicator (Section 2) -->
-    <aside class="side side--right" aria-label="Seitenindikator">
-      <div class="pager pager--sec2">
-        <span class="pager__line"></span>
-        <div class="pager__nums">
-          <span class="pager__num" data-step="1">1</span>
-          <span class="pager__num is-active" data-step="2">2</span>
-        </div>
-        <span class="pager__line pager__line--short"></span>
-      </div>
-    </aside>
 
     <div class="container home2__inner">
       <!-- Left: About -->
@@ -482,7 +530,7 @@
   <!-- JS -->
   <script>
     // -------------------------
-    // Mobile Nav (gleiche Logik wie Bad.js)
+    // Mobile Nav
     // -------------------------
     (() => {
       const qs = (s, el = document) => el.querySelector(s);
@@ -528,37 +576,48 @@
       });
     })();
 
-    // Pager oben (Section 1)
-    const step1 = document.querySelector('.pager#pager .pager__num[data-step="1"]');
-    const step2 = document.querySelector('.pager#pager .pager__num[data-step="2"]');
-    const sec2 = document.querySelector('#atelier');
+    // -------------------------
+    // Scroll: dark header + hide announcement bar
+    // -------------------------
+    (() => {
+      const header = document.getElementById('mainHeader');
+      const bar    = document.getElementById('announceBar');
+      if (!header) return;
 
-    function setStep(n){
-      if (!step1 || !step2) return;
-      step1.classList.toggle('is-active', n === 1);
-      step2.classList.toggle('is-active', n === 2);
-    }
+      let ticking = false;
 
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach((e) => {
-        if (e.target !== sec2) return;
-        const active = e.isIntersecting;
-        setStep(active ? 2 : 1);
-        document.body.classList.toggle('page--home2Active', active);
-      });
-    }, { threshold: 0.45 });
+      const update = () => {
+        if (window.scrollY > 60) {
+          header.classList.add('is-scrolled');
+          bar?.classList.add('announce-bar--hidden');
+        } else {
+          header.classList.remove('is-scrolled');
+          bar?.classList.remove('announce-bar--hidden');
+        }
+        ticking = false;
+      };
 
-    if (sec2) io.observe(sec2);
+      window.addEventListener('scroll', () => {
+        if (!ticking) { requestAnimationFrame(update); ticking = true; }
+      }, { passive: true });
+    })();
 
+    // -------------------------
+    // Hero load animation
+    // -------------------------
     window.addEventListener('load', () => {
       const hero = document.querySelector('.hero__content');
       if (hero) hero.classList.add('is-animate');
     });
 
-    // Scroll reveal for feature sections
+    // -------------------------
+    // Scroll reveal (feat-rows, duo, living-strip)
+    // -------------------------
     (() => {
-      const rows = document.querySelectorAll('.feat-row[data-reveal]');
-      if (!rows.length) return;
+      const els = document.querySelectorAll(
+        '.feat-row[data-reveal], .duo-section[data-reveal], .living-strip[data-reveal]'
+      );
+      if (!els.length) return;
       const obs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
           if (e.isIntersecting) {
@@ -566,10 +625,83 @@
             obs.unobserve(e.target);
           }
         });
-      }, { threshold: 0.12 });
-      rows.forEach(r => obs.observe(r));
+      }, { threshold: 0.10 });
+      els.forEach(r => obs.observe(r));
     })();
 
+    // -------------------------
+    // Product Search overlay
+    // -------------------------
+    (() => {
+      const PRODUCTS = [
+        { name: 'Standwaschbecken',        category: 'Waschbecken',   url: 'waschbecken.html' },
+        { name: 'Wandwaschbecken',         category: 'Waschbecken',   url: 'waschbecken.html#wand' },
+        { name: 'Freistehende Badewannen', category: 'Badewannen',    url: 'bad.html' },
+        { name: 'Beistelltische',          category: 'Stone Living',  url: 'beistelltische.html' },
+        { name: 'Leuchten',                category: 'Stone Living',  url: 'leuchten.html' },
+        { name: 'Spiegel',                 category: 'Stone Living',  url: 'spiegel.html' },
+        { name: 'Badregale',               category: 'Stone Living',  url: 'badregale.html' },
+        { name: 'Serviertabletts',         category: 'Stone Living',  url: 'serviertabletts.html' },
+        { name: 'Marmor Waschbecken',      category: 'Waschbecken',   url: 'waschbecken.html' },
+        { name: 'Naturstein Badewanne',    category: 'Badewannen',    url: 'bad.html' },
+        { name: 'Stone Living Kollektion', category: 'Stone Living',  url: 'fliesen.html' },
+      ];
+
+      const overlay   = document.getElementById('searchOverlay');
+      const input     = document.getElementById('searchInput');
+      const results   = document.getElementById('searchResults');
+      const toggleBtn = document.getElementById('searchToggle');
+      const closeBtn  = document.getElementById('searchClose');
+
+      if (!overlay) return;
+
+      const openSearch = () => {
+        overlay.removeAttribute('hidden');
+        requestAnimationFrame(() => input?.focus());
+        document.documentElement.style.overflow = 'hidden';
+      };
+
+      const closeSearch = () => {
+        overlay.setAttribute('hidden', '');
+        if (input)   input.value = '';
+        if (results) results.innerHTML = '';
+        document.documentElement.style.overflow = '';
+      };
+
+      const render = (items) => {
+        if (!results) return;
+        if (!items.length) {
+          results.innerHTML = '<p class="search-empty">Keine Ergebnisse gefunden</p>';
+          return;
+        }
+        results.innerHTML = items.map(p =>
+          `<a class="search-result" href="${p.url}">
+            <span class="search-result__name">${p.name}</span>
+            <span class="search-result__cat">${p.category}</span>
+          </a>`
+        ).join('');
+      };
+
+      const doSearch = (q) => {
+        const lq = q.trim().toLowerCase();
+        if (!lq) { results.innerHTML = ''; return; }
+        render(PRODUCTS.filter(p =>
+          p.name.toLowerCase().includes(lq) || p.category.toLowerCase().includes(lq)
+        ));
+      };
+
+      toggleBtn?.addEventListener('click', openSearch);
+      closeBtn?.addEventListener('click', closeSearch);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) closeSearch(); });
+      input?.addEventListener('input', () => doSearch(input.value));
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !overlay.hasAttribute('hidden')) closeSearch();
+      });
+    })();
+
+    // -------------------------
+    // Contact form popup
+    // -------------------------
     function showPopup(){
       const popup = document.getElementById('bsPopup');
       if (!popup) return;
