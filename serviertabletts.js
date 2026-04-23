@@ -59,4 +59,13 @@
   zoomClose?.addEventListener('click', closeZoom);
   zoomOverlay?.addEventListener('click', (e) => { if (e.target===zoomOverlay) closeZoom(); });
   document.addEventListener('keydown', (e) => { if (e.key!=='Escape') return; if (zoomOverlay&&!zoomOverlay.hidden) return closeZoom(); if (detail&&!detail.hidden) return closeDetail(); });
+
+  // SEO: crawlable links
+  document.querySelectorAll('.wb-gridView .card').forEach(card => {
+    const t = (card.dataset.title || '').trim(); if (!t) return;
+    const a = document.createElement('a');
+    a.href = 'produkt.html?src=serviertabletts.html&p=' + encodeURIComponent(t);
+    a.className = 'card__seo-link'; a.tabIndex = -1; a.setAttribute('aria-hidden','true'); a.textContent = t;
+    card.appendChild(a);
+  });
 })();

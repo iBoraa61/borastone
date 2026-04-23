@@ -307,5 +307,18 @@
   qsa('.bt-gridView .cardsWrap').forEach((wrap) => initCarousel(wrap));
   bindHoverStacking(document);
 
+  // SEO: crawlable link inside every card
+  document.querySelectorAll('.bt-gridView .card').forEach(card => {
+    const t = (card.dataset.title || '').trim();
+    if (!t) return;
+    const a = document.createElement('a');
+    a.href = 'produkt.html?src=bad.html&p=' + encodeURIComponent(t);
+    a.className = 'card__seo-link';
+    a.setAttribute('tabindex', '-1');
+    a.setAttribute('aria-hidden', 'true');
+    a.textContent = t;
+    card.appendChild(a);
+  });
+
   // Deep-link: URL ?p=title auto-opens product; browser back closes detail
 })();

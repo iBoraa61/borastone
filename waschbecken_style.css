@@ -604,3 +604,12 @@
   .wb-gallery{ grid-template-columns: repeat(2, 1fr); }
   .wb-thumb img{ height: 110px; }
 }
+
+/* ---- SEO crawlable overlay link on every card ---- */
+.card__seo-link {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0;
+  pointer-events: none; /* JS click handler still fires on card */
+}

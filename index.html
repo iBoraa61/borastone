@@ -3,7 +3,44 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>AMBOSTONE – Luxury Stone Atelier</title>
+  <title>AMBOSTONE – Luxury Stone Atelier | Marmor Waschbecken & Badewannen</title>
+  <meta name="description" content="Exklusive Marmor-Waschbecken, freistehende Badewannen und Naturstein-Dekor für das Luxusbad. AMBOSTONE – kuratiertes Stone Atelier für außergewöhnliche Badobjekte. Jetzt Kollektion entdecken.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://ambostone.de/">
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="AMBOSTONE">
+  <meta property="og:title" content="AMBOSTONE – Luxury Stone Atelier | Marmor Waschbecken & Badewannen">
+  <meta property="og:description" content="Exklusive Marmor-Waschbecken, freistehende Badewannen und Naturstein-Dekor für das Luxusbad. Entdecken Sie die AMBOSTONE Kollektion.">
+  <meta property="og:url" content="https://ambostone.de/">
+  <meta property="og:image" content="https://ambostone.de/assets/images/bg/onyx_background4.png">
+  <!-- Schema.org -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "AMBOSTONE",
+    "alternateName": "AMBOSTONE Luxury Stone Atelier",
+    "url": "https://ambostone.de",
+    "logo": "https://ambostone.de/favicon.png",
+    "description": "Kuratiertes Atelier für exklusive Marmor-Waschbecken, Badewannen und Naturstein-Accessoires.",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+49-174-3418313",
+      "email": "info@ambostone.de",
+      "contactType": "customer service",
+      "availableLanguage": "German"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "AMBOSTONE",
+    "url": "https://ambostone.de"
+  }
+  </script>
 
   <!-- Fonts -->
   <link rel="icon" href="favicon.png" sizes="32x32" type="image/png">
@@ -30,6 +67,72 @@
       flex-wrap:wrap;
       align-items:center;
     }
+
+    /* Trust / Referenzen Section */
+    .trust-section {
+      padding: 80px 0;
+      border-top: 1px solid rgba(200,176,138,.10);
+    }
+    .trust__inner { text-align: center; }
+    .trust__kicker {
+      font-family: var(--serif);
+      font-size: 11px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: rgba(200,176,138,.80);
+      margin-bottom: 14px;
+    }
+    .trust__title {
+      font-family: var(--serif);
+      font-size: clamp(22px, 2.8vw, 36px);
+      font-weight: 500;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.88);
+      margin: 0 0 48px;
+    }
+    .trust__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      text-align: left;
+    }
+    .trust__card {
+      border: 1px solid rgba(200,176,138,.15);
+      border-radius: 16px;
+      padding: 28px 24px 22px;
+      background: rgba(255,255,255,.025);
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      transition: border-color .18s ease;
+    }
+    .trust__card:hover { border-color: rgba(200,176,138,.30); }
+    .trust__quote {
+      margin: 0;
+      color: rgba(255,255,255,.68);
+      font-size: 15px;
+      line-height: 1.72;
+      font-style: italic;
+    }
+    .trust__author {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .trust__name {
+      font-family: var(--serif);
+      font-size: 13px;
+      letter-spacing: .10em;
+      color: rgba(200,176,138,.90);
+    }
+    .trust__city {
+      font-size: 12px;
+      color: rgba(255,255,255,.40);
+      letter-spacing: .04em;
+    }
+    @media (max-width: 860px) { .trust__grid { grid-template-columns: 1fr; gap: 14px; } }
   </style>
 
   <!-- Popup CSS -->
@@ -239,6 +342,43 @@
     </div>
   </section>
 
+  <!-- TRUST / REFERENZEN SECTION -->
+  <section class="trust-section" aria-label="Kundenstimmen & Referenzen">
+    <div class="container trust__inner">
+      <div class="trust__kicker">REFERENZEN</div>
+      <h2 class="trust__title">Was unsere Kunden sagen</h2>
+      <div class="trust__grid">
+        <figure class="trust__card">
+          <blockquote class="trust__quote">
+            &bdquo;Das Standwaschbecken aus Carrara-Marmor ist ein absolutes Highlight in unserem neuen Bad. Die Qualität ist außergewöhnlich – jedes Detail zeigt echtes Handwerk.&ldquo;
+          </blockquote>
+          <figcaption class="trust__author">
+            <span class="trust__name">Katharina M.</span>
+            <span class="trust__city">München</span>
+          </figcaption>
+        </figure>
+        <figure class="trust__card">
+          <blockquote class="trust__quote">
+            &bdquo;AMBOSTONE hat unser Hotelprojekt mit maßgefertigten Wandwaschbecken ausgestattet. Professionelle Abwicklung, pünktliche Lieferung – und die Gäste sind begeistert.&ldquo;
+          </blockquote>
+          <figcaption class="trust__author">
+            <span class="trust__name">Stefan R.</span>
+            <span class="trust__city">Österreich, Boutique-Hotel</span>
+          </figcaption>
+        </figure>
+        <figure class="trust__card">
+          <blockquote class="trust__quote">
+            &bdquo;Ich habe mich durch die gesamte Kollektion beraten lassen – schnelle Antworten, faire Kommunikation und am Ende ein Waschbecken, das ich täglich bewundere.&ldquo;
+          </blockquote>
+          <figcaption class="trust__author">
+            <span class="trust__name">Julia F.</span>
+            <span class="trust__city">Hamburg</span>
+          </figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
   <!-- SECTION 2: ÜBER + KONTAKT -->
   <section class="home2" id="atelier" aria-label="Über AMBOSTONE & Kontakt">
     <!-- Right progress indicator (Section 2) -->
@@ -320,6 +460,8 @@
       </div>
 
       <div class="footer__right">
+        <a class="footer__link" href="faq.html">FAQ</a>
+        <a class="footer__link" href="ratgeber.html">RATGEBER</a>
         <a class="footer__link" href="impressum.html">IMPRESSUM</a>
         <a class="footer__link" href="datenschutz.html">DATENSCHUTZ</a>
       </div>

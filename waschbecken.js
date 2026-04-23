@@ -404,4 +404,17 @@
 
   bindHoverStacking(document);
 
+  // SEO: crawlable link inside every card (Google can follow; JS click still works via capture)
+  document.querySelectorAll('.wb-gridView .card').forEach(card => {
+    const t = (card.dataset.title || '').trim();
+    if (!t) return;
+    const a = document.createElement('a');
+    a.href = 'produkt.html?src=waschbecken.html&p=' + encodeURIComponent(t);
+    a.className = 'card__seo-link';
+    a.setAttribute('tabindex', '-1');
+    a.setAttribute('aria-hidden', 'true');
+    a.textContent = t;
+    card.appendChild(a);
+  });
+
 })();

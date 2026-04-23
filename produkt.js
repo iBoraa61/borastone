@@ -93,6 +93,8 @@
     if (sourceField) sourceField.value = src + ' – ' + (safeStr(ds.title) || 'Produkt');
 
     buildGallery(ds);
+    injectProductMeta(ds);
+    injectProductSchema(ds);
 
     // Show section
     if (loadingMsg) loadingMsg.remove();
@@ -139,9 +141,99 @@
     });
   }
 
+  // -------------------------
+  // Dynamic meta + Open Graph
+  // -------------------------
+  function injectProductMeta(ds) {
+    const title = safeStr(ds.title) || 'Produkt';
+    const desc  = safeStr(ds.desc)  || 'Hochwertiges Naturstein-Produkt von AMBOSTONE.';
+    const img   = safeStr(ds.main)  || '';
+    const pageUrl = 'https://ambostone.de/produkt.html' + location.search;
+    const imgUrl  = img.startsWith('http') ? img : (img ? 'https://ambostone.de/' + img : '');
+
+    // <title>
+    document.title = 'AMBOSTONE \u2013 ' + title;
+
+    // canonical
+    const canonical = document.getElementById('canonicalTag');
+    if (canonical) canonical.href = pageUrl;
+
+    // og:title
+    const ogTitle = document.getElementById('ogTitle');
+    if (ogTitle) ogTitle.setAttribute('content', 'AMBOSTONE \u2013 ' + title);
+
+    // og:description
+    const ogDesc = document.getElementById('ogDesc');
+    if (ogDesc) ogDesc.setAttribute('content', desc.slice(0, 200));
+
+    // og:url
+    const ogUrl = document.getElementById('ogUrl');
+    if (ogUrl) ogUrl.setAttribute('content', pageUrl);
+
+    // og:image
+    if (imgUrl) {
+      const ogImage = document.getElementById('ogImage');
+      if (ogImage) ogImage.setAttribute('content', imgUrl);
+    }
+
+    // meta description
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+      metaDesc = document.createElement('meta');
+      metaDesc.name = 'description';
+      document.head.appendChild(metaDesc);
+    }
+    metaDesc.setAttribute('content', desc.slice(0, 160));
+  }
+
+  // -------------------------
+  // Schema.org Product JSON-LD
+  // -------------------------
+  function injectProductSchema(ds) {
+    const title    = safeStr(ds.title)   || 'Produkt';
+    const desc     = safeStr(ds.desc)    || '';
+    const priceRaw = safeStr(ds.price)   || '';
+    const img      = safeStr(ds.main)    || '';
+    const material = safeStr(ds.specMaterial || ds.material) || '';
+    const imgUrl   = img.startsWith('http') ? img : (img ? 'https://ambostone.de/' + img : '');
+    const pageUrl  = 'https://ambostone.de/produkt.html' + location.search;
+
+    // Parse price string like "ab 750 \u20ac" or "1.200 \u20ac" \u2192 number
+    const priceNum = priceRaw.replace(/[^0-9.,]/g, '').replace(',', '.').replace(/\.(?=.*\.)/g, '');
+    const priceVal = parseFloat(priceNum) || '';
+
+    const schema = {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      'name': title,
+      'description': desc || ('Hochwertiges Naturstein-Produkt von AMBOSTONE: ' + title),
+      'brand': { '@type': 'Brand', 'name': 'AMBOSTONE' },
+      'url': pageUrl
+    };
+
+    if (imgUrl)   schema.image    = imgUrl;
+    if (material) schema.material = material;
+
+    if (priceVal) {
+      schema.offers = {
+        '@type': 'Offer',
+        'price': priceVal,
+        'priceCurrency': 'EUR',
+        'availability': 'https://schema.org/InStock',
+        'url': pageUrl,
+        'seller': { '@type': 'Organization', 'name': 'AMBOSTONE' }
+      };
+    }
+
+    const el = document.createElement('script');
+    el.type = 'application/ld+json';
+    el.id   = 'productSchema';
+    el.textContent = JSON.stringify(schema);
+    document.head.appendChild(el);
+  }
+
   // Gallery thumb click
-  qs('#dGallery')?.addEventListener('click', (e) => {
-    const btn = e.target.closest('.wb-thumb');
+  qs('#dGallery')?.addEventListener('click', (e) => {    const btn = e.target.closest('.wb-thumb');
     if (!btn) return;
     qsa('.wb-thumb').forEach(b => b.classList.remove('is-active'));
     btn.classList.add('is-active');
